@@ -3,10 +3,25 @@ module Synchronizer
     attr_accessor :factory, :service
     
     ##
+    # Initializes new Service Synchronizer to do some
+    # synchrinizing magic.
+    def initialize
+      @contexts = {}
+    end
+    
+    ##
     # Returns object name for currently used factory
     # @return [Symbol] Object name
     def object_name
       @factory.object_name.to_sym
+    end
+    
+    ##
+    # Sets context for this synchronizer
+    # @param [Symbol] Name of context
+    # @param [String, Integer] Value
+    def set_context(context_name, context_value)
+      @contexts[context_name.to_sym] = context_value
     end
     
     ##
@@ -51,16 +66,22 @@ module Synchronizer
     # changed remote objects should be updates using pull_object
     # @see pull_object
     def pull_collection
+      @service.set_contexts(@contexts)
       collection = @service.list(object_name)
+      @service.clear_contexts
       collection.each do |remote_object_hash|
         remote_id = remote_object_hash.delete("id")
         local_object = @factory.with_remote_id(remote_id)
-        local_object ||= @factory.new
+        unless local_object
+          local_object = @factory.new
+          local_object.update_remote_id(remote_id)
+        end
         remote_object_hash.each do |key, value|
           local_object.send("#{key}=", value)
         end
         local_object.save
       end
+      collection.count
     end
   end
 end

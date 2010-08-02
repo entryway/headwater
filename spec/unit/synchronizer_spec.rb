@@ -1,5 +1,6 @@
 require "spec_helper"
 require "synchronizer"
+require "service"
 
 module Synchronizer
   describe ServiceSynchronizer do
@@ -40,7 +41,7 @@ module Synchronizer
 <name>first</name>
 </my_object>
 EOF
-        FakeWeb.register_uri(:get, "http://chunky.bacon/my_objects/123", :body => object)
+        stub_request(:get, "http://chunky.bacon/my_objects/123").to_return(:body => object)
         # [Local] Factory class for finding/creating objects
         object = mock('object_123')
         object.expects(:name=).with("first").returns(true)
@@ -91,8 +92,53 @@ EOF
         @syncer.factory = @factory_class
       end
       
-      it "should update local objects" do
-        collection = <<-EOF
+      context "without a context" do
+        it "should update local objects" do
+          collection = <<-EOF
+  <?xml version="1.0" encoding="UTF-8"?>
+  <my_objects type="array">
+    <my_object>
+      <id type="integer">1</id>
+      <name>updated first</name>
+    </my_object>
+    <my_object>
+      <id type="integer">2</id>
+      <name>updated second</name>
+    </my_object>
+  </my_objects>
+  EOF
+          stub_request(:get, "http://chunky.bacon/my_objects").to_return(:body => collection)
+          @object_1.expects(:name=).with("updated first")
+          @object_1.expects(:save)
+          @object_2.expects(:name=).with("updated second")
+          @object_2.expects(:save)
+          @syncer.pull_collection
+        end
+      
+        it "should create local object" do
+          collection = <<-EOF
+  <?xml version="1.0" encoding="UTF-8"?>
+  <my_objects type="array">
+    <my_object>
+      <id type="integer">3</id>
+      <name>new object</name>
+    </my_object>
+  </my_objects>
+  EOF
+          stub_request(:get, "http://chunky.bacon/my_objects").to_return(:body => collection)
+          @factory_class.stubs(:with_remote_id).with(3).returns(nil)
+          object_3 = mock("object_3")
+          @factory_class.stubs(:new).returns(object_3)
+          object_3.expects(:name=).with("new object")
+          object_3.expects(:update_remote_id).with(3)
+          object_3.expects(:save)
+          @syncer.pull_collection
+        end
+      end # context: without a context
+      
+      context "with a context" do
+        it "should update local objects" do
+          collection = <<-EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <my_objects type="array">
   <my_object>
@@ -105,31 +151,15 @@ EOF
   </my_object>
 </my_objects>
 EOF
-        FakeWeb.register_uri(:get, "http://chunky.bacon/my_objects", :body => collection)
-        @object_1.expects(:name=).with("updated first")
-        @object_1.expects(:save)
-        @object_2.expects(:name=).with("updated second")
-        @object_2.expects(:save)
-        @syncer.pull_collection
-      end
-      
-      it "should create local object" do
-        collection = <<-EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<my_objects type="array">
-  <my_object>
-    <id type="integer">3</id>
-    <name>new object</name>
-  </my_object>
-</my_objects>
-EOF
-        FakeWeb.register_uri(:get, "http://chunky.bacon/my_objects", :body => collection)
-        @factory_class.stubs(:with_remote_id).with(3).returns(nil)
-        object_3 = mock("object_3")
-        @factory_class.stubs(:new).returns(object_3)
-        object_3.expects(:name=).with("new object")
-        object_3.expects(:save)
-        @syncer.pull_collection
+
+          stub_request(:get, "http://chunky.bacon/context_object/801/my_objects").to_return(:body => collection)
+          @object_1.expects(:name=).with("updated first")
+          @object_1.expects(:save)
+          @object_2.expects(:name=).with("updated second")
+          @object_2.expects(:save)
+          @syncer.set_context(:context_object, 801)
+          @syncer.pull_collection
+        end
       end
     end
   end

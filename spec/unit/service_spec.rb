@@ -151,5 +151,30 @@ EOF
         pending
       end
     end
+    
+    describe "#set_contexts" do
+      it "should generate url with contexts in it" do
+        @service.set_contexts({
+          :first_context => 123,
+          :second_context => 456
+        })
+        url = @service.generate_rest_url(:list, :bacon)
+        url.should == "http://chunky.bacon/first_context/123/second_context/456/bacons"
+      end
+    end
+    
+    describe "#clear_contexts" do
+      it "should reset contexts on a service" do
+        @service.set_contexts({
+          :first_context => 123,
+          :second_context => 456
+        })
+        url = @service.generate_rest_url(:list, :bacon)
+        url.should == "http://chunky.bacon/first_context/123/second_context/456/bacons"
+        @service.clear_contexts
+        url = @service.generate_rest_url(:list, :bacon)
+        url.should == "http://chunky.bacon/bacons"
+      end
+    end
   end
 end

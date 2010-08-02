@@ -6,6 +6,7 @@ module Service
     # Initializes new Rest Service
     def initialize
       @header = {}
+      @contexts = {}
     end
     
     ##
@@ -23,12 +24,17 @@ module Service
     # @param [Integer] Object ID
     # @return [String] Generated URL
     def generate_rest_url(action, object_type, object_id = nil)
-      # List all objects
+      path = ''
+      path += @contexts.collect { |name, value|
+        "#{name}/#{value}"
+      }.join('/')
+      path += '/'
+      
       if action == :list
-        path = object_type.to_s.pluralize
+        path += object_type.to_s.pluralize
         
       elsif action == :show
-        path = "#{object_type.to_s.pluralize}/#{object_id.to_s}"
+        path += "#{object_type.to_s.pluralize}/#{object_id.to_s}"
       end
       
       return generate_url(path)
@@ -102,5 +108,19 @@ module Service
       
     end
     
+    ##
+    # Set contexts for service
+    # @param [Hash] Contexts
+    def set_contexts(contexts)
+      contexts.each do |name, value|
+        @contexts[name.to_sym] = value
+      end
+    end
+    
+    ##
+    # Clears contexts for service
+    def clear_contexts
+      @contexts = {}
+    end
   end
 end
