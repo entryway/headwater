@@ -160,7 +160,7 @@ EOF
           @syncer.set_context(:context_object, 801)
           @syncer.pull_collection
         end
-      end
-    end
+      end # context
+    end # describe pull_collection
   end
 end

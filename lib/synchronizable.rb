@@ -1,5 +1,6 @@
 require "synchronizable/base"
 require "synchronizable/pivotal_tracker"
+require "synchronizer"
 
 module Synchronizable
   def self.included(base)
