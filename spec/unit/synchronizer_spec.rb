@@ -67,12 +67,12 @@ EOF
         object = mock('object_123')
         object.stubs(:name).returns("just_another_name")
         object.stubs(:changed_attributes).returns([:name])
+        object.stubs(:_remote_id).returns(123)
         factory_class = mock('MyObject')
         factory_class.stubs(:object_name).returns("my_object")
-        factory_class.stubs(:with_local_id).with(123).returns(object)
         @syncer.factory = factory_class
         
-        @syncer.push_object(123)
+        @syncer.push_object(object)
       end
     end
     

@@ -29,7 +29,9 @@ module Synchronizer
     # @param [Integer] Remote ID of object.
     # @return [Boolean] Result of pulling
     def pull_object(id)
+      @service.set_contexts(@contexts)
       object_hash = @service.show(object_name, id)
+      @service.clear_contexts
       # Find object in Factory
       local_object = @factory.with_remote_id(id)
       object_hash.each do |key, value|
@@ -44,10 +46,9 @@ module Synchronizer
     # Pushes local object to remote services.
     # Er, I mean, its attributes.
     # Like not object itself. Just attributes.
-    # @param [Integer] Local ID of object.
-    def push_object(id)
+    # @param [Object] Local object
+    def push_object(local_object)
       object_name = @factory.object_name.to_sym
-      local_object = @factory.with_local_id(id)
       changes = {} # ch-ch-ch-ch-chaaanges
       local_object.changed_attributes.each do |atr|
         value = local_object.send(atr)
@@ -55,7 +56,9 @@ module Synchronizer
       end
       
       # Update it remotely
-      @service.update(object_name, id, changes)
+      @service.set_contexts(@contexts)
+      @service.update(object_name, local_object._remote_id, changes)
+      @service.clear_contexts
     end
     
     ##

@@ -23,4 +23,9 @@ class Story
   field :deadline
   field :attachments
   
+  def push
+    synchronizer.set_context(:projects, self.project_id)
+    synchronizer.push_object(self)
+  end
+  
 end

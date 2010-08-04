@@ -55,10 +55,28 @@ module Service
     # Retrieves data from URL
     # @param [String] URL
     # @return [String] Retrieved data from the URL
-    def retrieve(url)
-      puts "Retrieving: #{url}"
-      response = Typhoeus::Request.get(url, :headers => @header)
+    def retrieve(url, method = :get, headers = {}, data = nil)
+      retrieve_with_http(url, method, headers, data)
+      # retrieve_with_typhoeus(url, method, headers, data)
+    end
+    
+    def retrieve_with_typhoeus(url, method, headers, data)
+      response = Typhoeus::Request.send(method, url, :headers => @header.merge(headers), :body => data)
       response.body
+    end
+    
+    def retrieve_with_http(url, method, headers, data)
+      url = URI.parse(url)
+      response = nil
+      headers = @header.merge(headers)
+      Net::HTTP.start(url.host, url.port) do |http|
+        if method == :get
+          response = http.get(url.path, headers).body
+        elsif [:put, :post].include?(method)
+          response = http.send(method, url.path, data, headers).body
+        end
+      end
+      response
     end
     
     ##
@@ -100,7 +118,9 @@ module Service
     end
     
     def update(object_type, id, data)
-      
+      url = generate_rest_url(:show, object_type, id)
+      xml_data = data.to_xml(:root => object_type.to_s.gsub('-', '_'), :skip_instruct => true)
+      result = retrieve(url, :put, {'Content-type' => 'application/xml'}, xml_data)
     end
     
     ##

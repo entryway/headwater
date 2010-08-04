@@ -2,6 +2,7 @@
 
 require "spec_helper"
 require "service"
+require "webmock/rspec"
 
 module Service
   describe RestService do
@@ -142,7 +143,23 @@ EOF
     
     describe "#update" do
       it "should update object" do
-        pending
+        response = <<-EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<my_object>
+  <id type="integer">1</id>
+  <name>updated name</name>
+</my_object>
+EOF
+        changes = {'name' => 'updated name'}
+        expected_headers = {'Content-type' => 'application/xml'}
+        expected_data    = '<?xml version="1.0" encoding="UTF-8"?>
+<my-object>
+  <name>updated name</name>
+</my-object>'
+        expected_url = 'http://chunky.bacon/my_objects/123'
+        stub_request(:put, expected_url)
+        @service.update(:my_object, 123, changes)
+        request(:put, expected_url).with(:body => /<name>updated name<\/name>/).should have_been_made
       end
     end
     

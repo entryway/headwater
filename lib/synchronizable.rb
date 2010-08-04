@@ -29,5 +29,17 @@ module Synchronizable
     def update_remote_id(id)
       self._remote_id = id
     end
+    
+    def changed_attributes
+      self.changes.keys
+    end
+    
+    def push
+      self.class.synchronizer.push_object(self)
+    end
+    
+    def synchronizer
+      self.class.synchronizer
+    end
   end
 end
