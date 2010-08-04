@@ -4,7 +4,7 @@ class Project
   
   include Mongoid::Document
   include Synchronizable::PivotalTracker
-  
+    
   field :name
   field :iteration_length
   field :week_start_day
@@ -23,5 +23,9 @@ class Project
   field :commit_mode
   field :memberships
   field :integrations
+  
+  def stories
+    Story.find(:all, :conditions => {:project_id => self._remote_id})
+  end
 
 end

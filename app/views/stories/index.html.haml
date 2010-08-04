@@ -1,0 +1,10 @@
+.container
+  %h1= @project.name
+  
+  %h2== Stories: #{@project.stories.count}
+  
+  %ul
+    - @project.stories.each do |story|
+      %li
+        = "[%s]" % story.current_state
+        = story.name

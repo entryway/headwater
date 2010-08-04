@@ -130,6 +130,8 @@ GEM
     treetop (1.4.8)
       polyglot (>= 0.3.1)
     trollop (1.16.2)
+    typhoeus (0.1.31)
+      rack
     tzinfo (0.3.22)
     webmock (1.3.2)
       addressable (>= 2.1.1)
@@ -159,4 +161,5 @@ DEPENDENCIES
   rspec-core (>= 2.0.0.beta.12)
   rspec-rails (>= 2.0.0.beta.12)
   spork
+  typhoeus
   webmock

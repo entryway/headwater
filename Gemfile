@@ -4,6 +4,7 @@ gem "bson_ext"
 gem "mongoid",  "2.0.0.beta.12"
 gem "haml",     ">= 3.0"
 gem "inherited_resources"
+gem "typhoeus"
 
 group :test do
   gem "rspec-core", ">= 2.0.0.beta.12"

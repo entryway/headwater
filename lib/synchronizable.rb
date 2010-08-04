@@ -1,13 +1,13 @@
-require "synchronizable/base"
-require "synchronizable/pivotal_tracker"
-require "synchronizer"
+# require "synchronizable/base"
+# require "synchronizable/pivotal_tracker"
+# require "synchronizer"
 
 module Synchronizable
   def self.included(base)
     base.extend ClassMethods
     base.send :include, InstanceMethods
     base.cattr_accessor :synchronizer
-    base.field :_remote_id
+    base.field :_remote_id, :type => Integer
   end
   
   module ClassMethods

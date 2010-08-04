@@ -1,5 +1,5 @@
 module Synchronizer
-  class ServiceSynchronizer < Synchronizer
+  class ServiceSynchronizer
     attr_accessor :factory, :service
     
     ##

@@ -57,13 +57,8 @@ module Service
     # @return [String] Retrieved data from the URL
     def retrieve(url)
       puts "Retrieving: #{url}"
-      url = URI.parse(url)
-      response = nil
-      Net::HTTP.start(url.host, url.port) do |http|
-        # TODO get OR post
-        response = http.get(url.path, @header).body
-      end
-      response
+      response = Typhoeus::Request.get(url, :headers => @header)
+      response.body
     end
     
     ##
