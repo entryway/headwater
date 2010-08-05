@@ -26,6 +26,7 @@ class Story
   field :state
   
   def current_state=(new_state)
+    write_attribute :current_state, new_state
     if ['accepted', 'delivered', 'finished'].include?(new_state)
       state = 'done'
     elsif new_state == 'started'
