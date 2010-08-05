@@ -21,7 +21,7 @@ module Synchronizable
     end
     
     def with_remote_id(id)
-      self.find(:first, :conditions => {:_remote_id => id})
+      self.find(:first, :conditions => {:_remote_id => id.to_i})
     end
   end
   

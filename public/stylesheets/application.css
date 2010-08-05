@@ -1,3 +1,5 @@
+/* @override http://localhost:3000/stylesheets/application.css?1 */
+
 /* @group Basic */
 
 body { font-family: Helvetica; }
@@ -6,25 +8,13 @@ h1 { font-size: 25pt; color: #ABC8E2; }
 
 a { color: #375D81; text-decoration: none; }
 
-ul.simple { list-style-type: none; padding: 0px; }
-
-ul.simple li { margin-bottom: 5px; padding-left: 5px; }
-
-ul.navigation {  }
-
-ul.navigation li { cursor: pointer; }
-
-ul.navigation li a { color: #2e2e2e; cursor: pointer; }
-
-
-
 /* @end */
 
 /* @group Layout */
 
 .content { padding: 15px; }
 
-#wrapper { background: yellow; position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; }
+#wrapper { position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; overflow: hidden; }
 
 #header { height: 49px; background: #eee; border-bottom: 1px solid #d6d6d6; }
 
@@ -32,11 +22,33 @@ ul.navigation li a { color: #2e2e2e; cursor: pointer; }
 
 #main #sidebar { background: #f1f4f8; border-right: 1px solid #c5d1de; width: 199px; position: absolute; top: 0px; bottom: 0px; left: 0px; }
 
+#main #sidebar h2 { margin-left: 15px; margin-top: 10px; }
+
+/* @group Navigation */
+
+ul.navigation { width: 100%; list-style-type: none; padding: 0px; }
+
+ul.navigation li { cursor: pointer; }
+
+ul.navigation li a { color: #2e2e2e; cursor: pointer; }
+
+ul.navigation li.active { background: #87a4c4; }
+
+ul.navigation li.active a { color: #fff; font-weight: bold; text-shadow: #62778f 0 1px 0; }
+
+#sidebar ul.navigation { }
+
+#sidebar ul.navigation li { padding-left: 20px; padding-bottom: 3px; padding-top: 4px; }
+
+
+
+/* @end */
+
 #main #document { position: absolute; left: 200px; background: #fff; top: 0px; bottom: 0px; right: 0px; overflow: auto; }
 
 #footer { height: 50px; background: #ececec; border-top: 1px solid #dfdfdf; position: absolute; bottom: 0px; width: 100%; }
 
-
+#footer .content { padding-top: 11px; }
 
 /* @end */
 
@@ -45,7 +57,5 @@ ul.navigation li a { color: #2e2e2e; cursor: pointer; }
 #sidebar h2 { color: #6b809d; font-weight: bold; margin: 0 0 5px; font-size: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
 
 h1.logo { font: 11pt Monaco; color: #b1b1b1; margin-top: 2px; margin-left: 10px; }
-
-
 
 /* @end */

@@ -3,15 +3,13 @@
 require "service"
 require "synchronizer"
 
-Project.delete_all
-Story.delete_all
+# Story.delete_all
 
 Project.synchronizer.pull_collection
 
 Project.all.each do |project|
   Story.synchronizer.set_context :projects, project._remote_id
     Story.synchronizer.pull_collection
-    puts "Count of stories: #{Story.count}"
 end
 
 # # Service

@@ -23,6 +23,19 @@ class Story
   field :deadline
   field :attachments
   
+  field :state
+  
+  def current_state=(new_state)
+    if ['accepted', 'delivered', 'finished'].include?(new_state)
+      state = 'done'
+    elsif new_state == 'started'
+      state = 'current'
+    elsif ['unstarted', 'unscheduled'].include?(new_state)
+      state = 'upcoming'
+    end
+    self.state = state
+  end
+  
   def push
     synchronizer.set_context(:projects, self.project_id)
     synchronizer.push_object(self)

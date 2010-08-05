@@ -1,9 +1,31 @@
-%h1= @project.name
+- if @done
+  %h2 Done
+  %ul
+    = render :partial => "story", :collection => @done
 
-%h2== Stories: #{@project.stories.count}
+- if @current
+  %h2 Current
+  %ul
+    = render :partial => "story", :collection => @current
 
-%ul
-  - @project.stories.each do |story|
-    %li
-      = "[%s]" % story.current_state
-      = story.name
+- if @upcoming
+  %h2 Upcoming
+  %ul
+    = render :partial => "story", :collection => @upcoming      
+      
+- content_for :footer do
+  .content
+    - form_tag project_stories_path(@project), :method => :get do
+      = label_tag :done, "Done:"
+      = select_tag :done, options_for_select([['Show', 1], ['Hide', 0]], params[:done].to_i)
+      &nbsp;
+      
+      = label_tag :current, "Current:"
+      = select_tag :current, options_for_select([['Show', 1], ['Hide', 0]], params[:current].to_i)
+      &nbsp;
+      
+      = label_tag :upcoming, "Upcoming:"
+      = select_tag :upcoming, options_for_select([['Show', 1], ['Hide', 0]], params[:upcoming].to_i)
+      &nbsp;
+      
+      = submit_tag "Update"
