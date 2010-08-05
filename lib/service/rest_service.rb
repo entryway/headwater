@@ -56,8 +56,8 @@ module Service
     # @param [String] URL
     # @return [String] Retrieved data from the URL
     def retrieve(url, method = :get, headers = {}, data = nil)
-      retrieve_with_http(url, method, headers, data)
-      # retrieve_with_typhoeus(url, method, headers, data)
+      # retrieve_with_http(url, method, headers, data)
+      retrieve_with_typhoeus(url, method, headers, data)
     end
     
     def retrieve_with_typhoeus(url, method, headers, data)

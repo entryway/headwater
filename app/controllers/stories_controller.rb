@@ -1,4 +1,4 @@
-class StoriesController < ApplicationController
+class StoriesController < ProjectsController
   before_filter do
     @project = Project.find(params[:project_id])
   end

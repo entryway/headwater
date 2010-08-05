@@ -6,4 +6,23 @@
     = csrf_meta_tag
 
   %body
-    = yield
+    #wrapper
+      #header
+        .content
+          %h1.logo Headwater
+      #main
+        #sidebar
+          .content
+            %h2 Main
+            %ul.simple
+              %li Dashboard
+            %h2 Projects
+            %ul.simple.navigation
+              - @projects.each do |project|
+                %li
+                  %a{:href => project_path(project)}= project.name
+        #document
+          .content
+            = yield
+      #footer
+        
