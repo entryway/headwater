@@ -2,6 +2,8 @@ require "synchronizable"
 
 class Story
   
+  STATES = ['unscheduled', 'unstarted', 'started', 'finished', 'delivered', 'accepted']
+  
   include Mongoid::Document
   include Synchronizable::PivotalTracker
   
@@ -37,9 +39,8 @@ class Story
     self.state = state
   end
   
-  def push
-    synchronizer.set_context(:projects, self.project_id)
-    synchronizer.push_object(self)
+  def contexts
+    {:projects => self.project_id}
   end
   
 end

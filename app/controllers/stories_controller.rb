@@ -20,10 +20,18 @@ class StoriesController < ProjectsController
       states << 'upcoming'
     end
     
-    @stories = Story.where(:project_id => @project._remote_id,
-                           :state.in => states ).group_by(&:state)
+    @stories = Story.where(:project_id => @project._remote_id, :state.in => states).
+                     order_by(:current_state.desc, :updated_at.desc).
+                     group_by(&:state)
+
     @done = @stories['done']
     @current = @stories['current']
     @upcoming = @stories['upcoming']
+  end
+  
+  def update
+    @story = Story.find(params[:id])
+    @story.update_attributes(params[:story])
+    redirect_to project_stories_path(@project)
   end
 end

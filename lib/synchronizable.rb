@@ -8,6 +8,7 @@ module Synchronizable
     base.send :include, InstanceMethods
     base.cattr_accessor :synchronizer
     base.field :_remote_id, :type => Integer
+    base.before_save :push
   end
   
   module ClassMethods
@@ -23,6 +24,7 @@ module Synchronizable
     def with_remote_id(id)
       self.find(:first, :conditions => {:_remote_id => id.to_i})
     end
+
   end
   
   module InstanceMethods
@@ -34,10 +36,39 @@ module Synchronizable
       self.changes.keys
     end
     
-    def push
-      self.class.synchronizer.push_object(self)
+    def updates
+      updates = Hash[*changes.map { |atr, values| 
+        [atr, values[1]]
+      }.flatten]
+      updates.delete('state')
+      updates
     end
     
+    def contexts
+      {}
+    end
+
+    # Returns Synchronization Queue
+    def queue
+      @queue ||= Queue::SynchronizationQueue.instance
+    end
+    
+    ##
+    # Adds changes to queue
+    # @param [Boolean] Instant push, don't wait for queue
+    def push(instant = false)
+      return if self.updates.empty?
+      queue_item = Queue::QueueItem.new(:type => "push",
+                                        :object_type => self.class.name,
+                                        :object_remote_id => self._remote_id,
+                                        :updates => self.updates,
+                                        :contexts => self.contexts,
+                                        :state => "new")
+      queue_item.save
+    end
+    
+    ##
+    # Reteurns synchronizer
     def synchronizer
       self.class.synchronizer
     end
