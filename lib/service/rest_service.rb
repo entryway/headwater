@@ -33,7 +33,7 @@ module Service
       if action == :list
         path += object_type.to_s.pluralize
         
-      elsif action == :show
+      elsif action == :show || action == :update
         path += "#{object_type.to_s.pluralize}/#{object_id.to_s}"
       end
       
@@ -56,8 +56,9 @@ module Service
     # @param [String] URL
     # @return [String] Retrieved data from the URL
     def retrieve(url, method = :get, headers = {}, data = nil)
-      # retrieve_with_http(url, method, headers, data)
-      retrieve_with_typhoeus(url, method, headers, data)
+      puts [url, method, headers, data].inspect
+      retrieve_with_http(url, method, headers, data)
+      #retrieve_with_typhoeus(url, method, headers, data)
     end
     
     def retrieve_with_typhoeus(url, method, headers, data)
@@ -118,7 +119,7 @@ module Service
     end
     
     def update(object_type, id, data)
-      url = generate_rest_url(:show, object_type, id)
+      url = generate_rest_url(:update, object_type, id)
       xml_data = data.to_xml(:root => object_type.to_s.gsub('-', '_'), :skip_instruct => true)
       result = retrieve(url, :put, {'Content-type' => 'application/xml'}, xml_data)
     end

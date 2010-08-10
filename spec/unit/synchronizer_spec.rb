@@ -33,12 +33,13 @@ module Synchronizer
     end
     
     describe "#pull_object" do
-      it "should pull remote changes to local object" do
+      it "should pull remote changes for synchronizable fields to local object" do
         object = <<-EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <my_object>
 <id type="integer">123</id>
 <name>first</name>
+<some_stupid_attribute>bla bla bla</some_stupid_attribute>
 </my_object>
 EOF
         stub_request(:get, "http://chunky.bacon/my_objects/123").to_return(:body => object)
@@ -46,9 +47,38 @@ EOF
         object = mock('object_123')
         object.expects(:name=).with("first").returns(true)
         object.expects(:save).returns(true)
+        object.expects(:some_stupid_attribute).never
+        object.expects(:contexts).returns({})
         factory_class = mock('MyObject')
         factory_class.stubs(:object_name).returns("my_object")
         factory_class.expects(:with_remote_id).with(123).returns(object)
+        factory_class.stubs(:synchronizable_fields).returns([:name])
+        @syncer.factory = factory_class
+        # [Remote] REST service
+        @syncer.service = @service
+        # Pull it!
+        @syncer.pull_object(123)
+      end
+      
+      it "should create a new local object for remote object" do
+        object = <<-EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<my_object>
+<id type="integer">123</id>
+<name>first</name>
+<some_stupid_attribute>bla bla bla</some_stupid_attribute>
+</my_object>
+EOF
+        stub_request(:get, "http://chunky.bacon/my_objects/123").to_return(:body => object)
+        # [Local] Factory class for finding/creating objects
+        object = mock('object_123')
+        object.expects(:name=).with("first")
+        object.expects(:save)
+        factory_class = mock('MyObject')
+        factory_class.stubs(:synchronizable_fields).returns([:name])
+        factory_class.stubs(:object_name).returns("my_object")
+        factory_class.stubs(:with_remote_id).returns(nil)
+        factory_class.expects(:new).returns(object)
         @syncer.factory = factory_class
         # [Remote] REST service
         @syncer.service = @service
@@ -58,7 +88,7 @@ EOF
     end
     
     describe "#push_object" do
-      it "should push local changes to remote service" do
+      it "should push synchronizable fields to remote service" do
         # Let's just expect that update method of @syncer.service
         # will be called.
         @syncer.service = @service
@@ -66,7 +96,8 @@ EOF
         
         object = mock('object_123')
         object.stubs(:name).returns("just_another_name")
-        object.stubs(:changed_attributes).returns([:name])
+        object.stubs(:synchronizable_fields).returns([:name])
+        object.stubs(:contexts).returns({})
         object.stubs(:_remote_id).returns(123)
         factory_class = mock('MyObject')
         factory_class.stubs(:object_name).returns("my_object")

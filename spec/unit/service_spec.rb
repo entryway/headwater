@@ -62,7 +62,8 @@ module Service
       end
       
       it "should generate update url" do
-        pending
+        @service.generate_rest_url(:update, :my_object, 123).should == \
+          "#{@base_url}/my_objects/123"
       end
       
       it "should generate destroy url" do

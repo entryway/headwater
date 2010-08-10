@@ -7,14 +7,29 @@ module Synchronizable
     base.extend ClassMethods
     base.send :include, InstanceMethods
     base.cattr_accessor :synchronizer
+    base.cattr_accessor :synchronizable_fields
+    base.synchronizable_fields = []
     base.field :_remote_id, :type => Integer
-    base.before_save :push
   end
   
   module ClassMethods
     def synchronizes_through(synchronizer_class)
       self.synchronizer = synchronizer_class.new
-      yield(self.synchronizer)
+      yield(self.synchronizer) if block_given?
+    end
+    
+    ##
+    # Sets which fields should be synchronized
+    # @param [Array<Symbol>] Fields
+    def synchronize_fields(*fields)
+      self.synchronizable_fields ||= []
+      fields.each do |field|
+        if field.is_a?(Array)
+          field.each { |f| self.synchronizable_fields << f  }
+        else
+          self.synchronizable_fields << field
+        end
+      end
     end
     
     def object_name
@@ -37,10 +52,11 @@ module Synchronizable
     end
     
     def updates
-      updates = Hash[*changes.map { |atr, values| 
-        [atr, values[1]]
-      }.flatten]
-      updates.delete('state')
+      updates = {}
+      changes.each do |atr, values|
+        next if atr == 'state' # FIXME Ignored attributes - somewhere else!
+        updates[atr] = values[1]
+      end
       updates
     end
     
@@ -50,21 +66,18 @@ module Synchronizable
 
     # Returns Synchronization Queue
     def queue
-      @queue ||= Queue::SynchronizationQueue.instance
+      @queue ||= Synchronizer::Queue.instance
     end
     
     ##
     # Adds changes to queue
     # @param [Boolean] Instant push, don't wait for queue
     def push(instant = false)
-      return if self.updates.empty?
-      queue_item = Queue::QueueItem.new(:type => "push",
-                                        :object_type => self.class.name,
-                                        :object_remote_id => self._remote_id,
-                                        :updates => self.updates,
-                                        :contexts => self.contexts,
-                                        :state => "new")
-      queue_item.save
+      if instant
+        synchronizer.push_object(self)
+      else
+        queue.queue_push(self)
+      end
     end
     
     ##

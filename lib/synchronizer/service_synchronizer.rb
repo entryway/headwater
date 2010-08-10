@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 module Synchronizer
   class ServiceSynchronizer
     attr_accessor :factory, :service
@@ -29,15 +31,19 @@ module Synchronizer
     # @param [Integer] Remote ID of object.
     # @return [Boolean] Result of pulling
     def pull_object(id)
-      @service.set_contexts(@contexts)
+      local_object = @factory.with_remote_id(id)
+      if local_object
+        # FIXME What if there's no local object and we still want to set some
+        # contexts???
+        @service.set_contexts(local_object.contexts)
+      else
+        local_object = @factory.new
+      end
       object_hash = @service.show(object_name, id)
       @service.clear_contexts
-      # Find object in Factory
-      local_object = @factory.with_remote_id(id)
-      object_hash.each do |key, value|
-        unless key == "id"
-          local_object.send("#{key}=", value)
-        end
+      @factory.synchronizable_fields.each do |key|
+        value = object_hash[key.to_s]
+        local_object.send("#{key}=", value)
       end
       local_object.save
     end
@@ -49,14 +55,14 @@ module Synchronizer
     # @param [Object] Local object
     def push_object(local_object)
       object_name = @factory.object_name.to_sym
-      changes = {} # ch-ch-ch-ch-chaaanges
-      local_object.changed_attributes.each do |atr|
+      changes = {}
+      local_object.synchronizable_fields.each do |atr|
         value = local_object.send(atr)
         changes[atr.to_s] = value
       end
       
       # Update it remotely
-      @service.set_contexts(@contexts)
+      @service.set_contexts(local_object.contexts)
       @service.update(object_name, local_object._remote_id, changes)
       @service.clear_contexts
     end
