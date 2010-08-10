@@ -1,4 +1,7 @@
-/* @override http://localhost:3000/stylesheets/application.css?1 */
+/* @override 
+	http://localhost:3000/stylesheets/application.css?1
+	http://localhost:3333/stylesheets/application.css?1
+*/
 
 /* @group Basic */
 
@@ -65,6 +68,18 @@ h1.logo { font: 11pt Monaco; color: #b1b1b1; margin-top: 2px; margin-left: 10px;
 /* @end */
 
 /* @group Stories */
+
+ul.stories { padding: 0px; margin: 0px; }
+
+ul.stories div.state { text-shadow: rgba(0,0,0,0.5) 0 1px 0; -webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.3); margin-top: 10px; }
+
+ul.stories li.done div.state { background-image: url(../images/story_state.png); text-transform: uppercase; color: #fff; font-size: 11px; font-weight: bold; padding: 2px 3px 0; }
+
+ul.stories li.current div.state { text-transform: uppercase; color: #fff; font-size: 11px; font-weight: bold; padding: 2px 3px 0; background: url(../images/story_state.png) 0 -18px; }
+
+ul.stories li.upcoming div.state { text-transform: uppercase; color: #fff; font-size: 11px; font-weight: bold; padding: 2px 3px 0; background: url(../images/story_state.png) 0 -36px; }
+
+ul.stories .icon { padding-right: 10px; padding-top: 3px; }
 
 small { font-size: 11px; color: #b5b5b5; }
 

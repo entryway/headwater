@@ -1,16 +1,13 @@
 - if @done
-  %h2 Done
-  %ul
+  %ul.stories
     = render :partial => "story", :collection => @done
 
 - if @current
-  %h2 Current
-  %ul
+  %ul.stories
     = render :partial => "story", :collection => @current
 
 - if @upcoming
-  %h2 Upcoming
-  %ul
+  %ul.stories
     = render :partial => "story", :collection => @upcoming      
       
 - content_for :footer do

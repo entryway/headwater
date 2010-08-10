@@ -1,4 +1,6 @@
-%li.clearfix
+%li.clearfix{:class => story.state}
+  .fl.icon
+    = image_tag "#{story.story_type}.png"
   .fl
     = story.name
     
@@ -8,6 +10,5 @@
     %br
     %small== git flow feature start #{story.name.gsub(/[\s-\.]+/, '_').downcase}_#{story._remote_id}
   .fr
-    - form_for story, :url => project_story_path(@project, story) do |f|
-      = story_state_select(f)
-      = f.submit
+    .state
+      = story.state
