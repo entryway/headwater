@@ -4,12 +4,16 @@ class StoriesController < ProjectsController
   end
   
   def index
-    params[:done] ||= 0
+    params[:archived] ||= 0
+    params[:done] ||= 1
     params[:current] ||= 1
     params[:upcoming] ||= 1
     
     states = []
     
+    if params[:archived].to_i == 1
+      states << 'archived'
+    end
     if params[:done].to_i == 1
       states << 'done'
     end
@@ -29,9 +33,18 @@ class StoriesController < ProjectsController
     @upcoming = @stories['upcoming']
   end
   
+  def show
+    
+  end
+  
   def update
     @story = Story.find(params[:id])
     @story.update_attributes(params[:story])
-    redirect_to project_stories_path(@project)
+    @story.push
+    respond_to do |wants|
+      wants.html { redirect_to project_stories_path(@project) }
+      wants.js
+    end
+    
   end
 end

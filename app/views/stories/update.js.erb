@@ -1,0 +1,1 @@
+$("li.story#story_<%= @story.id %>").replaceWith("<%= escape_javascript(render(:partial => "story", :object => @story)) %>");

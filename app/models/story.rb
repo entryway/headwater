@@ -38,23 +38,38 @@ class Story
   synchronize_fields :created_at
   synchronize_fields :updated_at
   synchronize_fields :accepted_at
-  synchronize_fields :notes
-  synchronize_fields :tasks
   synchronize_fields :estimate
   synchronize_fields :labels
   synchronize_fields :deadline
-  synchronize_fields :attachments
+
+  def project
+    Project.where(:_remote_id => project_id).first
+  end
   
   def current_state=(new_state)
     write_attribute :current_state, new_state
-    if ['accepted', 'delivered', 'finished'].include?(new_state)
+    if new_state == 'accepted'
+      state = 'archived'
+    elsif ['delivered', 'finished'].include?(new_state)
       state = 'done'
     elsif new_state == 'started'
       state = 'current'
     elsif ['unstarted', 'unscheduled'].include?(new_state)
       state = 'upcoming'
     end
-    self.state = state
+    write_attribute :state, state
+  end
+  
+  def state=(new_state)
+    write_attribute :state, new_state
+    if new_state == 'done'
+      current_state = 'finished'
+    elsif new_state == 'current'
+      current_state = 'started'
+    elsif new_state == 'archived'
+      current_state = 'accepted'
+    end
+    write_attribute :current_state, current_state
   end
   
   def contexts

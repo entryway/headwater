@@ -13,6 +13,10 @@
 - content_for :footer do
   .content
     - form_tag project_stories_path(@project), :method => :get do
+      = label_tag :archived, "Archived:"
+      = select_tag :archived, options_for_select([['Show', 1], ['Hide', 0]], params[:archived].to_i)
+      &nbsp;
+      
       = label_tag :done, "Done:"
       = select_tag :done, options_for_select([['Show', 1], ['Hide', 0]], params[:done].to_i)
       &nbsp;

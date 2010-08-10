@@ -1,14 +1,15 @@
-%li.clearfix{:class => story.state}
+%li.clearfix{:class => "story #{story.state}", :id => "story_#{story.id}"}
   .fl.icon
     = image_tag "#{story.story_type}.png"
   .fl
     = story.name
     
     %a{:href => story.url, :target => "_blank"} T→
-    %br
-    %small== [Progress: ##{story._remote_id}] #{story.name}
-    %br
-    %small== git flow feature start #{story.name.gsub(/[\s-\.]+/, '_').downcase}_#{story._remote_id}
+    .clearfix
+      %input.message.fl{:type => "text", :value => commit_message(story)}
+      %input.message.fl{:type => "text", :value => "git flow feature start #{story.name.gsub(/[\s-\.]+/, '_').downcase}_#{story._remote_id}"}
   .fr
     .state
       = story.state
+    .change_state
+      = change_state_button(story)
