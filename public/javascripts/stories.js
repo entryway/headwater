@@ -23,6 +23,9 @@ Story = {
       
       return false;
     });
+    story.find("input.message").mouseup(function(e) {
+      e.preventDefault();
+    });
     story.find("input.message").focus(function() {
       this.select();
     });

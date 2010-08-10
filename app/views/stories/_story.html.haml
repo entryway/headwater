@@ -7,7 +7,7 @@
     %a{:href => story.url, :target => "_blank"} T→
     .clearfix
       %input.message.fl{:type => "text", :value => commit_message(story)}
-      %input.message.fl{:type => "text", :value => "git flow feature start #{story.name.gsub(/[\s-\.]+/, '_').downcase}_#{story._remote_id}"}
+      %input.message.fl{:type => "text", :value => git_flow_message(story)}
   .fr
     .state
       = story.state

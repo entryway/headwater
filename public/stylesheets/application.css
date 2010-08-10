@@ -100,7 +100,7 @@ ul.stories .icon { padding-right: 10px; padding-top: 3px; }
 
 input.message { font-size: 11px; color: #b5b5b5; border-color: #eee; margin: 0px 5px 0px 0px; width: 300px; }
 
-input.message:focus { border-color: #eee; }
+input.message:focus { border-color: #eee; color: #636363; }
 
 
 /* @end */

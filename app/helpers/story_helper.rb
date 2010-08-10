@@ -25,4 +25,13 @@ module StoryHelper
     end
     "[#{update_message}: ##{story._remote_id}] #{story.name}"
   end
+  
+  def git_flow_message(story)
+    type = if ['done', 'archived'].include?(story.state)
+      "finish"
+    else
+      "start"
+    end
+    "git flow feature #{type} #{story.name.gsub(/[\s-\.]+/, '_').downcase}_#{story._remote_id}"
+  end
 end
