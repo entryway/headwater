@@ -23,9 +23,27 @@ class Story
   field :estimate
   field :labels
   field :deadline
-  field :attachments
+  field :attachments, :type => Array
   
   field :state
+  
+  synchronize_fields :project_id
+  synchronize_fields :story_type
+  synchronize_fields :url
+  synchronize_fields :current_state
+  synchronize_fields :description
+  synchronize_fields :name
+  synchronize_fields :requested_by
+  synchronize_fields :owned_by
+  synchronize_fields :created_at
+  synchronize_fields :updated_at
+  synchronize_fields :accepted_at
+  synchronize_fields :notes
+  synchronize_fields :tasks
+  synchronize_fields :estimate
+  synchronize_fields :labels
+  synchronize_fields :deadline
+  synchronize_fields :attachments
   
   def current_state=(new_state)
     write_attribute :current_state, new_state
