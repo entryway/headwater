@@ -1,14 +1,15 @@
 jQuery(function($){
-  var setup = function() {
-    Story.setup()
-  }
-  
   $(document).ready(function() {
-    setup()
+    Story.setup()
+    Story.setup_once()
     StoryFilter.setup()
   });
+  $(document).ajaxStart(function() {
+    $("body").addClass("loading")
+  })
   $(document).ajaxComplete(function() {
-    setup()
+    Story.setup()
+    $("body").removeClass("loading")
   });
 });
 
@@ -17,6 +18,11 @@ Story = {
     $("li.story").each(function() {
       Story.recognize(this)
     })
+  },
+  setup_once: function() {
+    $("li.story").live('click', function() {
+      Story.select(this)
+    });
   },
   recognize: function(element) {
     var story = $(element)
@@ -34,6 +40,16 @@ Story = {
     story.find("input.message").focus(function() {
       this.select();
     });
+  },
+  
+  select: function(story) {
+    $("body").addClass("loading")
+    $("li.story").removeClass("selected")
+    $(story).addClass("selected")
+    $("#inspector").removeClass("hidden")
+    $("#document").addClass("with_inspector")
+    var path = $(story).attr("data-path")
+    $.get(path)
   }
 }
 
@@ -73,7 +89,6 @@ StoryFilter = {
       state = 0;
     }
     StoryFilter.filter_data[type] = state;
-    console.log(StoryFilter.filter_data)
     StoryFilter.update();
   }
 }

@@ -16,7 +16,7 @@ class StoriesController < ProjectsController
   end
   
   def show
-    
+    @story = Story.find(params[:id])
   end
   
   def update

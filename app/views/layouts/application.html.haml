@@ -23,7 +23,8 @@
               %li{:class => viewing?(project) ? "active" : ""}
                 %a{:href => project_path(project)}= project.name
         #document
-          .content
-            = yield
+          = yield
+        #inspector.hidden
+        
       #footer
         = yield(:footer)
