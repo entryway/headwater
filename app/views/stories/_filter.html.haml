@@ -1,0 +1,9 @@
+- content_for :footer do
+  .content
+    #filter.clearfix{:"data-url" => project_stories_path(@project)}
+      %a.tab.filter{:href => "#", :"data-state" => "done"}
+        Done
+      %a.tab.filter{:href => "#", :"data-state" => "current"}
+        Current
+      %a.tab.filter{:href => "#", :"data-state" => "upcoming"}
+        Upcoming

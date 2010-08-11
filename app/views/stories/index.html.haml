@@ -1,32 +1,10 @@
-- if @done
-  %ul.stories
-    = render :partial => "story", :collection => @done
+%ul.stories{:"data-state" => "done"}
+  = render :partial => "story", :collection => @done
 
-- if @current
-  %ul.stories
-    = render :partial => "story", :collection => @current
+%ul.stories{:"data-state" => "current"}
+  = render :partial => "story", :collection => @current
 
-- if @upcoming
-  %ul.stories
-    = render :partial => "story", :collection => @upcoming      
+%ul.stories{:"data-state" => "upcoming"}
+  = render :partial => "story", :collection => @upcoming      
       
-- content_for :footer do
-  .content
-    - form_tag project_stories_path(@project), :method => :get do
-      = label_tag :archived, "Archived:"
-      = select_tag :archived, options_for_select([['Show', 1], ['Hide', 0]], params[:archived].to_i)
-      &nbsp;
-      
-      = label_tag :done, "Done:"
-      = select_tag :done, options_for_select([['Show', 1], ['Hide', 0]], params[:done].to_i)
-      &nbsp;
-      
-      = label_tag :current, "Current:"
-      = select_tag :current, options_for_select([['Show', 1], ['Hide', 0]], params[:current].to_i)
-      &nbsp;
-      
-      = label_tag :upcoming, "Upcoming:"
-      = select_tag :upcoming, options_for_select([['Show', 1], ['Hide', 0]], params[:upcoming].to_i)
-      &nbsp;
-      
-      = submit_tag "Update"
+= render :partial => "filter"

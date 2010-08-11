@@ -16,6 +16,10 @@ a { color: #375D81; text-decoration: none; }
 
 .fr { float: right; }
 
+.relative { position: relative; }
+
+.hidden { display: none; }
+
 /* @end */
 
 /* @group Layout */
@@ -101,6 +105,28 @@ ul.stories .icon { padding-right: 10px; padding-top: 3px; }
 input.message { font-size: 11px; color: #b5b5b5; border-color: #eee; margin: 0px 5px 0px 0px; width: 300px; }
 
 input.message:focus { border-color: #eee; color: #636363; }
+
+/* @group Filter */
+
+#filter { width: 200px; margin: auto; }
+
+
+
+/* @end */
+
+
+/* @end */
+
+/* @group Buttons */
+
+a.tab { color: #494949; font-weight: bold; display: block; float: left; background-image: url(../images/tabs.png); border: 1px solid #c5c5c5; border-right: none; font-size: 11px; padding: 6px 10px 4px; }
+
+a.tab.active { background-position: 0 -50px; color: #f7f7f7; border-color: #797979; }
+
+a.tab:last-child { border-right: 1px solid #c5c5c5; -webkit-border-top-right-radius: 3px; -webkit-border-bottom-right-radius: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 3px; }
+
+a.tab:first-child { -webkit-border-top-left-radius: 3px; -webkit-border-bottom-left-radius: 3px; -moz-border-radius-topleft: 3px; -moz-border-radius-bottomleft: 3px; }
+
 
 
 /* @end */
