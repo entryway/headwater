@@ -6,7 +6,7 @@ require "webmock/rspec"
 
 module Service
   describe RestService do
-    before :all do
+    before :each do
       @service = Service::RestService.new
       @base_url = "http://chunky.bacon"
       @service.base_url = @base_url
@@ -192,6 +192,81 @@ EOF
         @service.clear_contexts
         url = @service.generate_rest_url(:list, :bacon)
         url.should == "http://chunky.bacon/bacons"
+      end
+    end
+    
+    context "with custom path" do
+      before :each do
+        @service.add_path(:my_object, :list, "my_objects/all")
+      end
+      
+      describe "#add_path" do
+        it "should use custom path for specific object/action" do
+          @service.generate_rest_url(:list, :my_object).should == "http://chunky.bacon/my_objects/all"
+        end
+      end
+
+      describe "#path_for" do
+        it "should find custom path" do
+          @service.path_for(:my_object, :list).should == "my_objects/all"
+        end
+      end
+    end
+    
+    context "with custom root" do
+      before :each do
+        @service.root = "things/hidden/somewhere/my_objects"
+      end
+      
+      describe "#list" do
+        it "should list" do
+          object = <<-EOF
+  <?xml version="1.0" encoding="UTF-8"?>
+  <things>
+    <hidden>
+      <somewhere>
+        <my_objects type="array">
+          <my_object>
+            <id type="integer">1</id>
+            <name>first</name>
+          </my_object>
+          <my_object>
+            <id type="integer">2</id>
+            <name>second</name>
+          </my_object>
+        </my_objects>
+      </somewhere>
+    </hidden>
+  </things>
+  EOF
+          stub_request(:get, "http://chunky.bacon/my_objects").to_return(:body => object)
+          response = @service.list(:my_object)
+          response.should == [
+            {"id" => 1, "name" => "first"},
+            {"id" => 2, "name" => "second"}
+          ]
+        end
+      end
+      
+      describe "#show" do
+        it "should show" do
+          object = <<-EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<things>
+<hidden>
+  <somewhere>
+    <my_object>
+      <id type="integer">1</id>
+      <name>updated name</name>
+    </my_object>
+  </somewhere>
+</hidden>
+</things>
+EOF
+          stub_request(:get, "http://chunky.bacon/my_objects/1").to_return(:body => object)
+          response = @service.show(:my_object, 1)
+          response.should == {"id" => 1, "name" => "first"}
+        end
       end
     end
   end

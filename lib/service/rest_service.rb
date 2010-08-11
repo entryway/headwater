@@ -1,12 +1,14 @@
 module Service
   class RestService < Base
-    attr_accessor :base_url, :header
+    attr_accessor :base_url, :header, :root
     
     ##
     # Initializes new Rest Service
     def initialize
       @header = {}
       @contexts = {}
+      @paths = []
+      @root = nil
     end
     
     ##
@@ -24,17 +26,20 @@ module Service
     # @param [Integer] Object ID
     # @return [String] Generated URL
     def generate_rest_url(action, object_type, object_id = nil)
-      path = ''
-      path += @contexts.collect { |name, value|
-        "#{name}/#{value}"
-      }.join('/')
-      path += '/'
-      
-      if action == :list
-        path += object_type.to_s.pluralize
-        
-      elsif action == :show || action == :update
-        path += "#{object_type.to_s.pluralize}/#{object_id.to_s}"
+      path = path_for(object_type, action)
+      unless path
+        path = ''
+        path += @contexts.collect { |name, value|
+          "#{name}/#{value}"
+        }.join('/')
+        path += '/'
+
+        if action == :list
+          path += object_type.to_s.pluralize
+
+        elsif action == :show || action == :update
+          path += "#{object_type.to_s.pluralize}/#{object_id.to_s}"
+        end
       end
       
       return generate_url(path)
@@ -57,7 +62,9 @@ module Service
     # @return [String] Retrieved data from the URL
     def retrieve(url, method = :get, headers = {}, data = nil)
       puts [url, method, headers, data].inspect
-      retrieve_with_http(url, method, headers, data)
+      data = retrieve_with_http(url, method, headers, data)
+      # puts data
+      data
     end
     
     def retrieve_with_typhoeus(url, method, headers, data)
@@ -103,7 +110,16 @@ module Service
     def list(object_type)
       url = generate_rest_url(:list, object_type)
       data = retrieve_xml(url)
-      data[object_type.to_s.pluralize]
+      # FIXME FIXME FIXME: Not only list should use this, but
+      # also show!!! ADD SPEC!!!
+      if @root
+        @root.split('/').each { |branch|
+          data = data[branch]
+        }
+        data
+      else
+        data[object_type.to_s.pluralize]
+      end
     end
     
     ##
@@ -136,6 +152,32 @@ module Service
     # Clears contexts for service
     def clear_contexts
       @contexts = {}
+    end
+    
+    ##
+    # Adds custom path
+    # @param [Symbol] Object type
+    # @param [Symbol] Action
+    # @param [String] Path
+    def add_path(object_type, action, path)
+      @paths << {
+        :object_type => object_type,
+        :action => action,
+        :path => path
+      }
+    end
+    
+    ##
+    # Returns custom path
+    # @params [Symbol] Object type
+    # @param [Symbol] Action
+    # @retun [String] Custom path
+    def path_for(object_type, action)
+      path = @paths.find do |path|
+        path[:object_type] == object_type &&
+        path[:action] == action
+      end
+      path ? path[:path] : nil
     end
   end
 end

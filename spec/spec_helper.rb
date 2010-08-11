@@ -16,7 +16,6 @@ require 'rspec/rails'
 
 
 RSpec.configure do |config|
-  config.before(:each) { Machinist.reset_before_test }
   config.mock_with :mocha
   config.include WebMock
   # config.include Capybara, :type => :integration
