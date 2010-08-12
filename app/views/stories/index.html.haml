@@ -1,10 +1,10 @@
 %ul.stories
   = render :partial => "story", :collection => @done
-
-%ul.stories
   = render :partial => "story", :collection => @current
-
-%ul.stories
   = render :partial => "story", :collection => @upcoming      
+  
+.content
+  .clearfix
+    %a.tab{:href => new_project_story_path} Add a story
       
 = render :partial => "filter"

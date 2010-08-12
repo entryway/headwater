@@ -59,7 +59,7 @@ StoryFilter = {
     this.state_filter = {
       done: 0,
       current: 1,
-      upcoming: 0
+      upcoming: 1
     };
     this.type_filter = {
       feature: 1,

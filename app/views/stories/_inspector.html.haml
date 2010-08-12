@@ -1,20 +1,41 @@
-.content
-  - form_for [@project, @story] do |f|
-    %h3= @story.name
+.clearfix
+  .content.fl
+    - form_for [@project, @story] do |f|
+      %h3= @story.name
   
-    State:
-    %strong
-      = f.select :current_state, Story::STATES
-    %br
+      State:
+      %strong
+        = f.select :current_state, Story::STATES
+      %br
   
-    Updated at:
-    %strong= @story.updated_at
-    %br
+      Updated at:
+      %strong= @story.updated_at
+      %br
   
-    Estimate:
-    %strong
-      = f.text_field :estimate
+      Estimate:
+      %strong
+        = f.text_field :estimate
   
-    %p.description= @story.description
+      %p.description= @story.description
     
-    = f.submit
+      = f.submit
+    
+  .content.fl
+    %h3 Time tracking
+    
+    %ul.simple
+      - @story.time_entries.each do |entry|
+        %li
+          Started at:
+          = entry.started_at
+          %br
+          Length:
+          = entry.length
+          %br
+          Notes:
+          = entry.note
+    
+    %br
+    
+    .clearfix
+      %a.tab{:href => new_time_entry_path(:story_id => @story)} Add entry

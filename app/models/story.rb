@@ -3,6 +3,7 @@ require "synchronizable"
 class Story
   
   STATES = ['unscheduled', 'unstarted', 'started', 'finished', 'delivered', 'accepted']
+  TYPES = ['feature', 'chore', 'bug']
   
   include Mongoid::Document
   include Synchronizable::PivotalTracker
@@ -26,6 +27,8 @@ class Story
   field :attachments, :type => Array
   
   field :state
+  
+  references_many :time_entries, :stored_as => :array, :inverse_of => :story
   
   synchronize_fields :project_id
   synchronize_fields :story_type
