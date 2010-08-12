@@ -68,6 +68,10 @@ body.loading #inspector .content { display: none; }
 
 #footer { height: 50px; background: #ececec; border-top: 1px solid #dfdfdf; position: absolute; bottom: 0px; width: 100%; }
 
+#footer_side { width: 200px; position: absolute; top: 0px; bottom: 0px; }
+
+#footer_main { position: absolute; left: 200px; right: 0px; }
+
 #footer .content { padding-top: 11px; }
 
 /* @end */
@@ -134,7 +138,7 @@ ul.stories li.selected input.message:focus { border-color: #eee; color: #fefcfc;
 
 /* @group Filter */
 
-#filter { width: 200px; margin: auto; }
+#filter { }
 
 
 

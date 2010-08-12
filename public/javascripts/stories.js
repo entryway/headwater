@@ -54,41 +54,65 @@ Story = {
 }
 
 StoryFilter = {
-  filter_data: {},
+  state_filter: {},
   setup: function() {
-    var filter = {}
-    $("ul.stories").each(function(i, el) {
-      var type = $(this).attr('data-state');
-      if ($(el).hasClass("hidden")) {
-        filter[type] = 0;
-      } else {
-        filter[type] = 1;
-      };
-    })
-    this.filter_data = filter;
+    this.state_filter = {
+      done: 0,
+      current: 1,
+      upcoming: 0
+    };
+    this.type_filter = {
+      feature: 1,
+      chore: 1,
+      bug: 1
+    }
     this.update()
-    $("#filter a.filter").click(this.filter)
+    $("a.filter").click(this.filter)
   },
   
   update: function() {
-    $.each(this.filter_data, function(state, value) {
+    $.each(this.state_filter, function(state, value) {
       if (value == 1) {
-        $("ul.stories[data-state="+state+"]").removeClass("hidden")
         $("#filter a.filter[data-state="+state+"]").addClass("active")
       } else {
-        $("ul.stories[data-state="+state+"]").addClass("hidden")
         $("#filter a.filter[data-state="+state+"]").removeClass("active")
       };
+    })
+    
+    $.each(this.type_filter, function(state, value) {
+      if (value == 1) {
+        $("#type_filter a.filter[data-type="+state+"]").addClass("active")
+      } else {
+        $("#type_filter a.filter[data-type="+state+"]").removeClass("active")
+      };
+    })
+    
+    $("ul.stories li").each(function(i, o) {
+      var state = $(o).attr('data-state')
+      var type = $(o).attr('data-type')
+      if (StoryFilter.state_filter[state] == 1 && StoryFilter.type_filter[type] == 1) {
+        $(o).show();
+      } else {
+        $(o).hide()
+      }
     })
   },
   
   filter: function() {
-    type = $(this).attr('data-state')
+    // State filter
+    var type = $(this).attr('data-state')
     var state = 1;
-    if(StoryFilter.filter_data[type] == 1) {
+    if(StoryFilter.state_filter[type] == 1) {
       state = 0;
     }
-    StoryFilter.filter_data[type] = state;
+    StoryFilter.state_filter[type] = state;
+    // Type filter
+    type = $(this).attr('data-type')
+    state = 1;
+    if(StoryFilter.type_filter[type] == 1) {
+      state = 0;
+    }
+    StoryFilter.type_filter[type] = state;
     StoryFilter.update();
   }
 }

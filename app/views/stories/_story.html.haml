@@ -1,4 +1,4 @@
-%li.clearfix{:class => "story #{story.state}", :id => "story_#{story.id}", :"data-path" => project_story_path(@project, story)}
+%li.clearfix{:class => "story #{story.state}", :id => "story_#{story.id}", :"data-path" => project_story_path(@project, story), :"data-state" => story.state, :"data-type" => story.type}
   .fl.icon
     = image_tag "#{story.story_type}.png"
   .fl

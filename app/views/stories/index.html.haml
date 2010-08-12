@@ -1,10 +1,10 @@
-%ul.stories{:"data-state" => "done"}
+%ul.stories
   = render :partial => "story", :collection => @done
 
-%ul.stories{:"data-state" => "current"}
+%ul.stories
   = render :partial => "story", :collection => @current
 
-%ul.stories{:"data-state" => "upcoming"}
+%ul.stories
   = render :partial => "story", :collection => @upcoming      
       
 = render :partial => "filter"

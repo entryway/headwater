@@ -1,9 +1,18 @@
 - content_for :footer do
-  .content
-    #filter.clearfix{:"data-url" => project_stories_path(@project)}
-      %a.tab.filter{:href => "#", :"data-state" => "done"}
-        Done
-      %a.tab.filter{:href => "#", :"data-state" => "current"}
-        Current
-      %a.tab.filter{:href => "#", :"data-state" => "upcoming"}
-        Upcoming
+  .content.clearfix
+    .fl
+      #filter.clearfix
+        %a.tab.filter{:href => "#", :"data-state" => "done"}
+          Done
+        %a.tab.filter{:href => "#", :"data-state" => "current"}
+          Current
+        %a.tab.filter{:href => "#", :"data-state" => "upcoming"}
+          Upcoming
+    .fr
+      #type_filter.clearfix
+        %a.tab.filter{:href => "#", :"data-type" => "feature"}
+          Feature
+        %a.tab.filter{:href => "#", :"data-type" => "chore"}
+          Chore
+        %a.tab.filter{:href => "#", :"data-type" => "bug"}
+          Bug
