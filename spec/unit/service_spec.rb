@@ -161,6 +161,26 @@ EOF
         stub_request(:put, expected_url)
         @service.update(:my_object, 123, changes)
         request(:put, expected_url).with(:body => /<name>updated name<\/name>/).should have_been_made
+        # FIXME Add specs that checks for hash in response
+      end
+    end
+    
+    describe "#create" do
+      it "should create object" do
+        response = <<-EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<my_object>
+  <id type="integer">1</id>
+  <name>new name</name>
+</my_object>
+EOF
+        changes = {'name' => 'new name'}
+        expected_headers = {'Content-type' => 'application/xml'}
+        expected_url = 'http://chunky.bacon/my_objects'
+        stub_request(:post, expected_url).to_return(:body => response)
+        result = @service.create(:my_object, changes)
+        request(:post, expected_url).with(:body => /<name>new name<\/name>/).should have_been_made
+        result.should == {'id' => 1, 'name' => 'new name'}
       end
     end
     

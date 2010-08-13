@@ -34,7 +34,7 @@ module Service
         }.join('/')
         path += '/'
 
-        if action == :list
+        if action == :list || action == :create
           path += object_type.to_s.pluralize
 
         elsif action == :show || action == :update
@@ -63,7 +63,9 @@ module Service
     def retrieve(url, method = :get, headers = {}, data = nil)
       puts [url, method, headers, data].inspect
       data = retrieve_with_http(url, method, headers, data)
-      # puts data
+      puts "\e\[32m"
+      puts data
+      puts "\e\[0m"
       data
     end
     
@@ -137,6 +139,14 @@ module Service
       url = generate_rest_url(:update, object_type, id)
       xml_data = data.to_xml(:root => object_type.to_s.gsub('-', '_'), :skip_instruct => true)
       result = retrieve(url, :put, {'Content-type' => 'application/xml'}, xml_data)
+    end
+    
+    def create(object_type, data)
+      url = generate_rest_url(:create, object_type)
+      xml_data = data.to_xml(:root => object_type.to_s.gsub('-', '_'), :skip_instruct => true)
+      result = retrieve(url, :post, {'Content-type' => 'application/xml'}, xml_data)
+      data = parse_xml(result)
+      data[object_type.to_s] # FIXME refactor this shit into a method
     end
     
     ##

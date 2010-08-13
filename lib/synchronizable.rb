@@ -4,11 +4,11 @@
 
 module Synchronizable
   def self.included(base)
-    base.extend ClassMethods
     base.send :include, InstanceMethods
     base.cattr_accessor :synchronizer
-    base.cattr_accessor :synchronizable_fields
-    base.synchronizable_fields = []
+    base.cattr_writer :synchronizable_fields
+    base.class_variable_set(:@@synchronizable_fields, [])
+    base.extend ClassMethods
     base.field :_remote_id, :type => Integer
   end
   
@@ -22,13 +22,38 @@ module Synchronizable
     # Sets which fields should be synchronized
     # @param [Array<Symbol>] Fields
     def synchronize_fields(*fields)
-      self.synchronizable_fields ||= []
       fields.each do |field|
         if field.is_a?(Array)
-          field.each { |f| self.synchronizable_fields << f  }
+          field.each { |f| self.synchronize_field(f)  }
         else
-          self.synchronizable_fields << field
+          self.synchronize_field(field)
         end
+      end
+    end
+    
+    ##
+    # Sets synchronization of a single field
+    def synchronize_field(field)
+      fields = self.class_variable_get(:@@synchronizable_fields)
+      if field.is_a?(Hash)
+        field, type = *field.to_a.first
+      else
+        type = :all
+      end
+      fields << {:field => field, :type => type}
+    end
+    
+    ##
+    # Returns fields that are being synchronized
+    def synchronizable_fields(type = nil)
+      fields = self.class_variable_get(:@@synchronizable_fields)
+      if type
+        fields = fields.select do |field|
+          field[:type] == type || field[:type] == :all
+        end
+      end
+      fields.collect do |field|
+        field[:field]
       end
     end
     

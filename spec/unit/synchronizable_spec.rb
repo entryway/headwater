@@ -10,33 +10,76 @@ describe Synchronizable do
   end
   
   describe ".synchronizable_fields" do
-    it "should be an empty array" do
-      MyClass.synchronizable_fields.should == []
+    context "with no fields" do
+      before do
+        MyClass.synchronizable_fields = []
+      end
+      
+      it "should be an empty array" do
+        MyClass.synchronizable_fields.should == []
+      end
+    end
+    
+    context "with fields" do
+      before do
+        MyClass.synchronizable_fields = [{:field => :push_field, :type => :push},
+                                         {:field => :pull_field, :type => :pull},
+                                         {:field => :all_field, :type => :all}]
+      end
+      
+      it "should return all fields" do
+        MyClass.synchronizable_fields.should == [:push_field, :pull_field, :all_field]
+      end
+      
+      it "should return fields for push" do
+        MyClass.synchronizable_fields(:push).should == [:push_field, :all_field]
+      end
+      
+      it "should return fields for pull" do
+        MyClass.synchronizable_fields(:pull).should == [:pull_field, :all_field]
+      end
     end
   end
   
   describe ".synchronize_fields" do
-    it "should save synchronizable fields from array" do
+    before :each do
       MyClass.synchronizable_fields = []
+    end
+    
+    it "should save synchronizable fields from array" do
       MyClass.synchronize_fields [:first_field, :second_field]
-      MyClass.synchronizable_fields.should == [:first_field, :second_field]
+      MyClass.class_variable_get(:@@synchronizable_fields).should == \
+        [{:field => :first_field, :type => :all}, {:field => :second_field, :type => :all}]
     end
     
     it "should save synchronizable fields from arguments" do
-      MyClass.synchronizable_fields = []
       MyClass.synchronize_fields :first_field, :second_field
-      MyClass.synchronizable_fields.should == [:first_field, :second_field]
+      MyClass.class_variable_get(:@@synchronizable_fields).should == \
+        [{:field => :first_field, :type => :all}, {:field => :second_field, :type => :all}]
     end
   end
   
-  describe "#synchronizable_fields" do
+  describe ".synchronize_field" do
     before :each do
-      MyClass.synchronizable_fields = [:first_field, :second_field]
+      MyClass.synchronizable_fields = []
     end
     
-    it "should return array of synchronizable fields" do
-      my_object = MyClass.new
-      my_object.synchronizable_fields.should == [:first_field, :second_field]
+    it "should synchronize general field" do
+      MyClass.synchronize_field :some_field
+      MyClass.class_variable_get(:@@synchronizable_fields).should == \
+        [{:field => :some_field, :type => :all}]
+    end
+    
+    it "should synchronize push field" do
+      MyClass.synchronize_field :some_field => :push
+      MyClass.class_variable_get(:@@synchronizable_fields).should == \
+        [{:field => :some_field, :type => :push}]
+    end
+    
+    it "should synchronize pull field" do
+      MyClass.synchronize_field :some_field => :pull
+      MyClass.class_variable_get(:@@synchronizable_fields).should == \
+        [{:field => :some_field, :type => :pull}]
     end
   end
 

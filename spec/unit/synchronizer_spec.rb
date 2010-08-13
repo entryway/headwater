@@ -88,22 +88,46 @@ EOF
     end
     
     describe "#push_object" do
-      it "should push synchronizable fields to remote service" do
-        # Let's just expect that update method of @syncer.service
-        # will be called.
+      before do
         @syncer.service = @service
-        @service.expects(:update).with(:my_object, 123, {"name" => "just_another_name"})
-        
-        object = mock('object_123')
-        object.stubs(:name).returns("just_another_name")
-        object.stubs(:synchronizable_fields).returns([:name])
-        object.stubs(:contexts).returns({})
-        object.stubs(:_remote_id).returns(123)
+        @object = mock('object_123')
+        @object.stubs(:name).returns("just_another_name")
+        @object.stubs(:synchronizable_fields).returns([:name])
+        @object.stubs(:contexts).returns({})
         factory_class = mock('MyObject')
         factory_class.stubs(:object_name).returns("my_object")
         @syncer.factory = factory_class
+      end
+      
+      context "remote object exists" do
+        before do
+          @object.stubs(:_remote_id).returns(123)
+        end
         
-        @syncer.push_object(object)
+        it "should update remote object" do
+          @service.expects(:update).with(:my_object, 123, {"name" => "just_another_name"})
+          @syncer.push_object(@object)
+        end
+      end
+      
+      context "remote object does not exist" do
+        before do
+          @object.stubs(:_remote_id).returns(nil)
+        end
+        
+        it "should create a new remote object" do
+          @service.expects(:update).never
+          @service.expects(:create).with(:my_object, {"name" => "just_another_name"})
+          @syncer.push_object(@object)
+        end
+        
+        it "should save remote id of newly created remote object" do
+          @service.expects(:create).with(:my_object, {"name" => "just_another_name"}).
+            returns({"id" => 202, "name" => "just_another_name"})
+          @object.expects(:_remote_id=)
+          @object.stubs(:save)
+          @syncer.push_object(@object)
+        end
       end
     end
     

@@ -63,7 +63,14 @@ module Synchronizer
       
       # Update it remotely
       @service.set_contexts(local_object.contexts)
-      @service.update(object_name, local_object._remote_id, changes)
+      if local_object._remote_id
+        @service.update(object_name, local_object._remote_id, changes)
+      else
+        result = @service.create(object_name, changes)
+        local_object._remote_id = result['id']
+        local_object.save
+      end
+      
       @service.clear_contexts
     end
     

@@ -37,7 +37,7 @@ class StoriesController < ProjectsController
     @story = Story.new(:project_id => @project._remote_id)
     @story.attributes=(params[:story])
     @story.save
-    # @story.push # FIXME
+    @story.push # FIXME
     respond_to do |wants|
       wants.html { redirect_to project_stories_path(@project) }
     end
