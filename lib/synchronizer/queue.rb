@@ -25,5 +25,13 @@ module Synchronizer
         item.process_item
       end
     end
+    
+    def queued_items
+      QueueItem.where(:state => "new").all
+    end
+    
+    def should_run?
+      queued_items.count > 0
+    end
   end
 end

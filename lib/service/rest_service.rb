@@ -61,11 +61,11 @@ module Service
     # @param [String] URL
     # @return [String] Retrieved data from the URL
     def retrieve(url, method = :get, headers = {}, data = nil)
-      puts [url, method, headers, data].inspect
+      # puts [url, method, headers, data].inspect
       data = retrieve_with_http(url, method, headers, data)
-      puts "\e\[32m"
-      puts data
-      puts "\e\[0m"
+      # puts "\e\[32m"
+      # puts data
+      # puts "\e\[0m"
       data
     end
     
