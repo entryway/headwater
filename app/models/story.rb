@@ -32,7 +32,7 @@ class Story
   
   synchronize_fields :project_id
   synchronize_fields :story_type
-  synchronize_fields :url
+  synchronize_field :url => :pull
   synchronize_fields :current_state
   synchronize_fields :description
   synchronize_fields :name
