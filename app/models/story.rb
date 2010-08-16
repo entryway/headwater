@@ -45,6 +45,10 @@ class Story
   synchronize_fields :labels
   synchronize_fields :deadline
 
+  def id_string
+    id.to_s
+  end
+
   def project
     Project.where(:_remote_id => project_id).first
   end

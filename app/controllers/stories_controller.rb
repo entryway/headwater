@@ -7,12 +7,12 @@ class StoriesController < ProjectsController
     states = ['done', 'current', 'upcoming']
     
     @stories = Story.where(:project_id => @project._remote_id, :state.in => states).
-                     order_by(:updated_at.desc).
-                     group_by(&:state)
-
-    @done = @stories['done']
-    @current = @stories['current']
-    @upcoming = @stories['upcoming']
+                     order_by(:updated_at.desc)
+    
+    respond_to do |wants|
+      wants.html
+      wants.json { render :json => @stories.to_json(:methods => :id_string) }
+    end
   end
   
   def show

@@ -66,6 +66,8 @@ ul.navigation li.active a { color: #fff; font-weight: bold; text-shadow: #62778f
 
 body.loading #main #inspector { background: #f3f3f3 url(../images/inspector_loader.gif) no-repeat center center; }
 
+body.loading #main #document { background: #fff url(../images/document_loader.gif) no-repeat center center; }
+
 body.loading #inspector .content { display: none; }
 
 #footer { height: 50px; background: #ececec; border-top: 1px solid #dfdfdf; position: absolute; bottom: 0px; width: 100%; }
