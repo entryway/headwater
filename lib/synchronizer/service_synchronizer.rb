@@ -56,7 +56,7 @@ module Synchronizer
     def push_object(local_object)
       object_name = @factory.object_name.to_sym
       changes = {}
-      local_object.class.synchronizable_fields(:push).each do |atr|
+      @factory.synchronizable_fields(:push).each do |atr|
         value = local_object.send(atr)
         changes[atr.to_s] = value
       end
@@ -67,11 +67,13 @@ module Synchronizer
         @service.update(object_name, local_object._remote_id, changes)
       else
         result = @service.create(object_name, changes)
-        local_object._remote_id = result['id']
-        local_object.class.synchronizable_fields(:pull).each do |atr|
-          local_object.write_attribute(atr, result[atr.to_s])
+        if result
+          local_object._remote_id = result['id']
+          @factory.synchronizable_fields(:pull).each do |atr|
+            local_object.write_attribute(atr, result[atr.to_s])
+          end
+          local_object.save
         end
-        local_object.save
       end
       
       @service.clear_contexts
@@ -95,8 +97,10 @@ module Synchronizer
           local_object = @factory.new
           local_object.update_remote_id(remote_id)
         end
-        remote_object_hash.each do |key, value|
-          local_object.send("#{key}=", value)
+        fields = @factory.synchronizable_fields(:pull)
+        fields.each do |field|
+          value = remote_object_hash[field.to_s]
+          local_object.send("#{field}=", value)
         end
         local_object.save
       end

@@ -92,10 +92,11 @@ EOF
         @syncer.service = @service
         @object = mock('object_123')
         @object.stubs(:name).returns("just_another_name")
-        @object.stubs(:synchronizable_fields).returns([:name])
+        @object.stubs(:write_attribute)
         @object.stubs(:contexts).returns({})
         factory_class = mock('MyObject')
         factory_class.stubs(:object_name).returns("my_object")
+        factory_class.stubs(:synchronizable_fields).returns([:name])
         @syncer.factory = factory_class
       end
       
@@ -143,6 +144,7 @@ EOF
         @factory_class.stubs(:object_name).returns("my_object")
         @factory_class.stubs(:with_remote_id).with(1).returns(@object_1)
         @factory_class.stubs(:with_remote_id).with(2).returns(@object_2)
+        @factory_class.stubs(:synchronizable_fields).with(:pull).returns([:name])
         @syncer.service = @service
         @syncer.factory = @factory_class
       end
@@ -155,10 +157,12 @@ EOF
     <my_object>
       <id type="integer">1</id>
       <name>updated first</name>
+      <nosync>something</nosync>
     </my_object>
     <my_object>
       <id type="integer">2</id>
       <name>updated second</name>
+      <nosync>something else</nosync>
     </my_object>
   </my_objects>
   EOF

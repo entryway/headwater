@@ -51,9 +51,7 @@ class Story
   
   def current_state=(new_state)
     write_attribute :current_state, new_state
-    if new_state == 'accepted'
-      state = 'archived'
-    elsif ['delivered', 'finished'].include?(new_state)
+    if ['accepted', 'delivered', 'finished'].include?(new_state)
       state = 'done'
     elsif new_state == 'started'
       state = 'current'
@@ -69,8 +67,6 @@ class Story
       current_state = 'finished'
     elsif new_state == 'current'
       current_state = 'started'
-    elsif new_state == 'archived'
-      current_state = 'accepted'
     end
     write_attribute :current_state, current_state
   end
