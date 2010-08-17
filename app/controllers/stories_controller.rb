@@ -17,8 +17,8 @@ class StoriesController < ProjectsController
   
   def show
     @story = Story.find(params[:id])
-    @time_entries = @story.active_time_entries
-    @time_entry = TimeEntry.find_or_create_by(:date => Date.today.to_s, :story_id => @story.id)
+    @time_entries = @story.archived_time_entries
+    @time_entry = TimeEntry.find_or_create_by({:date => Date.today.to_s, :story_id => @story.id})
   end
   
   def update
@@ -49,5 +49,9 @@ class StoriesController < ProjectsController
     respond_to do |wants|
       wants.html { redirect_to project_stories_path(@project) }
     end
+  end
+  
+  def edit
+    @story = Story.find(params[:id])
   end
 end

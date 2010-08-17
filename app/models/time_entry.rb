@@ -2,7 +2,7 @@ class TimeEntry
   include Mongoid::Document
   include Synchronizable
   
-  field :created_at, :type => Date
+  field :date, :type => String
   field :started_at, :type => DateTime
   field :last_started_at, :type => DateTime
   field :is_running, :type => Boolean
@@ -26,6 +26,8 @@ class TimeEntry
   synchronize_field :spent_at => :push
   synchronize_field :project_id => :push
   synchronize_field :task_id => :push
+  
+  scope :archived, :where => {:length.exists => true, :started_at.ne => nil}
   
   def notes
     note

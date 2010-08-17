@@ -1,4 +1,8 @@
 class TimeEntriesController < ProjectsController
+  def index
+    @entries = TimeEntry.archived
+  end
+  
   def new
     @story = Story.find(params[:story_id])
     @entry = TimeEntry.new(:story => @story)

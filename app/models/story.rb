@@ -48,8 +48,8 @@ class Story
     Project.where(:_remote_id => project_id).first
   end
   
-  def active_time_entries
-    TimeEntry.where(:story_id => self.id, :length.exists => true, :length.ne => 0)
+  def archived_time_entries
+    TimeEntry.archived.where(:story_id => self.id)
   end
   
   def time_entries

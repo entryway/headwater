@@ -1,0 +1,13 @@
+- if @time_entry.is_running
+  Running.
+  %a{:href => pause_time_entry_path(@time_entry), :class => "ajax unique"} Pause
+- else
+  Stopped.
+  %a{:href => start_time_entry_path(@time_entry), :class => "ajax"} Start
+%br
+  Length before:
+  %strong= @time_entry.length
+  %br
+  Current length:
+  %strong= @time_entry.current_length
+  %br

@@ -1,0 +1,17 @@
+- form_for [@project, @story] do |f|
+  = f.label :name
+  = f.text_field :name
+  %br
+  = f.label :story_type
+  = f.select :story_type, Story::TYPES
+  %br
+  = f.label :current_state
+  = f.select :current_state, Story::STATES
+  %br
+  = f.label :description
+  = f.text_area :description
+  %br
+  = f.label :estimate
+  = f.text_field :estimate
+  %br
+  = f.submit

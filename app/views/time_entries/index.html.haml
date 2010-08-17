@@ -1,0 +1,11 @@
+.content
+  %h3 Time entries
+  
+  %ul
+    - @entries.each do |entry|
+      %li[entry]
+        = entry.date
+        %br
+        = entry.total_length
+        %br
+        = link_to "Remove", remove_time_entry_path(entry), :class => "ajax"

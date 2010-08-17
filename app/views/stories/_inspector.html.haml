@@ -1,35 +1,37 @@
-.clearfix
-  .content.fl
-    - form_for [@project, @story] do |f|
-      %h3= @story.name
-  
-      State:
-      %strong
-        = f.select :current_state, Story::STATES
-      %br
-  
-      Updated at:
-      %strong= @story.updated_at
-      %br
-  
-      Estimate:
-      %strong
-        = f.text_field :estimate
-  
-      %p.description= @story.description
-    
-      = f.submit
-    
-  .content.fl
-    %h3 Time tracking
-    
-    
-    %ul.time_entries
-      = render :partial => "time_entries/time_entry", :collection => @time_entries
-    .time_tracker
-      = render :partial => "time_entries/tracker"
-    
+.content
+  - form_for [@project, @story] do |f|
+    %h3= @story.name
+
+    State:
+    %strong
+      = f.select :current_state, Story::STATES
     %br
+
+    Updated at:
+    %strong= @story.updated_at
+    %br
+
+    Estimate:
+    %strong
+      = f.text_field :estimate
+
+    %p.description= @story.description
+  
+    = f.submit
     
     .clearfix
-      %a.tab{:href => new_time_entry_path(:story_id => @story)} Add entry
+      %a.tab{:href => edit_project_story_path} Edit
+  
+.content
+  %h3 Time tracking
+  
+  
+  %ul.time_entries
+    = render :partial => "time_entries/time_entry", :collection => @time_entries
+  .time_tracker
+    = render :partial => "time_entries/tracker"
+  
+  %br
+  
+  .clearfix
+    %a.tab{:href => new_time_entry_path(:story_id => @story)} Add entry
