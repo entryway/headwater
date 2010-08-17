@@ -23,17 +23,11 @@
   .content.fl
     %h3 Time tracking
     
-    %ul.simple
-      - @story.time_entries.each do |entry|
-        %li
-          Started at:
-          = entry.started_at
-          %br
-          Length:
-          = entry.length
-          %br
-          Notes:
-          = entry.note
+    
+    %ul.time_entries
+      = render :partial => "time_entries/time_entry", :collection => @time_entries
+    .time_tracker
+      = render :partial => "time_entries/tracker"
     
     %br
     

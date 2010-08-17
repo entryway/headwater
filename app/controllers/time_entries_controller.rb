@@ -15,4 +15,35 @@ class TimeEntriesController < ProjectsController
     @entry.save
     redirect_to story.project
   end
+  
+  def show
+    @time_entry = TimeEntry.find(params[:id])
+  end
+  
+  def start
+    @time_entry = TimeEntry.find(params[:id])
+    @time_entry.start
+    respond_to do |wants|
+      wants.json { render :json => @time_entry }
+      wants.js { render :action => :show }
+    end
+  end
+  
+  def pause
+    @time_entry = TimeEntry.find(params[:id])
+    @time_entry.pause
+    respond_to do |wants|
+      wants.json { render :json => @time_entry }
+      wants.js { render :action => :show }
+    end
+  end
+  
+  def remove
+    @time_entry = TimeEntry.find(params[:id])
+    @time_entry.destroy
+    
+    respond_to do |wants|
+      wants.js
+    end
+  end
 end

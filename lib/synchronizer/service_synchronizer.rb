@@ -61,8 +61,9 @@ module Synchronizer
         changes[atr.to_s] = value
       end
       
-      # Update it remotely
+      local_object.before_push(self) if local_object.respond_to?(:before_push)
       @service.set_contexts(local_object.contexts)
+      
       if local_object._remote_id
         @service.update(object_name, local_object._remote_id, changes)
       else
@@ -76,6 +77,7 @@ module Synchronizer
         end
       end
       
+      local_object.after_push(self) if local_object.respond_to?(:after_push)
       @service.clear_contexts
     end
     

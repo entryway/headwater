@@ -34,7 +34,7 @@ ul.simple { list-style-type: none; padding: 0px; margin: 0px; }
 
 #main { position: absolute; top: 50px; bottom: 50px; left: 0px; right: 0px; }
 
-#main #sidebar { background: #f1f4f8; border-right: 1px solid #c5d1de; width: 199px; position: absolute; top: 0px; bottom: 0px; left: 0px; }
+#main #sidebar { background: #f1f4f8; border-right: 1px solid #c5d1de; width: 199px; position: absolute; top: 0px; bottom: 0px; left: 0px; display: none; }
 
 #main #sidebar h2 { margin-left: 15px; margin-top: 10px; }
 
@@ -58,11 +58,11 @@ ul.navigation li.active a { color: #fff; font-weight: bold; text-shadow: #62778f
 
 /* @end */
 
-#main #document { position: absolute; left: 200px; background: #fff; top: 0px; bottom: 0px; right: 0px; overflow: auto; }
+#main #document { position: absolute; left: 0px; background: #fff; top: 0px; bottom: 0px; right: 0px; overflow: auto; }
 
 #main #document.with_inspector { bottom: 250px; }
 
-#main #inspector { background: #f3f3f3; position: absolute; left: 200px; bottom: 0px; right: 0px; height: 250px; border-top: 1px solid #ccc; overflow: auto; }
+#main #inspector { background: #f3f3f3; position: absolute; right: 0px; width: 250px; top: 0px; bottom: 0px; border-left: 1px solid #bbb; }
 
 body.loading #main #inspector { background: #f3f3f3 url(../images/inspector_loader.gif) no-repeat center center; }
 
@@ -70,11 +70,23 @@ body.loading #inspector .content { display: none; }
 
 #footer { height: 50px; background: #ececec; border-top: 1px solid #dfdfdf; position: absolute; bottom: 0px; width: 100%; }
 
-#footer_side { width: 200px; position: absolute; top: 0px; bottom: 0px; }
+#footer_side { width: 200px; position: absolute; top: 0px; bottom: 0px; right: 0px; }
 
-#footer_main { position: absolute; left: 200px; right: 0px; }
+#footer_main { position: absolute; right: 200px; right: 0px; left: 0px; }
 
 #footer .content { padding-top: 11px; }
+
+/* @group Special views */
+
+body.projects #main #sidebar { display: block; }
+
+body.projects #main #document { left: 200px; }
+
+body.with_inspector #main #document { right: 250px; }
+
+
+
+/* @end */
 
 /* @end */
 
@@ -94,9 +106,17 @@ p.description { color: #808080; }
 
 ul.stories { padding: 0px; margin: 0px; }
 
-ul.stories li { padding: 10px; margin-bottom: 5px; }
+ul.stories li { padding: 10px; margin-bottom: 0; cursor: pointer; background-image: url(../images/story_background.png); }
 
-ul.stories li.selected { background-color: #507dbb; color: #fff; }
+ul.stories li.current { background-position: 0 0; }
+
+ul.stories li.upcoming { background-position: 0 -60px; }
+
+ul.stories li.done { background-position: 0 -120px; }
+
+ul.stories li.selected { background: #507dbb !important; color: #fff; }
+
+ul.stories li div.state_box { padding-top: 6px; }
 
 ul.stories div.state { text-transform: uppercase; font-size: 11px; font-weight: bold; padding: 2px 3px 0; padding-right: 1px; }
 
@@ -124,7 +144,11 @@ ul.stories .icon { padding-right: 10px; padding-top: 3px; }
 
 input.message { font-size: 11px; color: #b5b5b5; border-color: #eee; margin: 0px 5px 0px 0px; width: 300px; }
 
-input.message:focus { border-color: #eee; color: #636363; }
+input.message:focus { border-color: #eee; color: #636363; outline: none; }
+
+.story div.messages { display: none; }
+
+.story .name { padding-top: 7px; }
 
 /* @group Selected */
 
@@ -133,6 +157,10 @@ ul.stories li.selected div.state { color: #fffeff; }
 ul.stories li.selected input.message { font-size: 11px; color: #7c9ed0; border: none; margin: 0px 5px 0px 0px; width: 300px; background-color: #4a74af; }
 
 ul.stories li.selected input.message:focus { border-color: #eee; color: #fefcfc; }
+
+.story.selected div.messages { display: block; }
+
+.story.selected .name { padding-top: 0px; font-weight: bold; }
 
 
 

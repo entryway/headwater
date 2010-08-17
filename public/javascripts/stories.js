@@ -47,7 +47,7 @@ Story = {
     $("li.story").removeClass("selected")
     $(story).addClass("selected")
     $("#inspector").removeClass("hidden")
-    $("#document").addClass("with_inspector")
+    $("body").addClass("with_inspector")
     var path = $(story).attr("data-path")
     $.get(path)
   }

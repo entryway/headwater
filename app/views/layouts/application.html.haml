@@ -3,11 +3,11 @@
   %head
     %title Headwater β
     = stylesheet_link_tag "blueprint/screen", "application"
-    = javascript_include_tag "jquery.js", "rails.js"
-    = javascript_include_tag "stories.js"
+    = javascript_include_tag "jquery.js", "rails.js", "inscription.js"
+    = javascript_include_tag "stories.js", "time_tracker.js"
     = csrf_meta_tag
 
-  %body
+  %body{:class => params[:controller]}
     #wrapper
       #header
         .content
@@ -27,6 +27,6 @@
         #inspector.hidden
         
       #footer
-        #footer_side
         #footer_main
           = yield(:footer)
+        #footer_side

@@ -6,7 +6,7 @@ class StoriesController < ProjectsController
   def index
     states = ['done', 'current', 'upcoming']
     
-    @stories = Story.where(:project_id => @project._remote_id, :state.in => states).
+    @stories = Story.where(:project_id => @project._remote_id, :state.in => states, :is_archived => false).
                      order_by(:updated_at.desc).
                      group_by(&:state)
 
@@ -17,10 +17,18 @@ class StoriesController < ProjectsController
   
   def show
     @story = Story.find(params[:id])
+    @time_entries = @story.active_time_entries
+    @time_entry = TimeEntry.find_or_create_by(:date => Date.today.to_s, :story_id => @story.id)
   end
   
   def update
     @story = Story.find(params[:id])
+    state = params[:story].delete(:state)
+    if state == "archived"
+      @story.is_archived = true
+    else
+      @story.state = state
+    end
     @story.update_attributes(params[:story])
     @story.push
     respond_to do |wants|

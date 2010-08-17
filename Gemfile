@@ -18,4 +18,5 @@ group :test do
   gem 'autotest'
   gem 'autotest-rails'
   gem 'spork'
+  gem 'timecop'
 end

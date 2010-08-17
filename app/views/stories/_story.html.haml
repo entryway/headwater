@@ -1,14 +1,15 @@
 %li.clearfix{:class => "story #{story.state}", :id => "story_#{story.id}", :"data-path" => project_story_path(@project, story), :"data-state" => story.state, :"data-type" => story.type}
   .fl.icon
     = image_tag "#{story.story_type}.png"
-  .fl
+  .fl.name
+    = "(%s)" % story.estimate
     = story.name
     
     %a{:href => story.url, :target => "_blank"} T→
-    .clearfix
+    .clearfix.messages
       %input.message.fl{:type => "text", :value => commit_message(story)}
       %input.message.fl{:type => "text", :value => git_flow_message(story)}
-  .fr
+  .fr.state_box
     .state
       = story.state
     .change_state

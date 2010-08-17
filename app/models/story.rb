@@ -25,11 +25,10 @@ class Story
   field :labels
   field :deadline
   field :attachments, :type => Array
+  field :is_archived, :type => Boolean, :default => false
   
   field :state
-  
-  references_many :time_entries, :stored_as => :array, :inverse_of => :story
-  
+    
   synchronize_fields :project_id
   synchronize_fields :story_type
   synchronize_field :url => :pull
@@ -47,6 +46,14 @@ class Story
 
   def project
     Project.where(:_remote_id => project_id).first
+  end
+  
+  def active_time_entries
+    TimeEntry.where(:story_id => self.id, :length.exists => true, :length.ne => 0)
+  end
+  
+  def time_entries
+    TimeEntry.where(:story_id => self.id)
   end
   
   def current_state=(new_state)

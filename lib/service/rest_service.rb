@@ -1,6 +1,6 @@
 module Service
   class RestService < Base
-    attr_accessor :base_url, :header, :root
+    attr_accessor :base_url, :header, :root, :auth
     
     ##
     # Initializes new Rest Service
@@ -8,6 +8,7 @@ module Service
       @header = {}
       @contexts = {}
       @paths = []
+      @object_names = []
       @root = nil
     end
     
@@ -61,16 +62,21 @@ module Service
     # @param [String] URL
     # @return [String] Retrieved data from the URL
     def retrieve(url, method = :get, headers = {}, data = nil)
-      # puts [url, method, headers, data].inspect
-      data = retrieve_with_http(url, method, headers, data)
-      # puts "\e\[32m"
-      # puts data
-      # puts "\e\[0m"
+      puts [url, method, headers, data].inspect
+      data = retrieve_with_typhoeus(url, method, headers, data)
+      puts "\e\[32m"
+      puts data
+      puts "\e\[0m"
       data
     end
     
     def retrieve_with_typhoeus(url, method, headers, data)
-      response = Typhoeus::Request.send(method, url, :headers => @header.merge(headers), :body => data)
+      request_options = {:headers => @header.merge(headers),
+                        :body => data,
+                        :verbose => true}
+      request_options.merge!(auth) if auth
+      puts request_options
+      response = Typhoeus::Request.send(method, url, request_options)
       response.body
     end
     
@@ -137,13 +143,15 @@ module Service
     
     def update(object_type, id, data)
       url = generate_rest_url(:update, object_type, id)
-      xml_data = data.to_xml(:root => object_type.to_s.gsub('-', '_'), :skip_instruct => true)
+      object_name = object_name_for(object_type, :update)
+      xml_data = data.to_xml(:root => object_name, :skip_instruct => true, :dasherize => false)
       result = retrieve(url, :put, {'Content-type' => 'application/xml'}, xml_data)
     end
     
     def create(object_type, data)
       url = generate_rest_url(:create, object_type)
-      xml_data = data.to_xml(:root => object_type.to_s.gsub('-', '_'), :skip_instruct => true)
+      object_name = object_name_for(object_type, :create)
+      xml_data = data.to_xml(:root => object_name, :skip_instruct => true, :dasherize => false)
       result = retrieve(url, :post, {'Content-type' => 'application/xml'}, xml_data)
       data = parse_xml(result)
       data[object_type.to_s] # FIXME refactor this shit into a method
@@ -188,6 +196,30 @@ module Service
         path[:action] == action
       end
       path ? path[:path] : nil
+    end
+    
+    ##
+    # Adds new name for some type of object
+    # @param [Symbol] Object name
+    # @param [String] New object name
+    def add_object_name(object_type, action, new_object_name)
+      @object_names << {
+        :object_type => object_type,
+        :action => action,
+        :new_object_name => new_object_name.to_s
+      }
+    end
+    
+    def object_name_for(object_type, action)
+      object_name = @object_names.find do |object_name|
+        object_name[:object_type] == object_type
+        object_name[:action] == action
+      end
+      object_name = object_name ? object_name[:new_object_name] : nil
+      unless object_name
+        object_name = object_type.to_s.gsub('-', '_')
+      end
+      object_name
     end
   end
 end
