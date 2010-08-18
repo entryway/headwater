@@ -1,11 +1,16 @@
 .content
   %h3 Time entries
   
-  %ul
+  %table
+    %tr
+      %th Date
+      %th Story
+      %th Length
+      %th
+      
     - @entries.each do |entry|
-      %li[entry]
-        = entry.date
-        %br
-        = entry.total_length
-        %br
-        = link_to "Remove", remove_time_entry_path(entry), :class => "ajax"
+      %tr
+        %td= entry.date
+        %td= entry.story.name
+        %td= entry.total_length
+        %td= link_to "Remove", remove_time_entry_path(entry), :class => "ajax"

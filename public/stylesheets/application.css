@@ -26,6 +26,14 @@ ul.simple { list-style-type: none; padding: 0px; margin: 0px; }
 
 /* @group Layout */
 
+/* @group Time Tracker */
+
+#time_tracker { position: absolute; padding: 15px; border: 1px solid #ccc; background: #fff; top: 10px; right: 20px; display: none; }
+
+
+
+/* @end */
+
 .content { padding: 15px; }
 
 #wrapper { position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; overflow: hidden; }

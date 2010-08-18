@@ -3,6 +3,9 @@ Headwater::Application.routes.draw do
     resources :stories
   end
   resources :time_entries do
+    collection do
+      get :current
+    end
     member do
       get :start
       get :pause

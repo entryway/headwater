@@ -20,8 +20,20 @@ class TimeEntriesController < ProjectsController
     redirect_to story.project
   end
   
+  def current
+    @time_entry = TimeEntry.where(:is_running => true).first
+    
+    respond_to do |wants|
+      wants.js
+    end
+  end
+  
   def show
     @time_entry = TimeEntry.find(params[:id])
+
+    respond_to do |wants|
+      wants.html
+    end
   end
   
   def start

@@ -27,7 +27,7 @@ class TimeEntry
   synchronize_field :project_id => :push
   synchronize_field :task_id => :push
   
-  scope :archived, :where => {:length.exists => true, :started_at.ne => nil}
+  scope :archived, :where => {:length.exists => true, :started_at.ne => nil, :is_running.ne => true}
   
   def notes
     note
@@ -49,8 +49,19 @@ class TimeEntry
     356191
   end
   
+  def story
+    Story.find(story_id)
+  end
+  
+  def self.pause_all
+    self.where(:is_running => true).each do |entry|
+      entry.pause
+    end
+  end
+  
   def start
     return false if self.is_running
+    self.class.pause_all
     self.length ||= 0
     self.is_running = true
     time = Time.now

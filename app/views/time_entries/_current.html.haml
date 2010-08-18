@@ -1,0 +1,10 @@
+- if @time_entry
+  Running timer:
+  %strong= @time_entry.story.name
+  == --
+  %strong= @time_entry.total_length
+  minutes
+  == --
+  %a{:href => pause_time_entry_path(@time_entry), :class => "ajax unique"} Pause
+- else
+  No timer running
