@@ -7,9 +7,12 @@ var TimeTracker = function() {
 };
 
 TimeTracker.setup = function() {
-  $("#time_tracker").show();
-  TimeTracker.path = $("#time_tracker").attr('data-path');
-  TimeTracker.update()
+  var time_tracker = $("#time_tracker")
+  if(time_tracker.length > 0) {
+    time_tracker.show();
+    TimeTracker.path = time_tracker.attr('data-path');
+    TimeTracker.update()
+  }
 }
 
 TimeTracker.update = function() {

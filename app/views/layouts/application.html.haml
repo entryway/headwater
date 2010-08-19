@@ -13,17 +13,27 @@
         .content
           = link_to "Projects", projects_path
           = link_to "Time tracking", time_entries_path
+          - if user_signed_in?
+            %br
+            You are logged in:
+            = current_user.email
+            = link_to "Log out", destroy_user_session_path
       #main
         #sidebar
           %h2 Main
           %ul.simple.navigation
             %li= link_to "Dashboard", projects_path
-          %h2 Projects
-          %ul.simple.navigation
-            - @projects.each do |project|
-              %li{:class => viewing?(project) ? "active" : ""}
-                %a{:href => project_path(project)}= project.name
+          - if @projects
+            %h2 Projects
+            %ul.simple.navigation
+              - @projects.each do |project|
+                %li{:class => viewing?(project) ? "active" : ""}
+                  %a{:href => project_path(project)}= project.name
         #document
+          - if flash[:notice]
+            %p.notice= flash[:notice]
+          - if flash[:alert]
+            %p.error= flash[:alert]
           = yield
         #inspector.hidden
         
@@ -31,5 +41,6 @@
         #footer_main
           = yield(:footer)
         
-    #time_tracker{:"data-path" => current_time_entries_path}
-      This is a time tracker!
+    - if user_signed_in?
+      #time_tracker{:"data-path" => current_time_entries_path}
+        This is a time tracker!
