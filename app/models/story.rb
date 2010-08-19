@@ -17,7 +17,7 @@ class Story
   field :requested_by
   field :owned_by
   field :created_at
-  field :updated_at
+  field :updated_at, :type => Time
   field :accepted_at
   field :notes, :type => Array
   field :tasks
@@ -43,6 +43,10 @@ class Story
   synchronize_fields :estimate
   synchronize_fields :labels
   synchronize_fields :deadline
+  
+  before_save do
+    self.updated_at = Time.now
+  end
 
   def project
     Project.where(:_remote_id => project_id).first
@@ -71,7 +75,7 @@ class Story
   def state=(new_state)
     write_attribute :state, new_state
     if new_state == 'done'
-      current_state = 'finished'
+      current_state = 'delivered'
     elsif new_state == 'current'
       current_state = 'started'
     end
