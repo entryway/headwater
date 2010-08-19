@@ -9,18 +9,17 @@ task :sync => :environment do
       puts "(queue is empty)"
     end
     
-    puts "Synchronizing ..."
-    
-    Project.synchronizer.pull_collection
-    Project.all.each do |project|
-      Story.synchronizer.set_context :projects, project._remote_id
-      Story.synchronizer.pull_collection
-    end
-    
     puts "(waiting)"
     
-    sleep 30
+    sleep 1
   end
-  
-  
+end
+
+task :pull => :environment do
+  Project.synchronizer.pull_collection
+
+  Project.all.each do |project|
+    Story.synchronizer.set_context :projects, project._remote_id
+      Story.synchronizer.pull_collection
+  end
 end
