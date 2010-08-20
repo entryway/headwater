@@ -111,6 +111,18 @@ module Service
       Hash.from_xml(xml_string)
     end
     
+    def find_object_in_result(result, object_type, action)
+      data = parse_xml(result)
+      if @root
+        @root.split('/').each { |branch|
+          data = data[branch]
+        }
+        data
+      else
+        data[object_type.to_s] # Pluralize? When? action?
+      end
+    end
+    
     ##
     # List collection of remote objects
     # @param [Symbol] Object type
@@ -119,7 +131,8 @@ module Service
       url = generate_rest_url(:list, object_type)
       data = retrieve_xml(url)
       # FIXME FIXME FIXME: Not only list should use this, but
-      # also show!!! ADD SPEC!!!
+      # also show!!! ADD SPEC!!! And move it to find_object_in_result
+      # but write some specs first ok?
       if @root
         @root.split('/').each { |branch|
           data = data[branch]
@@ -146,6 +159,7 @@ module Service
       object_name = object_name_for(object_type, :update)
       xml_data = data.to_xml(:root => object_name, :skip_instruct => true, :dasherize => false)
       result = retrieve(url, :put, {'Content-type' => 'application/xml'}, xml_data)
+      find_object_in_result(result, object_type, :update)
     end
     
     def create(object_type, data)
@@ -153,8 +167,7 @@ module Service
       object_name = object_name_for(object_type, :create)
       xml_data = data.to_xml(:root => object_name, :skip_instruct => true, :dasherize => false)
       result = retrieve(url, :post, {'Content-type' => 'application/xml'}, xml_data)
-      data = parse_xml(result)
-      data[object_type.to_s] # FIXME refactor this shit into a method
+      find_object_in_result(result, object_type, :create)
     end
     
     ##

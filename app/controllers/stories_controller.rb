@@ -18,7 +18,7 @@ class StoriesController < ProjectsController
   def show
     @story = Story.find(params[:id])
     @time_entries = @story.archived_time_entries
-    @time_entry = TimeEntry.find_or_create_by({:date => Date.today.to_s, :story_id => @story.id})
+    @time_entry = TimeEntry.current_for_story_and_user(@story, current_user)
   end
   
   def update

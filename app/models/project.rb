@@ -24,6 +24,9 @@ class Project
   field :memberships
   field :integrations
   
+  field :harvest_project_id
+  field :harvest_task_id
+  
   synchronize_field :name
   synchronize_field :iteration_length
   synchronize_field :week_start_day

@@ -12,12 +12,13 @@ class TimeEntry
   
   synchronizes_through Synchronizer::ServiceSynchronizer do |sync|
     sync.service = Service::RestService.new
-    sync.service.base_url = "http://#{HARVEST_SUBDOMAIN}.harvestapp.com"
+    sync.service.base_url = "https://#{HARVEST_SUBDOMAIN}.harvestapp.com"
     sync.service.header['Accept'] = 'application/xml'
     sync.service.add_path(:timeentry, :create, '/daily/add')
+    # sync.service.add_path(:time_entry, :update, 'daily/update', 'POST')
     sync.service.add_object_name(:timeentry, :create, 'request')
-    sync.service.root = "timer/day_entry"
-    sync.service.auth = {:username => "vojto@entryway.net", :password => "millennium"}
+    # sync.service.add_object_name(:timeentry, :update, 'request')
+    sync.service.root = "add/day_entry"
     sync.factory = self
   end
   
@@ -27,7 +28,17 @@ class TimeEntry
   synchronize_field :project_id => :push
   synchronize_field :task_id => :push
   
+  referenced_in :user
+  
   scope :archived, :where => {:length.exists => true, :started_at.ne => nil, :is_running.ne => true}
+  
+  def before_push(synchronizer)
+    synchronizer.service.auth = {:username => user.harvest_username, :password => user.harvest_password}
+  end
+  
+  def after_push(synchronizer)
+    synchronizer.service.auth = nil
+  end
   
   def notes
     note
@@ -38,19 +49,35 @@ class TimeEntry
   end
   
   def spent_at
-    date
+    Date.parse(self.date)
   end
   
   def project_id
-    444267
+    story.project.harvest_project_id
   end
   
   def task_id
-    356191
+    story.project.harvest_task_id
   end
   
   def story
     Story.find(story_id)
+  end
+  
+  def self.current_for_story_and_user(story, user)
+    self.find_or_create_by({:date => Date.today.to_s, 
+                            :story_id => story.id,
+                            :user_id => user.id})
+  end
+  
+  def self.new_for_story_and_user(story, user)
+    entry = self.new
+    entry.user = current_user
+    # FIXME should work normally too
+    if story
+      story.time_entries << @entry
+      story.save
+    end
   end
   
   def self.pause_all

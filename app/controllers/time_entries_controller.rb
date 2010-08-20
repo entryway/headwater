@@ -11,12 +11,8 @@ class TimeEntriesController < ProjectsController
   def create
     story_id = params[:time_entry].delete(:story_id)
     story = Story.find(story_id)
-    @entry = TimeEntry.new(params[:time_entry])
-    if story
-      story.time_entries << @entry
-      story.save
-    end
-    @entry.save
+    @entry = TimeEntry.new_for_story_and_user(story, current_user)
+    @entry = TimeEntry.update_attributes(params[:time_entry])
     redirect_to story.project
   end
   

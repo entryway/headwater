@@ -4,6 +4,7 @@
   %table
     %tr
       %th Date
+      %th User
       %th Story
       %th Length
       %th
@@ -11,6 +12,7 @@
     - @entries.each do |entry|
       %tr
         %td= entry.date
+        %td= entry.user
         %td= entry.story.name
         %td= entry.total_length
         %td= link_to "Remove", remove_time_entry_path(entry), :class => "ajax"
