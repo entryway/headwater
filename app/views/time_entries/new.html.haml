@@ -1,21 +1,15 @@
 .content
   %h3 Add time entry
   
-  - form_for @entry do |f|
-  
-    - if @story
-      Story: 
-      = @story.name
-      = f.hidden_field :story_id
-      %br
-      
-    = f.label :started_at
-    = f.text_field :started_at
-    %br
-    = f.label :length
-    = f.text_field :length
-    %br
-    = f.label :note
-    = f.text_field :note
-    %br
-    = f.submit
+  - semantic_form_for @entry do |f|
+    - f.inputs do
+      - if @story
+        Story: 
+        = @story.name
+        = f.input :story_id, :as => :hidden
+
+      = f.input :started_at
+      = f.input :length
+      = f.input :note
+    
+    = f.buttons
