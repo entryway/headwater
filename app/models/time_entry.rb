@@ -8,7 +8,6 @@ class TimeEntry
   field :is_running, :type => Boolean
   field :length, :type => Integer, :default => 0
   field :note, :type => String
-  field :story_id, :type => BSON::ObjectID
   
   synchronizes_through Synchronizer::ServiceSynchronizer do |sync|
     sync.service = Service::RestService.new
@@ -29,6 +28,7 @@ class TimeEntry
   synchronize_field :task_id => :push
   
   referenced_in :user
+  referenced_in :story
   
   scope :archived, :where => {:length.exists => true, :started_at.ne => nil, :is_running.ne => true}
   
