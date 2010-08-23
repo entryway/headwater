@@ -6,13 +6,15 @@
       %th Date
       %th User
       %th Story
-      %th Length
+      %th Minutes
+      %th Hours
       %th
       
     - @entries.each do |entry|
       %tr
         %td= entry.date
         %td= entry.user
-        %td= entry.story.name
+        %td= commit_message(entry.story)
         %td= entry.total_length
+        %td= "%0.2f" % entry.hours
         %td= link_to "Remove", remove_time_entry_path(entry), :class => "ajax"
