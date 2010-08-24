@@ -52,21 +52,25 @@ module Service
     # Generating URLs
     describe "#generate_rest_url" do
       it "should generate list url" do
-        @service.generate_rest_url(:list, :my_object).should == \
+        @service.generate_rest_url(:list, :my_object).path.should == \
           "#{@base_url}/my_objects"
       end
       
       it "should generate show url" do
-        @service.generate_rest_url(:show, :my_object, 123).should == \
+        @service.generate_rest_url(:show, :my_object, 123).path.should == \
           "#{@base_url}/my_objects/123"
       end
       
       it "should generate update url" do
-        @service.generate_rest_url(:update, :my_object, 123).should == \
+        @service.generate_rest_url(:update, :my_object, 123).path.should == \
           "#{@base_url}/my_objects/123"
       end
       
       it "should generate destroy url" do
+        pending
+      end
+      
+      it "should replace id with object id" do
         pending
       end
     end
@@ -158,7 +162,7 @@ EOF
   <name>updated name</name>
 </my-object>'
         expected_url = 'http://chunky.bacon/my_objects/123'
-        stub_request(:put, expected_url)
+        stub_request(:put, expected_url).to_return(:body => response)
         @service.update(:my_object, 123, changes)
         request(:put, expected_url).with(:body => /<name>updated name<\/name>/).should have_been_made
         # FIXME Add specs that checks for hash in response
@@ -197,7 +201,7 @@ EOF
           :second_context => 456
         })
         url = @service.generate_rest_url(:list, :bacon)
-        url.should == "http://chunky.bacon/first_context/123/second_context/456/bacons"
+        url.path.should == "http://chunky.bacon/first_context/123/second_context/456/bacons"
       end
     end
     
@@ -208,28 +212,48 @@ EOF
           :second_context => 456
         })
         url = @service.generate_rest_url(:list, :bacon)
-        url.should == "http://chunky.bacon/first_context/123/second_context/456/bacons"
+        url.path.should == "http://chunky.bacon/first_context/123/second_context/456/bacons"
         @service.clear_contexts
         url = @service.generate_rest_url(:list, :bacon)
-        url.should == "http://chunky.bacon/bacons"
+        url.path.should == "http://chunky.bacon/bacons"
       end
     end
     
     context "with custom path" do
       before :each do
-        @service.add_path(:my_object, :list, "my_objects/all")
+        @service.add_custom_url(:my_object, :list, "my_objects/all")
       end
       
-      describe "#add_path" do
+      describe "#add_custom_url" do
         it "should use custom path for specific object/action" do
-          @service.generate_rest_url(:list, :my_object).should == "http://chunky.bacon/my_objects/all"
+          @service.generate_rest_url(:list, :my_object).path.should == "http://chunky.bacon/my_objects/all"
         end
       end
 
-      describe "#path_for" do
+      describe "#custom_url_for" do
         it "should find custom path" do
-          @service.path_for(:my_object, :list).should == "my_objects/all"
+          @service.custom_url_for(:my_object, :list).path.should == "http://chunky.bacon/my_objects/all"
         end
+      end
+    end
+    
+    context "with custom path and method" do
+      before :each do
+        @service.add_custom_url(:my_object, :update, "my_objects/update", :post)
+      end
+      
+      it "should generate an url" do
+        url = @service.generate_rest_url(:update, :my_object, 1)
+        url.should be_a(Service::Url)
+        url.path.should == 'http://chunky.bacon/my_objects/update'
+        url.method.should == :post
+      end
+      
+      it "should make a request" do
+        expected_url = 'http://chunky.bacon/my_objects/update'
+        stub_request(:post, expected_url)
+        @service.update(:my_object, 1, {})
+        request(:post, expected_url).should have_been_made
       end
     end
     
@@ -270,6 +294,7 @@ EOF
       
       describe "#show" do
         it "should show" do
+          @service.root = "things/hidden/somewhere/my_object"
           object = <<-EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <things>
@@ -285,7 +310,7 @@ EOF
 EOF
           stub_request(:get, "http://chunky.bacon/my_objects/1").to_return(:body => object)
           response = @service.show(:my_object, 1)
-          response.should == {"id" => 1, "name" => "first"}
+          response.should == {"id" => 1, "name" => "updated name"}
         end
       end
     end

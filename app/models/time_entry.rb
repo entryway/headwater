@@ -13,10 +13,10 @@ class TimeEntry
     sync.service = Service::RestService.new
     sync.service.base_url = "https://#{HARVEST_SUBDOMAIN}.harvestapp.com"
     sync.service.header['Accept'] = 'application/xml'
-    sync.service.add_path(:timeentry, :create, '/daily/add')
-    # sync.service.add_path(:time_entry, :update, 'daily/update', 'POST')
+    sync.service.add_custom_url(:timeentry, :create, '/daily/add')
+    sync.service.add_custom_url(:timeentry, :update, 'daily/update/:id', :post)
     sync.service.add_object_name(:timeentry, :create, 'request')
-    # sync.service.add_object_name(:timeentry, :update, 'request')
+    sync.service.add_object_name(:timeentry, :update, 'request')
     sync.service.root = "add/day_entry"
     sync.factory = self
   end
@@ -114,5 +114,6 @@ class TimeEntry
     self.last_started_at = nil
     self.is_running = false
     self.save
+    self.push
   end
 end
