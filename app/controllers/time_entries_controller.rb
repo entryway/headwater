@@ -19,6 +19,11 @@ class TimeEntriesController < ProjectsController
   def current
     @time_entry = TimeEntry.where(:is_running => true).first
     
+    if !@time_entry && params[:story_id]
+      story = Story.find(params[:story_id])
+      @time_entry = TimeEntry.current_for_story_and_user(story, current_user)
+    end
+    
     respond_to do |wants|
       wants.js
     end

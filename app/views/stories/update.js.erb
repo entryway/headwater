@@ -1,6 +1,9 @@
 $("li.story#story_<%= @story.id %>").replaceWith("<%= escape_javascript(render(:partial => "story", :object => @story)) %>");
 var story = $("li.story#story_<%= @story.id %>");
 Story.select(story);
+$("#inspector").html("<%= escape_javascript(render(:partial => "inspector")) %>");
+new StoryInspector($("#inspector"));
 <%- if @story.is_archived %>
   $("li.story#story_<%= @story.id %>").slideUp();
+	Story.deselect();
 <%- end %>

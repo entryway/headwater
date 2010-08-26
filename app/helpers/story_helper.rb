@@ -34,4 +34,23 @@ module StoryHelper
     end
     "git flow feature #{type} #{story.name.gsub(/[\s-\.]+/, '_').downcase}_#{story._remote_id}"
   end
+  
+  def estimate_select(form, field = :estimate)
+    options = form.object.project.point_scale.split(',')
+    form.select(field, options_for_select(options, form.object.send(field).to_s))
+  end
+  
+  def type_select(form, field = :story_type)
+    options = Story::TYPES.collect { |type|
+      [I18n.t(type), type]
+    }
+    form.select(field, options_for_select(options, form.object.send(field).to_s))
+  end
+  
+  def state_select(form, field = :current_state)
+    options = Story::STATES.collect { |state| 
+      [I18n.t(state), state]
+    }
+    form.select(field, options_for_select(options, form.object.send(field).to_s))
+  end
 end

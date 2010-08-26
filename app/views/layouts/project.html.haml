@@ -6,6 +6,7 @@
     #wrapper
       #header
         %h1.logo= link_to 'Headwater', projects_path
+        .loader
         #user_status
           = link_to 'Project settings', edit_project_path(@project)
           = link_to 'Account settings', edit_registration_path(current_user)

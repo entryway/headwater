@@ -1,37 +1,38 @@
-.content
-  - form_for [@project, @story] do |f|
-    %h3= @story.name
+.story_inspector
+  .story_action_buttons
+    - if @story.state == "upcoming"
+      %a{:href => "#", :class => "story_action start", :"data-state" => 'current'} Mark as started
+    - if @story.state == "current"
+      %a{:href => "#", :class => "story_action finish", :"data-state" => 'done'} Mark as finished
+    - if @story.state == "done"
+      %a{:href => "#", :class => "story_action archive", :"data-state" => 'archived'} Move to archive
 
-    State:
-    %strong
-      = f.select :current_state, Story::STATES
-    %br
-
-    Updated at:
-    %strong= @story.updated_at
-    %br
-
-    Estimate:
-    %strong
-      = f.text_field :estimate
-
-    %p.description= @story.description
-  
-    = f.submit
-    
-    .clearfix
-      %a.tab{:href => edit_project_story_path} Edit
-  
-.content
-  %h3 Time tracking
-  
-  
-  %ul.time_entries
-    = render :partial => "time_entries/time_entry", :collection => @time_entries
-  .time_tracker
-    = render :partial => "time_entries/tracker"
-  
-  %br
-  
-  .clearfix
-    %a.tab{:href => new_time_entry_path(:story_id => @story)} Add entry
+  .content
+    - form_for [@project, @story], :html => {:class => "story"} do |f|
+      .view
+        %h3= @story.name
+        %p.description= @story.description
+        %a{:href => edit_project_story_path(@project, @story), :class => "edit"} Edit
+      
+      .edit.hidden
+        = f.text_field :name, :class => "name"
+        = f.text_area :description
+        %div.clearfix
+          .fl.label
+            %label{:for => "story_estimate"} Estimate:
+          .fl
+            = estimate_select(f)
+        %div.clearfix
+          .fl.label
+            %label{:for => "story_type"} Type:
+          .fl
+            = type_select(f)
+        %div.clearfix
+          .fl.label
+            %label{:for => "story_type"} State:
+          .fl
+            = state_select(f)
+        .clearfix.buttons
+          %a{:class => "button small save", :href => "#"}
+            %span Save
+          %a.fr{:class => "cancel", :href => "#"} Cancel

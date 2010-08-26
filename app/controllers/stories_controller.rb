@@ -26,7 +26,7 @@ class StoriesController < ProjectsController
     state = params[:story].delete(:state)
     if state == "archived"
       @story.is_archived = true
-    else
+    elsif state
       @story.state = state
     end
     @story.update_attributes(params[:story])

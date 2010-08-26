@@ -60,6 +60,8 @@ ul.simple { list-style-type: none; padding: 0px; margin: 0px; }
 
 h1, h2, h3 { font: 14px 'MentoneSemiBold', 'Lucida Grande'; }
 
+h3 { color: #4a4f57; text-shadow: #fff 0 1px 0; }
+
 p.description { color: #808080; }
 
 /* @end */
@@ -77,6 +79,10 @@ body { background-image: url(../images/background.png); }
 #header h1.logo { font: 14px 'MentoneSemiBold', 'Lucida Grande'; color: #4e668a; padding-left: 16px; padding-top: 7px; }
 
 #header h1.logo a { color: #4e668a; }
+
+body.loading #header h1.logo a { color: #7194c8; }
+
+body.loading #header .loader { width: 16px; height: 16px; position: absolute; top: 9px; left: 100px; z-index: 1000; background-image: url(../images/header_loader.gif); }
 
 #status { position: absolute; left: 0px; right: 0px; height: 40px; color: #fff; }
 
@@ -135,15 +141,13 @@ ul.navigation { width: 100%; list-style-type: none; padding: 0px; }
 
 /* @end */
 
-#main #document { position: absolute; left: 0px; background: #fff; top: 0px; bottom: 0px; right: 0px; overflow: auto; }
+#main #document { position: absolute; left: 0px; top: 0px; bottom: 0px; right: 0px; overflow: auto; background-color: #e6e9ed; }
 
 #main #document.with_inspector { bottom: 250px; }
 
-#main #inspector { background: #f3f3f3; position: absolute; right: 0px; width: 250px; top: 0px; bottom: 0px; border-left: 1px solid #bbb; }
+#main #inspector { background: #f3f3f3 url(../images/inspector_background.png); position: absolute; right: 0px; width: 250px; top: 0px; bottom: 0px; border-left: 1px solid #bbb; }
 
-body.loading #main #inspector { background: #f3f3f3 url(../images/inspector_loader.gif) no-repeat center center; }
-
-body.loading #inspector .content { display: none; }
+#main #inspector p { color: #939393; font-size: 12px; text-shadow: #fff 0 1px 0; }
 
 #footer { height: 50px; background: #ececec; border-top: 1px solid #dfdfdf; position: absolute; bottom: 0px; width: 100%; }
 
@@ -169,7 +173,7 @@ body.with_inspector #main #document { right: 250px; }
 
 /* @group Stories */
 
-ul.stories { padding: 0px; margin: 0px; }
+ul.stories { padding: 0px; margin: 0px; border-style: solid; border-bottom-width: 1px; border-bottom-color: #e1e1e1; }
 
 ul.stories li { margin-bottom: 0; cursor: pointer; height: 43px; background: url(../images/story_background.png) 0 -86px; }
 
@@ -213,6 +217,48 @@ ul.stories li .details .points { padding-right: 10px; padding-left: 15px; backgr
 
 ul.stories li .details .comments { padding-right: 10px; background: url(../images/story_icons_small.png) no-repeat 0 -18px; padding-left: 18px; }
 
+/* @group Inspector */
+
+.story_inspector {  }
+
+.story_inspector a.edit { display: block; background-image: url(../images/inspector_links.png); width: 60px; text-indent: -9999px; }
+
+.story_inspector a.cancel { display: block; width: 60px; text-indent: -9999px; background: url(../images/inspector_links.png) 0 -40px; margin-top: 2px; }
+
+.story_inspector a.save { margin-left: 3px; }
+
+.story_inspector div.edit input.name { width: 210px; padding: 5px; color: #4a4f57; font: 14px 'MentoneSemiBold', 'Lucida Grande'; }
+
+.story_inspector div.edit textarea { width: 210px; color: #6a6a6a; height: 80px; }
+
+.story_inspector .buttons { margin-top: 8px; }
+
+.story_inspector label { color: #a0a6a9; font-weight: normal; font-style: normal; }
+
+.story_inspector .label { width: 70px; padding-top: 4px; }
+
+/* Buttons */
+
+.story_inspector .story_action_buttons { background: url(../images/story_action_buttons_background.png) 0 bottom; padding: 15px 15px 15px 25px; }
+
+a.story_action { display: block; width: 197px; background-image: url(../images/story_action_buttons.png); height: 37px; text-indent: -9999px; }
+
+a.story_action.start { background-position: 0 -148px; }
+
+a.story_action.start:active { background-position: 0 -185px; }
+
+a.story_action.archive { background-position: 0 -74px; }
+
+a.story_action.archive:active { background-position: 0 -111px; }
+
+a.story_action.finish { background-position: 0 0px; }
+
+a.story_action.finish:active { background-position: 0 -37px; }
+
+
+
+/* @end */
+
 /* @group Filter */
 
 #filter { }
@@ -234,7 +280,17 @@ a.tab:last-child { border-right: 1px solid #c5c5c5; -webkit-border-top-right-rad
 
 a.tab:first-child { -webkit-border-top-left-radius: 3px; -webkit-border-bottom-left-radius: 3px; -moz-border-radius-topleft: 3px; -moz-border-radius-bottomleft: 3px; }
 
+a.button.small { display: block; background: url(../images/button_small_end.png) no-repeat right 0; float: left; }
 
+a.button.small span { display: block; background: url(../images/button_small.png) no-repeat 0 0; margin-right: 11px; font-size: 11px; font-weight: bold; color: #6d88ae; text-transform: uppercase; padding: 3px 2px 2px 12px; text-shadow: #c0ccdd 0 1px 0; }
+
+a.button.small:active { background-position: right -50px; }
+
+a.button.small:active span { background-position: 0 -50px; }
+
+a.button.small.disabled { background-position: right -100px; }
+
+a.button.small.disabled span { background-position: 0 -100px; color: #9e9fa2; text-shadow: #d3d6da 0 1px 0; }
 
 /* @end */
 

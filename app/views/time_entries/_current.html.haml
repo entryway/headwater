@@ -2,7 +2,10 @@
   - if @time_entry
     .fr.clock
       %strong= format_as_time(@time_entry.current_length)
-      %a.toggle{:href => pause_time_entry_path(@time_entry), :class => "ajax unique"} Toggle
+      - if @time_entry.is_running?
+        %a.toggle.pause{:href => pause_time_entry_path(@time_entry), :class => "ajax unique"} Pause
+      - else
+        %a.toggle.start{:href => start_time_entry_path(@time_entry), :class => "ajax unique"} Start
     .fr.entry
       = @time_entry.story.name
   - else

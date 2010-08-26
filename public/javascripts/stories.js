@@ -1,59 +1,138 @@
 jQuery(function($){
   $(document).ready(function() {
     Story.setup()
-    Story.setup_once()
+		// StoryInspector.setup()
     StoryFilter.setup()
-  });
-  $(document).ajaxStart(function() {
-    $("body").addClass("loading")
-  })
-  $(document).ajaxComplete(function() {
-    Story.setup()
-    $("body").removeClass("loading")
   });
 });
 
-Story = {
+var Story = {
   setup: function() {
-    $("li.story").each(function() {
-      Story.recognize(this)
-    })
-  },
-  setup_once: function() {
     $("li.story").live('click', function() {
       Story.select(this)
-    });
-  },
-  recognize: function(element) {
-    var story = $(element)
-    story.find("a.change-state").live('click', function() {
-      var path = $(this).attr('href')
-      var data = {"_method" : "put", 
-                  "story[state]" : $(this).attr('data-state')}
-      $.post(path, data, function(){}, "script")
-      
-      return false;
-    });
-    story.find("input.message").mouseup(function(e) {
-      e.preventDefault();
-    });
-    story.find("input.message").focus(function() {
-      this.select();
+			Story.loadSelected();
     });
   },
   
   select: function(story) {
-    $("body").addClass("loading")
     $("li.story").removeClass("selected")
     $(story).addClass("selected")
     $("#inspector").removeClass("hidden")
+		// $("#inspector").animate({opacity: 0});
     $("body").addClass("with_inspector")
-    var path = $(story).attr("data-path")
-    $.get(path)
-  }
+		Story.selected_story = story;
+		$(document).trigger('story-selected');
+  },
+
+	deselect: function() {
+		$("li.story").removeClass("selected")
+		$(document).trigger('story-deselected')
+	},
+
+	loadSelected: function() {
+		var path = $(Story.selected_story).attr("data-path")
+    $.get(path, function() {
+    	// $("#inspector").animate({opacity: 1});
+    });
+	}
 }
 
-StoryFilter = {
+var StoryInspector = function(element) {
+	this.element = element;
+	element.data('inspector', this);
+	this.setup();
+};
+
+StoryInspector.prototype.setup = function() {
+	var self = this;
+	$(self.element).find(".view a.edit").click(function() {
+		self.edit(this);
+		return false;
+	});
+	$(self.element).find(".edit a.cancel").click(function() {
+		self.cancel(this);
+		return false;
+	});
+	$(self.element).find(".edit a.save").click(function() {
+		self.save(this);
+		return false;
+	});
+	$(self.element).find('a.story_action').click(function() {
+		self.changeState(this);
+		return false;
+	})
+	$(document).bind('story-deselected', function() {
+		$("#inspector").contents().remove();
+	});
+}
+
+StoryInspector.prototype.edit = function(element) {
+	var self = this;
+	self.element.find('div.view').addClass('hidden');
+	self.element.find('div.edit').removeClass('hidden');
+	var save_span = $(self.element).find('div.edit a.save span');
+	save_span.text(save_span.data('originalText'));
+	var action_buttons = self.element.find('.story_action_buttons');
+	// var originalHeight = action_buttons.height();
+	// action_buttons.data('originalHeight', originalHeight);
+	// action_buttons.animate({opacity: 0, height: 0});
+	// .animate({opacity: 0}).slideUp();
+	action_buttons.animate({opacity: 0}, 300);
+	action_buttons.slideUp(300);
+	action_buttons.dequeue();
+};
+
+StoryInspector.prototype.cancel = function(element) {
+	var self = this;
+	self.element.find('div.view').removeClass('hidden');
+	self.element.find('div.edit').addClass('hidden');
+	var action_buttons = self.element.find('.story_action_buttons');
+	action_buttons.animate({opacity: 1}, 300);
+	action_buttons.slideDown(300);
+	action_buttons.dequeue();
+};
+
+StoryInspector.prototype.save = function(trigger) {
+	var self = this;
+	var form = self.element.find("form.story");
+	var path = form.attr('action');
+	var data = form.serialize();
+	var trigger_span = $(trigger).find('span');
+	$(trigger_span).data('originalText', $(trigger_span).text());
+	$(trigger_span).text('Saving ...');
+	$(trigger).addClass("disabled");
+	$.ajax({
+		type: 'POST',
+		url: path,
+		data: data,
+		complete: function(response) {
+			$(trigger).removeClass("disabled");
+			self.cancel();
+		},
+		dataType: 'script'
+	});
+};
+
+StoryInspector.prototype.changeState = function(trigger) {
+	var self = this;
+	var state = $(trigger).attr('data-state');
+	var path = self.element.find('form.story').attr('action');
+	
+	var data = {
+		"_method": "put",
+		"story[state]": state
+	};
+	
+	$.ajax({
+		url: path,
+		type: 'POST',
+		data: data,
+		dataType: 'script'
+	});
+	
+}
+
+var StoryFilter = {
   state_filter: {},
   setup: function() {
     this.state_filter = {
