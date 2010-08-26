@@ -76,9 +76,9 @@ module Service
     # @param [String] URL
     # @return [String] Retrieved data from the URL
     def retrieve(url, method = :get, headers = {}, data = nil)
-      # puts [url, method, headers, data].inspect
-      # data = retrieve_with_typhoeus(url, method, headers, data)
-      data = retrieve_with_http(url, method, headers, data)
+      puts [url, method, headers, data].inspect
+      data = retrieve_with_typhoeus(url, method, headers, data)
+      # data = retrieve_with_http(url, method, headers, data)
       # puts "\e\[32m"
       # puts data
       # puts "\e\[0m"
@@ -118,6 +118,7 @@ module Service
     
     def find_object_in_result(result, object_type, action)
       data = result
+      # puts result
       if @root
         @root.split('/').each { |branch|
           data = data[branch]
@@ -220,6 +221,7 @@ module Service
     ##
     # Adds new name for some type of object
     # @param [Symbol] Object name
+    # @param [Symbol] Action
     # @param [String] New object name
     def add_object_name(object_type, action, new_object_name)
       @object_names << {

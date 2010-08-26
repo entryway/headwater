@@ -8,11 +8,15 @@ task :sync => :environment do
     while true do
       puts "‹Thread/Pull› Starting\n"
       locked = true
-      Project.synchronizer.pull_collection
-      Project.all.each do |project|
-        # puts "‹Thread/Pull› Pulling project #{project.name}\n"
-        Story.synchronizer.set_context :projects, project._remote_id
-        Story.synchronizer.pull_collection
+      begin
+        Project.synchronizer.pull_collection
+        Project.all.each do |project|
+          # puts "‹Thread/Pull› Pulling project #{project.name}\n"
+          Story.synchronizer.set_context :projects, project._remote_id
+          Story.synchronizer.pull_collection
+        end
+      rescue
+        puts "‹Thread/Pull› FAILED\n"
       end
       puts "‹Thread/Pull› Finished\n"
       locked = false
