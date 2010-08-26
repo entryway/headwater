@@ -1,0 +1,119 @@
+/* @override 
+	http://localhost:3000/themes/cwl/stylesheets/screen.css?1
+	http://codingwithlove.com/themes/cwl/stylesheets/screen.css?1
+	http://localhost:3003/themes/cwl/stylesheets/screen.css?1
+*/
+
+/* @group Typo */
+
+/*
+ * Web Fonts from fontspring.com
+ *
+ * All OpenType features and all extended glyphs have been removed.
+ * Fully installable fonts can be purchased at http://www.fontspring.com
+ *
+ * The fonts included in this stylesheet are subject to the End User License you purchased
+ * from Fontspring. The fonts are protected under domestic and international trademark and 
+ * copyright law. You are prohibited from modifying, reverse engineering, duplicating, or
+ * distributing this font software.
+ *
+ * (c) 2010 Fontspring
+ *
+ *
+ *
+ *
+ * The fonts included are copyrighted by the vendor listed below.
+ *
+ * Vendor:      Paragraph
+ * License URL: http://www.fontspring.com/fflicense/paragraph
+ *
+ *
+ */
+
+@font-face {
+	font-family: 'MentoneSemiBold';
+	src: url('mentone-semibol-webfont.eot');
+	src: local('☺'), url('mentone-semibol-webfont.woff') format('woff'), url('mentone-semibol-webfont.ttf') format('truetype'), url('mentone-semibol-webfont.svg#webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+
+body { color: #595959; font: 12px Helvetica, Arial, Tahoma; }
+
+h1 {  }
+
+h2 { font-size: 18px; color: #5181bc; font-weight: 500; font-family: 'MentoneSemiBold', Helvetica, Arial, sans-serif; margin-bottom: 0; }
+
+h2 a { font-size: 18px; color: #5181bc; text-decoration: none; font-weight: 500; }
+
+h2 a:hover { font-size: 18px; color: #4071c2 !important; text-decoration: none; font-weight: 500; }
+
+h3 { font-size: 12pt; color: #5c5c5c; margin-bottom: 12px; font-family: 'MentoneSemiBold', Helvetica, Arial, sans-serif; }
+
+h3.about { background: url(../images/icons.png) no-repeat; padding-left: 40px; padding-top: 9px; padding-bottom: 2px; }
+
+h3.bookmarks { background: url(../images/icons.png) no-repeat 0px -90px; padding-left: 40px; padding-top: 9px; padding-bottom: 2px; }
+
+h4 { font-family: 'MentoneSemiBold', Helvetica, Arial, sans-serif; }
+
+a { color: #424242; }
+
+
+
+/* @end */
+
+/* @group Layout */
+
+body { background: url(../images/background.png) repeat-x; }
+
+.wrapper { background: url(../images/background_wrapper.png) no-repeat center top; }
+
+h1#logo a { display: block; width: 170px; height: 41px; background: url(../images/logo.png) no-repeat; }
+
+h1#logo a span { display: none; }
+
+#sidebar { margin-left: 30px; }
+
+ul.navigation { list-style: none; font-weight: bold; padding: 9px 0px 0px; }
+
+ul.navigation li { float: left; margin-left: 20px; padding: 5px 10px; -webkit-border-radius: 3px; -moz-border-radius: 3px; }
+
+ul.navigation li.active { background-color: #175cb0; }
+
+ul.navigation li a { color: #fffeff; text-transform: uppercase; text-decoration: none; font: normal normal 12px 'MentoneSemiBold', Helvetica, Arial, sans-serif; text-shadow: #1656a5 0 1px 0; }
+
+p.about { color: #979797; font-size: 12px; }
+
+
+
+/* @end */
+
+.post { margin-bottom: 40px; }
+
+.contents p { margin-bottom: 10px; line-height: 1.7; color: #636363; font-size: 13px; text-align: justify; }
+
+.contents pre { background-color: #333; padding: 20px; color: #fffeff; font: 12px/0.8 Monaco, "Courier New"; }
+
+/* @group Posts */
+
+.post .meta { color: #b6b6b6; font-size: 11px; padding-top: 5px; }
+
+
+
+/* @end */
+
+/* @group Favorites */
+
+ul.favorites { list-style-type: none; margin: 0px; }
+
+ul.favorites li { margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #f1f1f1; }
+
+ul.favorites li a { font-size: 11px; color: #ababab; text-decoration: none; }
+
+ul.favorites li:hover a { color: #959595; }
+
+span.category { text-align: left; background: #bababa; color: #fffeff; padding: 0 3px 1px; -webkit-border-radius: 3px; -moz-border-radius: 3px; font: 10px 'MentoneSemiBold', Helvetica, Arial, sans-serif; }
+
+/* @end */

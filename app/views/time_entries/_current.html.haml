@@ -1,10 +1,13 @@
-- if @time_entry
-  Running timer:
-  %strong= @time_entry.story.name
-  == --
-  %strong= @time_entry.total_length
-  minutes
-  == --
-  %a{:href => pause_time_entry_path(@time_entry), :class => "ajax unique"} Pause
-- else
-  No timer running
+.clearfix
+  - if @time_entry
+    .fr.clock
+      %strong= format_as_time(@time_entry.current_length)
+      %a.toggle{:href => pause_time_entry_path(@time_entry), :class => "ajax unique"} Toggle
+    .fr.entry
+      = @time_entry.story.name
+  - else
+    .fr.clock
+      %strong 00:00
+      %a.toggle.start{:href => "#"} Toggle
+    .fr.entry
+      Select a story

@@ -43,6 +43,7 @@ class Story
   synchronize_fields :estimate
   synchronize_fields :labels
   synchronize_fields :deadline
+  synchronize_fields :notes => :pull
   
   before_save do
     self.updated_at = Time.now

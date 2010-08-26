@@ -7,12 +7,20 @@
       #header
         %h1.logo= link_to 'Headwater', projects_path
         #user_status
-          - if user_signed_in?
-            = link_to 'Account settings', edit_registration_path(current_user)
-            %strong= link_to current_user.email, destroy_user_session_path
+          = link_to 'Project settings', edit_project_path(@project)
+          = link_to 'Account settings', edit_registration_path(current_user)
+          %strong= link_to current_user.email, destroy_user_session_path
         #status
           .content.clearfix
-            %h1
+            .fl
+              %h1= @project.name
+            .fl
+              %ul.navigation.clearfix
+                %li.active
+                  %a{:href => project_path(@project)} Stories
+                %li
+                  %a{:href => time_entries_path} Reports
+          #time_tracker{:"data-path" => current_time_entries_path}          
       #main
         #sidebar
           %h2 Main
@@ -36,4 +44,3 @@
         #footer_main
           = yield(:footer)
         
-    

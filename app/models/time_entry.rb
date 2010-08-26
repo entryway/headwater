@@ -41,7 +41,7 @@ class TimeEntry
   end
   
   def notes
-    note
+    "[##{story._remote_id}] #{story.name}"
   end
   
   def hours

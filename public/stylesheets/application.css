@@ -24,23 +24,99 @@ ul.simple { list-style-type: none; padding: 0px; margin: 0px; }
 
 /* @end */
 
-/* @group Layout */
+/* @group Typo */
 
-/* @group Time Tracker */
+/*
+ * Web Fonts from fontspring.com
+ *
+ * All OpenType features and all extended glyphs have been removed.
+ * Fully installable fonts can be purchased at http://www.fontspring.com
+ *
+ * The fonts included in this stylesheet are subject to the End User License you purchased
+ * from Fontspring. The fonts are protected under domestic and international trademark and 
+ * copyright law. You are prohibited from modifying, reverse engineering, duplicating, or
+ * distributing this font software.
+ *
+ * (c) 2010 Fontspring
+ *
+ *
+ *
+ *
+ * The fonts included are copyrighted by the vendor listed below.
+ *
+ * Vendor:      Paragraph
+ * License URL: http://www.fontspring.com/fflicense/paragraph
+ *
+ *
+ */
 
-#time_tracker { position: absolute; padding: 15px; border: 1px solid #ccc; background: #fff; top: 10px; right: 20px; display: none; }
+@font-face {
+	font-family: 'MentoneSemiBold';
+	src: url('mentone-semibol-webfont.eot');
+	src: local('☺'), url('mentone-semibol-webfont.woff') format('woff'), url('mentone-semibol-webfont.ttf') format('truetype'), url('mentone-semibol-webfont.svg#webfont') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
 
+h1, h2, h3 { font: 14px 'MentoneSemiBold', 'Lucida Grande'; }
 
+p.description { color: #808080; }
 
 /* @end */
+
+/* @group Layout */
+
+body { background-image: url(../images/background.png); }
 
 .content { padding: 15px; }
 
 #wrapper { position: absolute; top: 0px; bottom: 0px; left: 0px; right: 0px; overflow: hidden; }
 
-#header { height: 49px; background: #eee; border-bottom: 1px solid #d6d6d6; }
+#header { height: 32px; background-color: #24334a; }
 
-#main { position: absolute; top: 50px; bottom: 50px; left: 0px; right: 0px; }
+#header h1.logo { font: 14px 'MentoneSemiBold', 'Lucida Grande'; color: #4e668a; padding-left: 16px; padding-top: 7px; }
+
+#header h1.logo a { color: #4e668a; }
+
+#status { position: absolute; left: 0px; right: 0px; height: 40px; color: #fff; }
+
+#status .content { padding-top: 9px; }
+
+#status ul.navigation { margin-left: 20px; margin-top: -1px; }
+
+#status ul.navigation li { float: left; font-family: 'MentoneSemiBold', 'Lucida Grande'; text-transform: uppercase; margin-right: 10px; -webkit-border-radius: 3px; -moz-border-radius: 3px; }
+
+#status ul.navigation li.active { background: url(../images/status_navigation_active.png) repeat-x; }
+
+#status ul.navigation li.active a { color: #fff; }
+
+#status ul.navigation li a { color: #a4a4a4; display: block; padding: 3px 10px 5px; }
+
+#status h1 { color: #4c4c4c; font-size: 15px; }
+
+#time_tracker { position: absolute;  top: 0px; right: 0px; display: none; color: #66686c; font-size: 11px; padding-left: 15px; background: url(../images/time_tracker_background.png) no-repeat right; width: 500px; }
+
+#time_tracker .entry { padding-top: 12px; padding-right: 7px; }
+
+#time_tracker .clock { padding: 11px 50px 10px 15px; background: url(../images/time_tracker_clock_background.png) no-repeat; position: relative; }
+
+#time_tracker .clock a.toggle { position: absolute; right: 19px; top: 7px; display: block; width: 26px; height: 25px; text-indent: -9999px; background-image: url(../images/time_tracker_clock_button.png); }
+
+#time_tracker .clock a.toggle:active { background-position: 0 -26px; }
+
+#time_tracker .clock a.toggle.start { background-position: 0 -52px; }
+
+#time_tracker .clock a.toggle.start:active { background-position: 0 -78px; }
+
+#time_tracker .clock strong { color: #4d4f54; font: normal normal 14px 'MentoneSemiBold', 'Lucida Grande'; text-shadow: #121212 0 -1px 0; }
+
+#user_status { position: absolute; right: 0px; top: 0px; color: #4b6287; padding-top: 10px; padding-right: 15px; font-size: 11px; text-shadow: #182334 0 1px 0; }
+
+#user_status a { color: #4b6287; margin-right: 15px; }
+
+#user_status a:hover { text-decoration: underline; }
+
+#main { position: absolute; top: 70px; bottom: 50px; left: 0px; right: 0px; }
 
 #main #sidebar { background: #f1f4f8; border-right: 1px solid #c5d1de; width: 199px; position: absolute; top: 0px; bottom: 0px; left: 0px; display: none; }
 
@@ -50,13 +126,6 @@ ul.simple { list-style-type: none; padding: 0px; margin: 0px; }
 
 ul.navigation { width: 100%; list-style-type: none; padding: 0px; }
 
-ul.navigation li { cursor: pointer; }
-
-ul.navigation li a { color: #2e2e2e; cursor: pointer; }
-
-ul.navigation li.active { background: #87a4c4; }
-
-ul.navigation li.active a { color: #fff; font-weight: bold; text-shadow: #62778f 0 1px 0; }
 
 #sidebar ul.navigation { }
 
@@ -98,81 +167,51 @@ body.with_inspector #main #document { right: 250px; }
 
 /* @end */
 
-/* @group Typo */
-
-#sidebar h2 { color: #6b809d; font-weight: bold; margin: 0 0 5px; font-size: 11px; text-transform: uppercase; text-shadow: #fff 0 1px 0; }
-
-h1.logo { font: 11pt Monaco; color: #b1b1b1; margin-top: 2px; margin-left: 10px; }
-
-h3 { font-weight: bold; font-size: 14px; color: #5178b9; }
-
-p.description { color: #808080; }
-
-/* @end */
-
 /* @group Stories */
 
 ul.stories { padding: 0px; margin: 0px; }
 
-ul.stories li { padding: 10px; margin-bottom: 0; cursor: pointer; background-image: url(../images/story_background.png); }
+ul.stories li { margin-bottom: 0; cursor: pointer; height: 43px; background: url(../images/story_background.png) 0 -86px; }
 
-ul.stories li.current { background-position: 0 0; }
+/* States colors */
 
-ul.stories li.upcoming { background-position: 0 -60px; }
+ul.stories li.current { background-position: 0 -86px; }
 
-ul.stories li.done { background-position: 0 -120px; }
+ul.stories li.upcoming { background-position: 0 -172px; }
 
-ul.stories li.selected { background: #507dbb !important; color: #fff; }
+ul.stories li.done { background-position: 0 0; }
 
-ul.stories li div.state_box { padding-top: 6px; }
+ul.stories li.selected.current { background-position: 0 -129px; }
 
-ul.stories div.state { text-transform: uppercase; font-size: 11px; font-weight: bold; padding: 2px 3px 0; padding-right: 1px; }
+ul.stories li.selected.upcoming { background-position: 0 -215px; }
 
-ul.stories li:hover div.state { display: none; }
+ul.stories li.selected.done { background-position: 0 -43px; }
 
-ul.stories li.done div.state { color: #2e9e31; }
+/* Content */
 
-ul.stories li.current div.state { color: #468be6; }
+ul.stories li div.content { background: #fff url(../images/story_content_background.png); margin-left: 10px; margin-right: 10px; padding: 0; height: 43px; position: relative; }
 
-ul.stories li.upcoming div.state { color: #e68646; }
+ul.stories li.selected div.content { background-position: 0 -43px; }
 
-ul.stories div.change_state { display: none; text-shadow: rgba(0,0,0,0.3) 0 -1px 0; -webkit-box-shadow: 0px 1px 3px rgba(0,0,0,0.3); margin-top: 0px; }
+/* Icon */
 
-ul.stories div.change_state a { color: #fff; font-size: 11px; padding: 0px; }
+ul.stories li .name { padding-top: 14px; padding-bottom: 12px; background: url(../images/story_icons.png) no-repeat 10px 11px; padding-left: 45px; color: #333b46; font-weight: bold; text-shadow: #fff 0 1px 0; }
 
-ul.stories li:hover div.change_state { display: block; }
+ul.stories li.chore .name { background-position: 10px -52px; }
 
-ul.stories li.done div.change_state { background-image: url(../images/story_state.png); text-transform: uppercase; color: #fff; font-size: 11px; font-weight: bold; padding: 2px 3px 0; }
+ul.stories li.bug .name { background-position: 10px -115px; }
 
-ul.stories li.current div.change_state { text-transform: uppercase; color: #fff; font-size: 11px; font-weight: bold; padding: 2px 3px 0; background: url(../images/story_state.png) 0 -20px; }
-
-ul.stories li.upcoming div.change_state { text-transform: uppercase; color: #fff; font-size: 11px; font-weight: bold; padding: 2px 3px 0; background: url(../images/story_state.png) 0 -40px; }
+/* Selected */
 
 ul.stories .icon { padding-right: 10px; padding-top: 3px; }
 
-input.message { font-size: 11px; color: #b5b5b5; border-color: #eee; margin: 0px 5px 0px 0px; width: 300px; }
+/* Details */
 
-input.message:focus { border-color: #eee; color: #636363; outline: none; }
+ul.stories li .details { position: absolute; bottom: 11px; right: 0px; color: #7e7e7e; font-size: 11px; font-weight: bold; text-shadow: #fff 0 1px 0; }
 
-.story div.messages { display: none; }
+ul.stories li .details .points { padding-right: 10px; padding-left: 15px; background: url(../images/story_icons_small.png) no-repeat 0 2px; }
 
-.story .name { padding-top: 7px; }
-
-/* @group Selected */
-
-ul.stories li.selected div.state { color: #fffeff; }
-
-ul.stories li.selected input.message { font-size: 11px; color: #7c9ed0; border: none; margin: 0px 5px 0px 0px; width: 300px; background-color: #4a74af; }
-
-ul.stories li.selected input.message:focus { border-color: #eee; color: #fefcfc; }
-
-.story.selected div.messages { display: block; }
-
-.story.selected .name { padding-top: 0px; font-weight: bold; }
-
-
-
-/* @end */
+ul.stories li .details .comments { padding-right: 10px; background: url(../images/story_icons_small.png) no-repeat 0 -18px; padding-left: 18px; }
 
 /* @group Filter */
 
@@ -194,6 +233,12 @@ a.tab.active { background-position: 0 -50px; color: #f7f7f7; border-color: #7979
 a.tab:last-child { border-right: 1px solid #c5c5c5; -webkit-border-top-right-radius: 3px; -webkit-border-bottom-right-radius: 3px; -moz-border-radius-topright: 3px; -moz-border-radius-bottomright: 3px; }
 
 a.tab:first-child { -webkit-border-top-left-radius: 3px; -webkit-border-bottom-left-radius: 3px; -moz-border-radius-topleft: 3px; -moz-border-radius-bottomleft: 3px; }
+
+
+
+/* @end */
+
+/* @group Time Tracker */
 
 
 

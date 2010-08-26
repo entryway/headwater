@@ -1,16 +1,9 @@
-%li.clearfix{:class => "story #{story.state}", :id => "story_#{story.id}", :"data-path" => project_story_path(@project, story), :"data-state" => story.state, :"data-type" => story.type}
-  .fl.icon
-    = image_tag "#{story.story_type}.png"
-  .fl.name
-    = "(%s)" % story.estimate
-    = story.name
-    
-    %a{:href => story.url, :target => "_blank"} T→
-    .clearfix.messages
-      %input.message.fl{:type => "text", :value => commit_message(story)}
-      %input.message.fl{:type => "text", :value => git_flow_message(story)}
-  .fr.state_box
-    .state
-      = story.state
-    .change_state
-      = change_state_button(story)
+%li{:class => "story #{story.state} #{story.type}", :id => "story_#{story.id}", :"data-path" => project_story_path(@project, story), :"data-state" => story.state, :"data-type" => story.type}
+  .content.clearfix
+    .name
+      = story.name
+    .details.clearfix
+      - if story.estimate && story.estimate != -1
+        %span.fl.points= story.estimate
+      - if story.notes.present?
+        %span.fl.comments= story.notes.count

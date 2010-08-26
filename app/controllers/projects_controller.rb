@@ -3,11 +3,14 @@ class ProjectsController < ApplicationController
   
   helper_method :viewing?
   
+  layout "project"
+  
   before_filter do
     @projects = Project.all
   end
   
   def index
+    render :action => 'index', :layout => 'application'
   end
   
   def show
