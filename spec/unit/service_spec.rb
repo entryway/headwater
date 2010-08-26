@@ -314,5 +314,14 @@ EOF
         end
       end
     end
+    
+    context "with custom object name" do
+      describe "#add_object_name" do
+        it "should add object name" do
+          @service.add_object_name(:old_name, :show, 'new_name')
+          @service.object_name_for(:old_name, :show).should == 'new_name'
+        end
+      end
+    end
   end
 end
