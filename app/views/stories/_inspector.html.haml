@@ -1,11 +1,14 @@
 .story_inspector
   .story_action_buttons
     - if @story.state == "upcoming"
-      %a{:href => "#", :class => "story_action start", :"data-state" => 'current'} Mark as started
+      %a{:href => "#", :class => "story_action start", :"data-state" => 'current'}
+        %span Mark as started
     - if @story.state == "current"
-      %a{:href => "#", :class => "story_action finish", :"data-state" => 'done'} Mark as finished
+      %a{:href => "#", :class => "story_action finish", :"data-state" => 'done'}
+        %span Mark as finished
     - if @story.state == "done"
-      %a{:href => "#", :class => "story_action archive", :"data-state" => 'archived'} Move to archive
+      %a{:href => "#", :class => "story_action archive", :"data-state" => 'archived'}
+        %span Move to archive
 
   .content
     - form_for [@project, @story], :html => {:class => "story"} do |f|

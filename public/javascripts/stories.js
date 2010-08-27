@@ -118,6 +118,7 @@ StoryInspector.prototype.changeState = function(trigger) {
 	var self = this;
 	var state = $(trigger).attr('data-state');
 	var path = self.element.find('form.story').attr('action');
+	$(trigger).addClass('disabled');
 	
 	var data = {
 		"_method": "put",
