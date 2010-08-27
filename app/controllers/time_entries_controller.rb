@@ -1,4 +1,8 @@
 class TimeEntriesController < ProjectsController
+  before_filter do
+    @project = Project.find(params[:project_id]) if params[:project_id]
+  end
+  
   def index
     @entries = TimeEntry.archived
   end

@@ -53,4 +53,30 @@ class StoriesController < ProjectsController
   def edit
     @story = Story.find(params[:id])
   end
+  
+  def move
+    story = Story.find(params[:id])
+    
+    id_before = params[:id_before]
+    id_after = params[:id_after]
+    
+    story_before = id_before ? Story.find(id_before) : nil
+    story_after = id_after ? Story.find(id_after) : nil
+    
+    if story_before && story_after
+      average_order = (story_before._collection_order.to_f + story_after._collection_order.to_f) / 2.0
+      story._collection_order = average_order
+    elsif story_before
+      story._collection_order = story_before._collection_order + 1
+    elsif story_after
+      story._collection_order = story_after._collection_order.to_f - 1
+    end
+    
+    story.save
+    
+    respond_to do |wants|
+      wants.html
+      wants.js
+    end
+  end
 end

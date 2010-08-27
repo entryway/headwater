@@ -8,10 +8,20 @@ jQuery(function($){
 
 var Story = {
   setup: function() {
+		var self = this;
     $("li.story").live('click', function() {
       Story.select(this)
 			Story.loadSelected();
     });
+    $('ul.stories').sortable({ axis: 'y', stop: function(e, ui) {
+			self.sort(e, ui);
+		}, handle: '.sort_handle'});
+		$(document).bind('keydown', function(e) {
+			self.editMode(e.altKey);
+		})
+		$(document).bind('keyup', function(e) {
+			self.editMode(e.altKey);
+		})
   },
   
   select: function(story) {
@@ -35,6 +45,33 @@ var Story = {
     $.get(path, function() {
     	$("#inspector").contents().css({opacity: 0}).animate({opacity: 1}, 300);
     });
+	},
+	
+	sort: function(event, ui) {
+		var target = $(ui.item);
+		var id = target.attr('data-id');
+		var idBefore = target.prev().attr('data-id');
+		var idAfter = target.next().attr('data-id');
+		
+		var path = $(target).attr('data-path');
+		var movePath = path + '/move';
+		$.ajax({
+			type: 'POST',
+			url: movePath,
+			data: {
+				id_before: idBefore,
+				id_after: idAfter
+			},
+			dataType: 'script'
+		});
+	},
+	
+	editMode: function(altKeyPressed) {
+		if (altKeyPressed) {
+			$("ul.stories").addClass("edit_mode");
+		} else {
+			$("ul.stories").removeClass("edit_mode");
+		}
 	}
 }
 

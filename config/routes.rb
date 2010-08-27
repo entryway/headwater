@@ -2,8 +2,14 @@ Headwater::Application.routes.draw do
   devise_for :users
 
   resources :projects do
-    resources :stories
+    resources :stories do
+      member do
+        post :move
+      end
+    end
+    resources :time_entries
   end
+  
   resources :time_entries do
     collection do
       get :current

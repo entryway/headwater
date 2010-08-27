@@ -1,6 +1,8 @@
 %ul.stories
   = render :partial => "story", :collection => @done
+%ul.stories
   = render :partial => "story", :collection => @current
+%ul.stories
   = render :partial => "story", :collection => @upcoming      
   
 .content

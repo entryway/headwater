@@ -70,7 +70,7 @@ p.description { color: #808080; }
 
 /* @group Layout */
 
-body { background-image: url(../images/background.png); }
+body { background: #222428 url(../images/background.png); }
 
 .content { padding: 15px; }
 
@@ -161,6 +161,24 @@ ul.navigation { width: 100%; list-style-type: none; padding: 0px; }
 
 #footer .content { padding-top: 11px; }
 
+/* @group Project switcher */
+
+#project_switcher { position: absolute; left: 14px; top:75px; background-color: #222428; z-index: 10; color: #fff; background-image: url(../images/background.png); -webkit-border-radius: 3px; -moz-border-radius: 3px; padding: 10px 15px 10px 12px; }
+
+#project_switcher ul { list-style-type: none; padding: 0px; margin: 0px; color: #9e9e9e; font: 12px "MentoneSemiBold"; }
+
+#project_switcher ul li { margin-bottom: 5px; }
+
+#project_switcher ul li a { color: #9e9e9e; }
+
+#project_switcher ul li a:hover { color: #bbb; }
+
+#project_switcher h2 { color: #fff; text-transform: uppercase; text-shadow: none; font-size: 12px; }
+
+
+
+/* @end */
+
 /* @group Special views */
 
 body.projects #main #sidebar { display: block; }
@@ -177,7 +195,7 @@ body.with_inspector #main #document { right: 250px; }
 
 /* @group Stories */
 
-ul.stories { padding: 0px; margin: 0px; border-style: solid; border-bottom-width: 1px; border-bottom-color: #e1e1e1; }
+ul.stories { padding: 0px; margin: 0px; }
 
 ul.stories li { margin-bottom: 0; cursor: pointer; height: 43px; background: url(../images/story_background.png) 0 -86px; }
 
@@ -220,6 +238,14 @@ ul.stories li .details { position: absolute; bottom: 11px; right: 0px; color: #7
 ul.stories li .details .points { padding-right: 10px; padding-left: 15px; background: url(../images/story_icons_small.png) no-repeat 0 2px; }
 
 ul.stories li .details .comments { padding-right: 10px; background: url(../images/story_icons_small.png) no-repeat 0 -18px; padding-left: 18px; }
+
+/* Edit mode */
+
+ul.stories li .sort_handle { display: none; position: absolute; top: 0px; left: 0px; width: 40px; height: 43px; background: url(../images/story_drag_handle.png) no-repeat 12px 15px; }
+
+ul.stories.edit_mode li .sort_handle { display: block; cursor: move; }
+
+ul.stories.edit_mode li .name { background: none; }
 
 /* @group Inspector */
 

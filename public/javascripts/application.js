@@ -11,4 +11,9 @@ $(document).ready(function() {
 	$("input.select").live('click', function() {
 		this.select();
 	});
+	$("#status .project_name").css({cursor: 'pointer'}).toggle(function() {
+		$("#project_switcher").show();
+	}, function() {
+		$("#project_switcher").hide();
+	});
 });

@@ -13,15 +13,21 @@
           %strong= link_to current_user.email, destroy_user_session_path
         #status
           .content.clearfix
-            .fl
+            .fl.project_name
               %h1= @project.name
             .fl
               %ul.navigation.clearfix
-                %li.active
-                  %a{:href => project_path(@project)} Stories
                 %li
-                  %a{:href => time_entries_path} Reports
+                %li{:class => params[:controller] == "stories" ? "active" : ""}
+                  %a{:href => project_path(@project)} Stories
+                %li{:class => params[:controller] == "time_entries" ? "active" : ""}
+                  %a{:href => project_time_entries_path(@project)} Reports
           #time_tracker{:"data-path" => current_time_entries_path}          
+      #project_switcher.hidden
+        %h2 Switch to project
+        %ul
+          - @projects.each do |project|
+            %li= link_to project.name, project_path(project)
       #main
         #sidebar
           %h2 Main

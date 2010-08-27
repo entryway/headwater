@@ -1,5 +1,6 @@
 %li{:class => "story #{story.state} #{story.type}", :id => "story_#{story.id}", :"data-path" => project_story_path(@project, story), :"data-state" => story.state, :"data-type" => story.type, :"data-id" => story.id}
   .content.clearfix
+    .sort_handle
     .name
       = story.name
     .details.clearfix
