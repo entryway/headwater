@@ -31,8 +31,9 @@ var Story = {
 
 	loadSelected: function() {
 		var path = $(Story.selected_story).attr("data-path")
+		$("#inspector").contents().animate({opacity: 0}, 150);
     $.get(path, function() {
-    	// $("#inspector").animate({opacity: 1});
+    	$("#inspector").contents().css({opacity: 0}).animate({opacity: 1}, 300);
     });
 	}
 }
