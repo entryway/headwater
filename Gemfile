@@ -1,7 +1,7 @@
 source 'http://gemcutter.org'
 gem 'rails',    '3.0.0.rc'
 gem 'bson_ext'
-gem 'mongoid',  '2.0.0.beta.12'
+gem 'mongoid',  '>= 2.0.0.beta.12'
 gem 'haml',     '>= 3.0'
 gem 'inherited_resources'
 gem 'typhoeus'
