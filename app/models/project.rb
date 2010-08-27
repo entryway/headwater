@@ -47,7 +47,7 @@ class Project
   synchronize_field :integrations
   
   def stories
-    Story.find(:all, :conditions => {:project_id => self._remote_id})
+    Story.where(:project_id => self._remote_id).asc(:_collection_order)
   end
 
 end

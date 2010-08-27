@@ -80,11 +80,13 @@ body { background-image: url(../images/background.png); }
 
 #header h1.logo { font: 14px 'MentoneSemiBold', 'Lucida Grande'; color: #4e668a; padding-left: 16px; padding-top: 7px; }
 
-#header h1.logo a { color: #4e668a; }
+#header h1.logo a { color: #4e668a; -webkit-transition: color 0.3s linear; }
 
 body.loading #header h1.logo a { color: #7194c8; }
 
-body.loading #header .loader { width: 16px; height: 16px; position: absolute; top: 9px; left: 100px; z-index: 1000; background-image: url(../images/header_loader.gif); }
+body #header .loader { width: 16px; height: 16px; position: absolute; top: 9px; left: 100px; z-index: 1000; background-image: url(../images/header_loader.gif); opacity: 0; -webkit-transition: opacity 0.3s linear; _display: none;  }
+
+body.loading #header .loader { opacity: 1; _display: block; }
 
 #status { position: absolute; left: 0px; right: 0px; height: 40px; color: #fff; }
 
@@ -278,6 +280,20 @@ a.story_action.archive.disabled { background-position: -200px -74px; }
 a.story_action.archive.disabled:active { background-position: -200 -111px; }
 
 a.story_action.archive.disabled span { background: url(../images/button_loader_archive.gif) no-repeat 170px center; }
+
+/* Links */
+
+ul.links { list-style-type: none; padding: 0px; }
+
+ul.links li { margin-bottom: 5px; }
+
+ul.links li a { font-weight: bold; font-size: 11px; text-shadow: #fff 0 1px 0; }
+
+/* Messages */
+
+.story_inspector input.message { background-color: #f3f4f6; border: 1px solid #c0c8d3; padding: 5px; width: 100%; font: 11px "Monaco", "Courier New"; margin: 0; }
+
+.story_inspector input.message:focus { outline: none; }
 
 
 

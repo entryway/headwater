@@ -10,13 +10,14 @@
       %a{:href => "#", :class => "story_action archive", :"data-state" => 'archived'}
         %span Move to archive
 
-  .content
-    - form_for [@project, @story], :html => {:class => "story"} do |f|
+  
+  - form_for [@project, @story], :html => {:class => "story"} do |f|
+    .content
       .view
         %h3= @story.name
         %p.description= @story.description
         %a{:href => edit_project_story_path(@project, @story), :class => "edit"} Edit
-      
+    
       .edit.hidden
         = f.text_field :name, :class => "name"
         = f.text_area :description
@@ -39,3 +40,14 @@
           %a{:class => "button small save", :href => "#"}
             %span Save
           %a.fr{:class => "cancel", :href => "#"} Cancel
+        
+        
+    .content
+      %h3 Links
+      
+      %ul.links
+        %li= link_to "Pivotal Tracker ›", @story.url, :target => "_blank"
+        %li
+          %input{:type => "text", :class => "message select", :value => commit_message(@story)}
+        %li
+          %input{:type => "text", :class => "message select", :value => git_flow_message(@story)}

@@ -32,11 +32,12 @@ module StoryHelper
     else
       "start"
     end
-    "git flow feature #{type} #{story.name.gsub(/[\s-\.]+/, '_').downcase}_#{story._remote_id}"
+    "git flow feature #{type} #{story.name.gsub(/[\s\-\.]+/, '_').downcase}_#{story._remote_id}"
   end
   
   def estimate_select(form, field = :estimate)
     options = form.object.project.point_scale.split(',')
+    options.unshift([])
     form.select(field, options_for_select(options, form.object.send(field).to_s))
   end
   

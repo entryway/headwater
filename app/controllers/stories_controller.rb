@@ -6,8 +6,7 @@ class StoriesController < ProjectsController
   def index
     states = ['done', 'current', 'upcoming']
     
-    @stories = Story.where(:project_id => @project._remote_id, :state.in => states, :is_archived => false).
-                     order_by(:updated_at.desc).
+    @stories = @project.stories.where(:state.in => states, :is_archived => false).
                      group_by(&:state)
 
     @done = @stories['done']

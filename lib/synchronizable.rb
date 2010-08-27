@@ -10,6 +10,7 @@ module Synchronizable
     base.class_variable_set(:@@synchronizable_fields, [])
     base.extend ClassMethods
     base.field :_remote_id, :type => Integer
+    base.field :_collection_order, :type => Integer, :default => 9999
   end
   
   module ClassMethods

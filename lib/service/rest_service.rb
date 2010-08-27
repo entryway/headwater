@@ -87,7 +87,7 @@ module Service
     
     def retrieve_with_typhoeus(url, method, headers, data)
       request_options = {:headers => @header.merge(headers),
-                        :body => data, :verbose => true}
+                        :body => data}
       request_options.merge!(auth) if auth
       # puts request_options
       response = Typhoeus::Request.send(method, url, request_options)
@@ -120,9 +120,9 @@ module Service
       data = result
       # puts result
       if @root
-        @root.split('/').each { |branch|
+        @root.split('/').each do |branch|
           data = data[branch]
-        }
+        end
         data
       else
         path = if action == :list

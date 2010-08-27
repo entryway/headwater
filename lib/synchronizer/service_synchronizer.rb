@@ -92,13 +92,14 @@ module Synchronizer
       @service.set_contexts(@contexts)
       collection = @service.list(object_name)
       @service.clear_contexts
-      collection.each do |remote_object_hash|
+      collection.each_with_index do |remote_object_hash, index|
         remote_id = remote_object_hash.delete("id")
         local_object = @factory.with_remote_id(remote_id)
         unless local_object
           local_object = @factory.new
           local_object.update_remote_id(remote_id)
         end
+        local_object._collection_order = index
         fields = @factory.synchronizable_fields(:pull)
         fields.each do |field|
           value = remote_object_hash[field.to_s]
