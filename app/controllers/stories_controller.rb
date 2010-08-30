@@ -66,11 +66,21 @@ class StoriesController < ProjectsController
     if story_before && story_after
       average_order = (story_before._collection_order.to_f + story_after._collection_order.to_f) / 2.0
       story._collection_order = average_order
+      move = 'after'
+      target = story_before._remote_id
     elsif story_before
       story._collection_order = story_before._collection_order + 1
+      move = 'after'
+      target = story_before._remote_id
     elsif story_after
       story._collection_order = story_after._collection_order.to_f - 1
+      move = 'before'
+      target = story_after._remote_id
     end
+    
+    path = "/projects/#{story.project._remote_id}/stories/#{story._remote_id}/moves?move[move]=#{move}&move[target]=#{target}"
+    url = story.synchronizer.service.generate_url(path)
+    story.synchronizer.service.retrieve(url, :post)
     
     story.save
     
