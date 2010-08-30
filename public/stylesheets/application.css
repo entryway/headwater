@@ -207,11 +207,15 @@ ul.stories li.upcoming { background-position: 0 -172px; }
 
 ul.stories li.done { background-position: 0 0; }
 
+ul.stories li.new { background-position: 0 -258px; }
+
 ul.stories li.selected.current { background-position: 0 -129px; }
 
 ul.stories li.selected.upcoming { background-position: 0 -215px; }
 
 ul.stories li.selected.done { background-position: 0 -43px; }
+
+ul.stories li.selected.new { background-position: 0 -301px; }
 
 /* Content */
 

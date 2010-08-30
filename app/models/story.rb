@@ -67,8 +67,10 @@ class Story
       state = 'done'
     elsif new_state == 'started'
       state = 'current'
-    elsif ['unstarted', 'unscheduled', 'rejected'].include?(new_state)
+    elsif ['unstarted', 'rejected'].include?(new_state)
       state = 'upcoming'
+    elsif new_state == 'unscheduled'
+      state = 'new'
     end
     write_attribute :state, state
   end
@@ -79,6 +81,8 @@ class Story
       current_state = 'delivered'
     elsif new_state == 'current'
       current_state = 'started'
+    elsif new_state == 'new'
+      current_state = 'unscheduled'
     end
     write_attribute :current_state, current_state
   end

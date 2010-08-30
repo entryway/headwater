@@ -4,7 +4,7 @@ class StoriesController < ProjectsController
   end
   
   def index
-    states = ['done', 'current', 'upcoming']
+    states = ['done', 'current', 'upcoming', 'new']
     
     @stories = @project.stories.where(:state.in => states, :is_archived => false).
                      group_by(&:state)
@@ -12,6 +12,7 @@ class StoriesController < ProjectsController
     @done = @stories['done']
     @current = @stories['current']
     @upcoming = @stories['upcoming']
+    @new = @stories['new']
   end
   
   def show

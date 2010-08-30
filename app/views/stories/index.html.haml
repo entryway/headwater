@@ -4,6 +4,8 @@
   = render :partial => "story", :collection => @current
 %ul.stories.upcoming
   = render :partial => "story", :collection => @upcoming      
+%ul.stories.new
+  = render :partial => "story", :collection => @new
   
 .content
   .clearfix
