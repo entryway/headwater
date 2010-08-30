@@ -15,8 +15,12 @@ task :sync => :environment do
           Story.synchronizer.set_context :projects, project._remote_id
           Story.synchronizer.pull_collection
         end
-      rescue
+      rescue Exception => e
         puts "‹Thread/Pull› FAILED\n"
+        puts "---------------------"
+        puts e.message
+        puts e.backtrace.join('\n')
+        puts "---------------------"
       end
       puts "‹Thread/Pull› Finished\n"
       locked = false
