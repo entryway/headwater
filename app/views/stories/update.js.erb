@@ -7,3 +7,6 @@ new StoryInspector($("#inspector"));
   $("li.story#story_<%= @story.id %>").slideUp();
 	Story.deselect();
 <%- end %>
+<%- if @changes.has_key?('state') %>
+  Story.regroupStory('<%= @story.id %>');
+<%- end %>

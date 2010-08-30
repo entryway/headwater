@@ -1,2 +1,3 @@
 $("#inspector").html("<%= escape_javascript(render(:partial => "inspector")) %>");
-new StoryInspector($("#inspector"));
+inspector = new StoryInspector($("#inspector"));
+inspector.story_id = "<%= @story.id %>";

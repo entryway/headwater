@@ -28,7 +28,9 @@ class StoriesController < ProjectsController
     elsif state
       @story.state = state
     end
-    @story.update_attributes(params[:story])
+    @story.attributes = params[:story]
+    @changes = @story.changes
+    @story.save
     @story.push
     respond_to do |wants|
       wants.html { redirect_to project_stories_path(@project) }

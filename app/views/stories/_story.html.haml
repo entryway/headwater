@@ -1,4 +1,4 @@
-%li{:class => "story #{story.state} #{story.type}", :id => "story_#{story.id}", :"data-path" => project_story_path(@project, story), :"data-state" => story.state, :"data-type" => story.type, :"data-id" => story.id}
+%li{:class => "story #{story.state} #{story.type}", :id => "story_#{story.id}", :"data-path" => project_story_path(@project, story), :"data-state" => story.state, :"data-type" => story.type, :"data-id" => story.id, :"data-order" => story._collection_order}
   .content.clearfix
     .sort_handle
     .name

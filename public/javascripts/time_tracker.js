@@ -20,7 +20,7 @@ TimeTracker.setup = function() {
 
 TimeTracker.update = function(first_time, story) {
   if (first_time) {$("#time_tracker").css("opacity", 0)};
-	var data = {};
+	var data = {cache: Math.random()};
 	if (story) {
 		data['story_id'] = $(story).attr('data-id');
 	};

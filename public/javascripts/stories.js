@@ -72,7 +72,13 @@ var Story = {
 		} else {
 			$("ul.stories").removeClass("edit_mode");
 		}
-	}
+	},
+	
+	regroupStory: function(story_id) {
+    var story = $("ul.stories li.story#story_"+story_id);
+    var state = story.attr('data-state');
+  	story.appendTo("ul.stories."+state);
+  }
 }
 
 var StoryInspector = function(element) {
@@ -166,9 +172,11 @@ StoryInspector.prototype.changeState = function(trigger) {
 		url: path,
 		type: 'POST',
 		data: data,
-		dataType: 'script'
+		dataType: 'script',
+		success: function() {
+			
+		}
 	});
-	
 }
 
 var StoryFilter = {
