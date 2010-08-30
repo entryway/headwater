@@ -1,20 +1,21 @@
 .content
-  %h3 Time entries
-  
-  %table
-    %tr
-      %th Date
-      %th User
-      %th Story
-      %th Minutes
-      %th Hours
-      %th
-      
-    - @entries.each do |entry|
+  - @entries.each do |project, entries|
+    %h3= project.name
+    
+    %table
       %tr
-        %td= entry.date
-        %td= entry.user
-        %td= commit_message(entry.story)
-        %td= entry.total_length
-        %td= "%0.2f" % entry.hours
-        %td= link_to "Remove", remove_time_entry_path(entry), :class => "ajax"
+        %th Date
+        %th User
+        %th Story
+        %th Minutes
+        %th Hours
+        %th
+    
+      - entries.each do |entry|
+        %tr
+          %td= entry.date
+          %td= entry.user
+          %td= commit_message(entry.story)
+          %td= entry.total_length
+          %td= "%0.2f" % entry.hours
+          %td= link_to "Remove", remove_time_entry_path(entry), :class => "ajax"

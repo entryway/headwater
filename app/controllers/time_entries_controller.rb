@@ -5,6 +5,7 @@ class TimeEntriesController < ProjectsController
   
   def index
     @entries = TimeEntry.archived
+    @entries = @entries.group_by { |e| e.story.project }
   end
   
   def new
