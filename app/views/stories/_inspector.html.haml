@@ -9,6 +9,9 @@
     - if @story.state == "done"
       %a{:href => "#", :class => "story_action archive", :"data-state" => 'archived'}
         %span Move to archive
+    - if @story.state == "new"
+      %a{:href => "#", :class => "story_action schedule", :"data-state" => "upcoming"}
+        %span Mark as upcoming
 
   
   - form_for [@project, @story], :html => {:class => "story"} do |f|

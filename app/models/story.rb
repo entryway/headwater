@@ -81,6 +81,8 @@ class Story
       current_state = 'delivered'
     elsif new_state == 'current'
       current_state = 'started'
+    elsif new_state == 'upcoming'
+      current_state = 'unstarted'
     elsif new_state == 'new'
       current_state = 'unscheduled'
     end

@@ -291,6 +291,10 @@ a.story_action.finish { background-position: 0 0px; }
 
 a.story_action.finish:active { background-position: 0 -37px; }
 
+a.story_action.schedule { background-position: 0 -222px; background-repeat: no-repeat; }
+
+a.story_action.schedule:active { background-position: 0 -259px; }
+
 /* Buttons/Disabled */
 
 a.story_action.finish.disabled { background-position: -200px 0; }
@@ -307,9 +311,15 @@ a.story_action.start.disabled span { background: url(../images/button_loader_sta
 
 a.story_action.archive.disabled { background-position: -200px -74px; }
 
-a.story_action.archive.disabled:active { background-position: -200 -111px; }
+a.story_action.archive.disabled:active { background-position: -200px -111px; }
 
 a.story_action.archive.disabled span { background: url(../images/button_loader_archive.gif) no-repeat 170px center; }
+
+a.story_action.schedule.disabled { background-position: -200px -222px; background-repeat: no-repeat; }
+
+a.story_action.schedule.disabled:active { background-position: -200px -259px; }
+
+a.story_action.schedule.disabled span { background: url(../images/button_loader_schedule.gif) no-repeat 170px center; }
 
 /* Links */
 

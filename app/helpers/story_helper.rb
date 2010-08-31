@@ -36,7 +36,11 @@ module StoryHelper
   end
   
   def estimate_select(form, field = :estimate)
-    options = form.object.project.point_scale.split(',')
+    if form.object.project.point_scale
+      options = form.object.project.point_scale.split(',')
+    else
+      options = []
+    end
     options.unshift([])
     form.select(field, options_for_select(options, form.object.send(field).to_s))
   end
