@@ -1,6 +1,6 @@
 class TimeEntry
   include Mongoid::Document
-  include Synchronizable
+  # include Synchronizable
   
   field :date, :type => String
   field :started_at, :type => DateTime
@@ -9,36 +9,36 @@ class TimeEntry
   field :length, :type => Integer, :default => 0
   field :note, :type => String
   
-  synchronizes_through Synchronizer::ServiceSynchronizer do |sync|
-    sync.service = Service::RestService.new
-    sync.service.base_url = "https://#{HARVEST_SUBDOMAIN}.harvestapp.com"
-    sync.service.header['Accept'] = 'application/xml'
-    sync.service.add_custom_url(:timeentry, :create, '/daily/add')
-    sync.service.add_custom_url(:timeentry, :update, 'daily/update/:id', :post)
-    sync.service.add_object_name(:timeentry, :create, 'request')
-    sync.service.add_object_name(:timeentry, :update, 'request')
-    sync.service.root = "add/day_entry"
-    sync.factory = self
-  end
+  # synchronizes_through Synchronizer::ServiceSynchronizer do |sync|
+  #   sync.service = Service::RestService.new
+  #   sync.service.base_url = "https://#{HARVEST_SUBDOMAIN}.harvestapp.com"
+  #   sync.service.header['Accept'] = 'application/xml'
+  #   sync.service.add_custom_url(:timeentry, :create, '/daily/add')
+  #   sync.service.add_custom_url(:timeentry, :update, 'daily/update/:id', :post)
+  #   sync.service.add_object_name(:timeentry, :create, 'request')
+  #   sync.service.add_object_name(:timeentry, :update, 'request')
+  #   sync.service.root = "add/day_entry"
+  #   sync.factory = self
+  # end
   
-  synchronize_field :notes => :push
-  synchronize_field :hours => :push
-  synchronize_field :spent_at => :push
-  synchronize_field :project_id => :push
-  synchronize_field :task_id => :push
+  # synchronize_field :notes => :push
+  # synchronize_field :hours => :push
+  # synchronize_field :spent_at => :push
+  # synchronize_field :project_id => :push
+  # synchronize_field :task_id => :push
   
   referenced_in :user
   referenced_in :story
   
   scope :archived, :where => {:length.exists => true, :started_at.ne => nil, :is_running.ne => true}
-  
-  def before_push(synchronizer)
-    synchronizer.service.auth = {:username => user.harvest_username, :password => user.harvest_password}
-  end
-  
-  def after_push(synchronizer)
-    synchronizer.service.auth = nil
-  end
+  # 
+  # def before_push(synchronizer)
+  #   synchronizer.service.auth = {:username => user.harvest_username, :password => user.harvest_password}
+  # end
+  # 
+  # def after_push(synchronizer)
+  #   synchronizer.service.auth = nil
+  # end
   
   def notes
     "[##{story._remote_id}] #{story.name}"
@@ -114,6 +114,6 @@ class TimeEntry
     self.last_started_at = nil
     self.is_running = false
     self.save
-    self.push
+    # self.push
   end
 end
