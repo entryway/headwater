@@ -6,6 +6,8 @@ module ApplicationHelper
   end
   
   def format_text(text)
-    h(text).gsub(/(https?:\/\/(www\.)?([^\s\/]+)([^\s]*))/, '<a href="\1">\3</a>').html_safe
+    text = h(text).gsub(/(https?:\/\/(www\.)?([^\s\/]+)([^\s]*))/, '<a href="\1">\3</a>')
+    text.gsub!(/\n/, '<br />')
+    text.html_safe
   end
 end
