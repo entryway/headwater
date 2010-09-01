@@ -1,7 +1,7 @@
 .clearfix
   - if @time_entry
     .fr.clock
-      %strong= format_as_time(@time_entry.current_length)
+      %strong= format_as_time(@time_entry.length)
       - if @time_entry.is_running?
         %a.toggle.pause{:href => pause_time_entry_path(@time_entry, :cache => Time.now.to_i)} Pause
       - else
