@@ -19,6 +19,11 @@ class ProjectsController < ApplicationController
   
   def edit
     @project = Project.find(params[:id])
+    
+    respond_to do |wants|
+      wants.html
+      wants.js
+    end
   end
   
   def update

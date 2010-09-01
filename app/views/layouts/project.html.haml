@@ -8,8 +8,8 @@
         %h1.logo= link_to 'Headwater', projects_path
         .loader
         #user_status
-          = link_to 'Project settings', edit_project_path(@project)
-          = link_to 'Account settings', edit_registration_path(current_user)
+          = link_to 'Project settings', edit_project_path(@project), :class => "ajax"
+          = link_to 'Account settings', edit_account_path, :class => "ajax"
           %strong= link_to current_user.email, destroy_user_session_path
         #status
           .content.clearfix
@@ -50,4 +50,3 @@
       #footer
         #footer_main
           = yield(:footer)
-        

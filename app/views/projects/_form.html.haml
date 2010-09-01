@@ -1,0 +1,13 @@
+.content
+  %h3== Edit project #{@project.name}
+  
+  - semantic_form_for @project do |f|
+    - f.inputs do
+      = f.input :_remote_id
+      = f.input :name
+    
+    - f.inputs :harvest do
+      = f.input :harvest_project_id
+      = f.input :harvest_task_id
+      
+    = f.buttons

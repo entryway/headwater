@@ -1,0 +1,18 @@
+.content
+  %h2 My account
+  
+  - semantic_form_for(@user, :url => account_path) do |f|
+  
+    = f.semantic_errors
+    
+    - f.inputs "Settings" do
+      = f.input :email
+      = f.input :password, :as => :password
+      = f.input :password_confirmation, :as => :password
+      = f.input :current_password, :as => :password
+
+    - f.inputs "Harvest settings" do
+      = f.input :harvest_username
+      = f.input :harvest_password
+      
+    = f.buttons

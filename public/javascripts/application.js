@@ -17,3 +17,20 @@ $(document).ready(function() {
 		$("#project_switcher").hide();
 	});
 });
+
+$.modal = function(html){
+  // $("#modal_overlay, #modal_wrapper, #modal").remove();
+  var overlay = $("<div />").attr("id", "modal_overlay").appendTo($("body")).addClass("shown");
+  overlay.click(function(){
+    $.removeModal();
+  })
+  var wrapper = $("<div />").attr("id", "modal_wrapper");
+  var modal = $("<div />").attr("id", "modal").appendTo(wrapper);
+  modal.html(html);
+  modal.find("form").addClass("ajax");
+  wrapper.appendTo($("body"));
+}
+
+$.removeModal = function(){
+  $("#modal_overlay, #modal_wrapper, #modal").remove();
+}

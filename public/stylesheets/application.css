@@ -132,6 +132,20 @@ body.loading #header .loader { opacity: 1; _display: block; }
 
 #main #sidebar h2 { margin-left: 15px; margin-top: 10px; }
 
+/* @group Modal */
+
+#modal_overlay { position: fixed; width: 100%; height: 100%; z-index: 30; background-image: url(../images/modal_overlay_background.png); opacity: 0; }
+
+#modal_overlay.shown { opacity: 1; }
+
+#modal_wrapper { position: absolute; z-index: 1001; left: 50%; top: 80px; width: 700px; margin-left: -360px; background-image: url(../images/modal_wrapper_background.png); padding: 10px; -webkit-border-radius: 3px; -moz-border-radius: 3px; }
+
+#modal { background: #fff; padding: 15px;  }
+
+
+
+/* @end */
+
 /* @group Navigation */
 
 ul.navigation { width: 100%; list-style-type: none; padding: 0px; }
@@ -398,7 +412,7 @@ a.button.small.disabled span { background-position: 0 -100px; color: #9e9fa2; te
 
 /* @group Forms */
 
-form.formtastic fieldset { border: none; padding-top: 0px; padding-bottom: 0px; }
+form.formtastic fieldset { border: none; padding-top: 0px; padding-bottom: 0px; padding-left: 5px; }
 
 form.formtastic ol { list-style-type: none; padding: 0px; }
 
@@ -417,6 +431,8 @@ form.formtastic li.commit input { background: transparent url(../images/submit_b
 form.formtastic li.commit { margin-left: 150px; }
 
 form.formtastic li.commit input:active { background-position: 0 -50px; }
+
+form.formtastic legend span { font: 14px 'MentoneSemiBold', 'Lucida Grande'; color: #4a4f57; text-shadow: #fff 0 1px 0; }
 
 
 
