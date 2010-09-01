@@ -251,6 +251,16 @@ ul.stories.edit_mode li .sort_handle { display: block; cursor: move; }
 
 ul.stories.edit_mode li .name { background: none; }
 
+ul.stories.edit_mode .details { display: none; }
+
+/* Edit mode / delete button */
+
+ul.stories .delete_button { display: none; }
+
+ul.stories.edit_mode .delete_button { display: block; position: absolute; right: 12px; top: 10px; }
+
+ul.stories.edit_mode .delete_button a { display: block; background-image: url(../images/story_remove.png); text-indent: -9999px; width: 87px; height: 24px; }
+
 /* @group Inspector */
 
 .story_inspector {  }

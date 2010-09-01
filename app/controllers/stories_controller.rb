@@ -92,4 +92,13 @@ class StoriesController < ProjectsController
       wants.js
     end
   end
+  
+  def destroy
+    @story = Story.find(params[:id])
+    @story.delete
+    respond_to do |wants|
+      wants.html { redirect_to @story.project }
+      wants.js { render :nothing => true }
+    end
+  end
 end

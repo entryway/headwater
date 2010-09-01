@@ -16,6 +16,10 @@ var Story = {
     $('ul.stories').sortable({ axis: 'y', stop: function(e, ui) {
 			self.sort(e, ui);
 		}, handle: '.sort_handle'});
+		$('ul.stories li.story .delete_button a').live('click', function(){
+		  self.remove($(this).parents("li:first"));
+		  return false;
+		});
 		$(document).bind('keydown', function(e) {
 			self.editMode(e.altKey);
 		})
@@ -78,6 +82,19 @@ var Story = {
     var story = $("ul.stories li.story#story_"+story_id);
     var state = story.attr('data-state');
   	story.appendTo("ul.stories."+state);
+  },
+  
+  remove: function(story){
+    self = this;
+    $.ajax({
+      url: $(story).attr('data-path'),
+      type: 'post',
+      dataType: 'script',
+      data: {_method: 'delete'}
+    });
+    $(story).slideUp(function(){
+      self.deselect();
+    });
   }
 }
 
