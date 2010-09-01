@@ -14,11 +14,21 @@ TimeTracker.setup = function() {
     TimeTracker.update(true)
   }
 	$(document).bind('story-selected', function() {
-		TimeTracker.update(false, Story.selected_story);
+		TimeTracker.update(false);
+	});
+	$("#time_tracker .clock a.toggle").live('click', function(){
+    $.ajax({
+      type: 'get',
+      url: $(this).attr('href'),
+      dataType: 'script',
+      data: {story_id: $(Story.selected_story).attr('data-id')}
+    });
+    return false;
 	})
 }
 
-TimeTracker.update = function(first_time, story) {
+TimeTracker.update = function(first_time) {
+  var story = Story.selected_story;
   if (first_time) {$("#time_tracker").css("opacity", 0)};
 	var data = {cache: Math.random()};
 	if (story) {

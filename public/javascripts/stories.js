@@ -10,7 +10,7 @@ var Story = {
   setup: function() {
 		var self = this;
     $("li.story").live('click', function() {
-      Story.select(this)
+      Story.select(this);
 			Story.loadSelected();
     });
     $('ul.stories').sortable({ axis: 'y', stop: function(e, ui) {
@@ -22,9 +22,15 @@ var Story = {
 		});
 		$(document).bind('keydown', function(e) {
 			self.editMode(e.altKey);
-		})
+		});
 		$(document).bind('keyup', function(e) {
 			self.editMode(e.altKey);
+		});
+		$.address.externalChange(function(e){
+		  var id = e.value.replace('/', '');
+      var story = $("ul.stories li.story[data-id="+id+"]");
+      self.select(story);
+      Story.loadSelected();
 		})
   },
   
@@ -44,6 +50,7 @@ var Story = {
 	},
 
 	loadSelected: function() {
+	  $.address.value($(Story.selected_story).attr('data-id'));
 		var path = $(Story.selected_story).attr("data-path")
 		$("#inspector").contents().animate({opacity: 0}, 150);
     $.get(path, function() {

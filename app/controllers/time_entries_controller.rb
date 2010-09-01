@@ -24,10 +24,7 @@ class TimeEntriesController < ProjectsController
   def current
     @time_entry = TimeEntry.where(:is_running => true).first
     
-    if !@time_entry && params[:story_id]
-      story = Story.find(params[:story_id])
-      @time_entry = TimeEntry.current_for_story_and_user(story, current_user)
-    end
+    set_current
     
     respond_to do |wants|
       wants.js
@@ -66,6 +63,15 @@ class TimeEntriesController < ProjectsController
     
     respond_to do |wants|
       wants.js
+    end
+  end
+  
+  protected
+  
+  def set_current
+    if params[:story_id] && (!@time_entry || !@time_entry.is_running)
+      story = Story.find(params[:story_id])
+      @time_entry = TimeEntry.current_for_story_and_user(story, current_user)
     end
   end
 end
