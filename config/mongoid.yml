@@ -16,5 +16,4 @@ test:
 
 # set these environment variables on your prod server
 production:
-  <<: *defaults
-  url: <%= ENV['MONGOHQ_URL'] %>
+  uri: <%= ENV['MONGOHQ_URL'] %>
