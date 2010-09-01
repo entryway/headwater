@@ -47,7 +47,7 @@ module Synchronizable
     ##
     # Returns fields that are being synchronized
     def synchronizable_fields(type = nil)
-      fields = self.class_variable_get(:@@synchronizable_fields)
+      fields = self.send(:class_variable_get, :@@synchronizable_fields)
       if type
         fields = fields.select do |field|
           field[:type] == type || field[:type] == :all
