@@ -18,7 +18,7 @@
     .content
       .view
         %h3= @story.name
-        %p.description= @story.description
+        %p.description= format_text(@story.description)
         %a{:href => edit_project_story_path(@project, @story), :class => "edit"} Edit
     
       .edit.hidden
@@ -52,7 +52,7 @@
           - @story.notes.each do |note|
             %li
               %strong= note['author']
-              = note['text']
+              = format_text(note['text'])
         
     
       %h3 Links
