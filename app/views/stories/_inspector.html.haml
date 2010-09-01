@@ -43,9 +43,18 @@
           %a{:class => "button small save", :href => "#"}
             %span Save
           %a.fr{:class => "cancel", :href => "#"} Cancel
+    
+    
+    .content    
+      - if @story.notes.present?
+        %h3 Comments
+        %ul.comments
+          - @story.notes.each do |note|
+            %li
+              %strong= note['author']
+              = note['text']
         
-        
-    .content
+    
       %h3 Links
       
       %ul.links

@@ -149,7 +149,7 @@ ul.navigation { width: 100%; list-style-type: none; padding: 0px; }
 
 #main #document.with_inspector { bottom: 250px; }
 
-#main #inspector { background: #f3f3f3 url(../images/inspector_background.png); position: absolute; right: 0px; width: 250px; top: 0px; bottom: 0px; border-left: 1px solid #bbb; }
+#main #inspector { background: #f3f3f3 url(../images/inspector_background.png); position: absolute; right: 0px; width: 250px; top: 0px; bottom: 0px; border-left: 1px solid #bbb; overflow: auto; }
 
 #main #inspector p { color: #939393; font-size: 12px; text-shadow: #fff 0 1px 0; }
 
@@ -338,6 +338,12 @@ ul.links { list-style-type: none; padding: 0px; }
 ul.links li { margin-bottom: 5px; }
 
 ul.links li a { font-weight: bold; font-size: 11px; text-shadow: #fff 0 1px 0; }
+
+/* Comments */
+
+ul.comments { list-style-type: none; padding: 0px; }
+
+ul.comments li { margin-bottom: 5px; color: #818283; text-shadow: #fff 0px 1px 0px; }
 
 /* Messages */
 

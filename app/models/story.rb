@@ -78,7 +78,7 @@ class Story
   def state=(new_state)
     write_attribute :state, new_state
     if new_state == 'done'
-      current_state = 'delivered'
+      current_state = 'finished'
     elsif new_state == 'current'
       current_state = 'started'
     elsif new_state == 'upcoming'

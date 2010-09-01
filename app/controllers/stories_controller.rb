@@ -40,7 +40,7 @@ class StoriesController < ProjectsController
   end
   
   def new
-    @story = Story.new(:project_id => @project._remote_id)
+    @story = Story.new(:project_id => @project._remote_id, :state => "unscheduled", :type => "feature")
   end
   
   def create
