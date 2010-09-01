@@ -7,7 +7,7 @@ module Synchronizable
     base.send :include, InstanceMethods
     base.cattr_accessor :synchronizer
     base.cattr_writer :synchronizable_fields
-    base.class_variable_set(:@@synchronizable_fields, [])
+    base.send(:class_variable_set, :@@synchronizable_fields, [])
     base.extend ClassMethods
     base.field :_remote_id, :type => Integer
     base.field :_collection_order, :type => Float, :default => 9999.0
@@ -35,7 +35,7 @@ module Synchronizable
     ##
     # Sets synchronization of a single field
     def synchronize_field(field)
-      fields = self.class_variable_get(:@@synchronizable_fields)
+      fields = self.send(:class_variable_get, :@@synchronizable_fields)
       if field.is_a?(Hash)
         field, type = *field.to_a.first
       else
