@@ -20,6 +20,7 @@ $(document).ready(function() {
 
 $.modal = function(html){
   // $("#modal_overlay, #modal_wrapper, #modal").remove();
+  $.removeModal();
   var overlay = $("<div />").attr("id", "modal_overlay").appendTo($("body")).addClass("shown");
   overlay.click(function(){
     $.removeModal();

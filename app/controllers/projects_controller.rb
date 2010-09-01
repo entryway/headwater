@@ -29,7 +29,11 @@ class ProjectsController < ApplicationController
   def update
     @project = Project.find(params[:id])
     @project.update_attributes(params[:project])
-    redirect_to @project
+    respond_to do |wants|
+      wants.html { redirect_to @project }
+      wants.js { render :text => "$.removeModal();" }
+    end
+    
   end
   
   protected

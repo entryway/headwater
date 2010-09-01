@@ -1,6 +1,9 @@
 Headwater::Application.routes.draw do
   devise_for :users
 
+  resources :users
+  resource :account
+
   resources :projects do
     resources :stories do
       member do

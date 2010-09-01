@@ -418,6 +418,12 @@ form.formtastic ol { list-style-type: none; padding: 0px; }
 
 form.formtastic label { border: none; font-size: 12px; color: #5c5c5c; font-weight: normal; display: block; width: 150px; float: left; padding-top: 16px; }
 
+form.formtastic li.error { padding: 0px; margin: 0px; border: none; background: none; }
+
+form.formtastic li.error label { color: #ae1d18; }
+
+form.formtastic li.error p.inline-errors { display: none; }
+
 form.formtastic li.select label { padding-top: 7px; }
 
 form.formtastic fieldset.inputs input, form.formtastic textarea { color: #232323; font-size: 14px; font-weight: bold; padding: 10px; border: 1px solid #c6c6c6; background: #fff url(../images/input_background.png) repeat-x; -webkit-box-shadow: #f8f8f8 0px 1px 0px; -moz-box-shadow: #f8f8f8 0px 1px 0px; }
