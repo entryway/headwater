@@ -28,7 +28,7 @@
           .fl.label
             %label{:for => "story_estimate"} Estimate:
           .fl
-            = estimate_select(f)
+            = render :partial => "stories/inspector/estimate_select", :locals => {:form => f}
         %div.clearfix
           .fl.label
             %label{:for => "story_type"} Type:

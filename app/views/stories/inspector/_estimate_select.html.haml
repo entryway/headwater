@@ -1,0 +1,3 @@
+- (@story.project.point_scale||"1,2,3,5").split(",").each do |point|
+  = form.radio_button :estimate, point
+  = form.label :estimate, point.to_s, :for => "story_estimate_#{point}"
