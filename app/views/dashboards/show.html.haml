@@ -1,0 +1,9 @@
+.content
+  - @projects.each do |project|
+    .clearfix
+      %h2.fl= project.name
+      .fr
+    %ul
+      - project.stories.where(:state => 'current').each do |story|
+        %li
+          = story.name

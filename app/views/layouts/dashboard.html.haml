@@ -9,19 +9,9 @@
         = render :partial => "layouts/user_status"
         #status
           .content.clearfix
-            %h1 Home
+            %h1 Dashboard
       #main
-        #sidebar
-          %h2 Main
-          %ul.simple.navigation
-            %li= link_to "Dashboard", dashboard_path
-          - if @projects
-            %h2 Projects
-            %ul.simple.navigation
-              - @projects.each do |project|
-                %li{:class => viewing?(project) ? "active" : ""}
-                  %a{:href => project_path(project)}= project.name
-        #document
+        #document.dashboard
           - if flash[:notice]
             %p.notice= flash[:notice]
           - if flash[:alert]

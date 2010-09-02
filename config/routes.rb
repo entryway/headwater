@@ -1,6 +1,8 @@
 Headwater::Application.routes.draw do
   devise_for :users
 
+  resource :dashboard
+
   resources :users
   resource :account
 

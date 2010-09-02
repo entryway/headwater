@@ -447,3 +447,12 @@ form.formtastic legend span { font: 14px 'MentoneSemiBold', 'Lucida Grande'; col
 
 
 /* @end */
+
+/* @group Dashboard */
+
+#document.dashboard { background-color: #fdfcfe !important; }
+
+
+
+/* @end */
+
