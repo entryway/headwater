@@ -6,23 +6,23 @@ task :sync => :environment do
 
   pull_thread = Thread.new do
     while true do
-      puts "‹Thread/Pull› Starting\n"
+      STDOUT.puts "‹Thread/Pull› Starting\n"
       locked = true
       Project.synchronizer.pull_collection
       Project.all.each do |project|
         begin
-          puts "‹Thread/Pull› Pulling project #{project.name}\n"
+          STDOUT.puts "‹Thread/Pull› Pulling project #{project.name}\n"
           Story.synchronizer.set_context :projects, project._remote_id
           Story.synchronizer.pull_collection
         rescue Exception => e
-          puts "‹Thread/Pull› FAILED\n"
-          puts "---------------------"
-          puts e.message
-          puts e.backtrace.join('\n')
-          puts "---------------------"
+          STDOUT.puts "‹Thread/Pull› FAILED\n"
+          STDOUT.puts "---------------------"
+          STDOUT.puts e.message
+          STDOUT.puts e.backtrace.join('\n')
+          STDOUT.puts "---------------------"
         end
       end
-      puts "‹Thread/Pull› Finished\n"
+      STDOUT.puts "‹Thread/Pull› Finished\n"
       locked = false
       sleep 60
     end
@@ -31,18 +31,18 @@ task :sync => :environment do
   push_thread = Thread.new do
     while true do
       if locked
-        puts "‹Thread/Push› Waiting for unlock\n"
+        STDOUT.puts "‹Thread/Push› Waiting for unlock\n"
       else
-        puts "‹Thread/Push› Starting\n"
+        STDOUT.puts "‹Thread/Push› Starting\n"
 
         @queue = Synchronizer::Queue.instance
 
         if @queue.should_run?
-          puts "‹Thread/Push› Running queue\n"
+          STDOUT.puts "‹Thread/Push› Running queue\n"
           @queue.run
-          puts "‹Thread/Push› Finished\n"
+          STDOUT.puts "‹Thread/Push› Finished\n"
         else
-          puts "‹Thread/Push› Skipping\n"
+          STDOUT.puts "‹Thread/Push› Skipping\n"
         end
       end
 
@@ -50,9 +50,9 @@ task :sync => :environment do
     end
   end
 
-  puts "Joining pull thread ...\n"
+  STDOUT.puts "Joining pull thread ...\n"
   pull_thread.join
   sleep 1
-  puts "Joining push thread ...\n"
+  STDOUT.puts "Joining push thread ...\n"
   push_thread.join
 end
