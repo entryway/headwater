@@ -1,6 +1,6 @@
 GIT
   remote: http://github.com/justinfrench/formtastic.git
-  revision: eeba8d4
+  revision: e42d256
   branch: rails3
   specs:
     formtastic (1.1.0.beta)
@@ -47,7 +47,7 @@ GEM
       ZenTest
     bcrypt-ruby (2.1.2)
     bson (1.0.4)
-    bson_ext (1.0.7)
+    bson_ext (1.0.4)
     builder (2.1.2)
     capybara (0.3.9)
       culerity (>= 0.2.4)
@@ -160,7 +160,7 @@ PLATFORMS
 DEPENDENCIES
   autotest
   autotest-rails
-  bson_ext
+  bson_ext (= 1.0.4)
   capybara
   cucumber-rails
   database_cleaner
@@ -170,8 +170,8 @@ DEPENDENCIES
   haml (>= 3.0)
   inherited_resources
   mocha
-  mongoid (>= 2.0.0.beta.12)
-  rails (>= 3.0.0)
+  mongoid (>= 2.0.0.beta.17)
+  rails (= 3.0.0)
   rspec-core (>= 2.0.0.beta.12)
   rspec-rails (>= 2.0.0.beta.12)
   spork
