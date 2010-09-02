@@ -3,7 +3,7 @@ module Synchronizer
     include Singleton
   
     def queue_push(object)
-      queue_item = QueueItem.new( :type => "push",
+      queue_item = QueueItem.new( :kind => "push",
                                   :object_type => object.class.name,
                                   :object_local_id => object.id,
                                   :state => "new" )
@@ -11,7 +11,7 @@ module Synchronizer
     end
     
     def queue_pull(object_type, remote_id)
-      queue_item = QueueItem.new( :type => "pull",
+      queue_item = QueueItem.new( :kind => "pull",
                                   :object_type => object_type,
                                   :object_remote_id => remote_id,
                                   :state => "new" )

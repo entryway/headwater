@@ -169,8 +169,10 @@ EOF
           stub_request(:get, "http://chunky.bacon/my_objects").to_return(:body => collection)
           @object_1.expects(:name=).with("updated first")
           @object_1.expects(:save)
+          @object_1.stubs(:_collection_order=)
           @object_2.expects(:name=).with("updated second")
           @object_2.expects(:save)
+          @object_2.stubs(:_collection_order=)
           @syncer.pull_collection
         end
       
@@ -190,6 +192,7 @@ EOF
           @factory_class.stubs(:new).returns(object_3)
           object_3.expects(:name=).with("new object")
           object_3.expects(:update_remote_id).with(3)
+          object_3.stubs(:_collection_order=)
           object_3.expects(:save)
           @syncer.pull_collection
         end
@@ -214,8 +217,10 @@ EOF
           stub_request(:get, "http://chunky.bacon/context_object/801/my_objects").to_return(:body => collection)
           @object_1.expects(:name=).with("updated first")
           @object_1.expects(:save)
+          @object_1.stubs(:_collection_order=)
           @object_2.expects(:name=).with("updated second")
           @object_2.expects(:save)
+          @object_2.stubs(:_collection_order=)
           @syncer.set_context(:context_object, 801)
           @syncer.pull_collection
         end

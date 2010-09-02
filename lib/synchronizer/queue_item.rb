@@ -2,7 +2,7 @@ module Synchronizer
   class QueueItem
     include Mongoid::Document
 
-    field :type
+    field :kind
     field :state
     field :result
 
@@ -11,12 +11,12 @@ module Synchronizer
     field :object_local_id
       
     def process_item
-      if type == "push"
+      if kind == "push"
         self.process_push
-      elsif type == "pull"
+      elsif kind == "pull"
         self.process_pull
       else
-        raise "Unrecognized Queue type #{type}"
+        raise "Unrecognized Queue kind #{kind}"
       end
     end
     

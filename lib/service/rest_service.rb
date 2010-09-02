@@ -77,8 +77,11 @@ module Service
     # @return [String] Retrieved data from the URL
     def retrieve(url, method = :get, headers = {}, data = nil)
       puts [url, method, headers, data].inspect
-      data = retrieve_with_typhoeus(url, method, headers, data)
-      # data = retrieve_with_http(url, method, headers, data)
+      if Rails.env.test?
+        data = retrieve_with_http(url, method, headers, data)
+      else
+        data = retrieve_with_typhoeus(url, method, headers, data)
+      end
       # puts "\e\[32m"
       # puts data
       # puts "\e\[0m"

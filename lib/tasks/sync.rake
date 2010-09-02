@@ -8,19 +8,19 @@ task :sync => :environment do
     while true do
       puts "‹Thread/Pull› Starting\n"
       locked = true
-      begin
-        Project.synchronizer.pull_collection
-        Project.all.each do |project|
-          # puts "‹Thread/Pull› Pulling project #{project.name}\n"
+      Project.synchronizer.pull_collection
+      Project.all.each do |project|
+        begin
+          puts "‹Thread/Pull› Pulling project #{project.name}\n"
           Story.synchronizer.set_context :projects, project._remote_id
           Story.synchronizer.pull_collection
+        rescue Exception => e
+          puts "‹Thread/Pull› FAILED\n"
+          puts "---------------------"
+          puts e.message
+          puts e.backtrace.join('\n')
+          puts "---------------------"
         end
-      rescue Exception => e
-        puts "‹Thread/Pull› FAILED\n"
-        puts "---------------------"
-        puts e.message
-        puts e.backtrace.join('\n')
-        puts "---------------------"
       end
       puts "‹Thread/Pull› Finished\n"
       locked = false
