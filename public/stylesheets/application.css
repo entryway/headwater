@@ -480,6 +480,52 @@ form.formtastic li.estimate { margin-bottom: 5px; }
 
 #document.dashboard { background-color: #fdfcfe !important; }
 
+ul.dashboard_stories { list-style-type: none; background: #f8f8f9; border: 1px solid #e8ebee; -webkit-border-radius: 3px; -moz-border-radius: 3px; padding: 0px; margin-right: 0; margin-bottom: 30px; }
+
+ul.dashboard_stories li { border-bottom: 1px solid #e8ebee; font-size: 13px; color: #afb8c5; padding: 8px 8px 8px 40px; }
+
+ul.dashboard_stories li a { color: #afb8c5; }
+
+ul.dashboard_stories li a:hover { color: #adb5c4; }
+
+ul.dashboard_stories li.feature { background: url(../images/dashboard_story_icons.png) no-repeat 8px 6px; }
+
+ul.dashboard_stories li.chore { background: url(../images/dashboard_story_icons.png) no-repeat 8px -93px; }
+
+ul.dashboard_stories li.bug { background: url(../images/dashboard_story_icons.png) no-repeat 8px -43px; }
+
+ul.dashboard_stories li:last-child { border-bottom: none; }
+
+ul.dashboard_stories li.none { text-align: center; color: #bec7d7; }
+
+.progress_text { font-size: 12px; margin-right: 10px; color: #888; }
+
+.progress { width: 162px; height: 15px; background-image: url(../images/dashboard_progress_background.png); border: 1px solid #afb8c5; -webkit-border-radius: 3px; -moz-border-radius: 3px; }
+
+.progress .progress_bar { height: 13px; width: 0; margin-top: 1px; margin-left: 1px; -webkit-border-radius: 3px; -moz-border-radius: 3px; background-image: url(../images/dashboard_progress_bar.png); }
+
+.progress .progress_bar.progress_0 { width: 0; }
+
+.progress .progress_bar.progress_1 { width: 16px; }
+
+.progress .progress_bar.progress_2 { width: 32px; }
+
+.progress .progress_bar.progress_3 { width: 48px; }
+
+.progress .progress_bar.progress_4 { width: 64px; }
+
+.progress .progress_bar.progress_5 { width: 80px; }
+
+.progress .progress_bar.progress_6 { width: 96px; }
+
+.progress .progress_bar.progress_7 { width: 112px; }
+
+.progress .progress_bar.progress_8 { width: 128px; }
+
+.progress .progress_bar.progress_9 { width: 144px; }
+
+.progress .progress_bar.progress_10 { width: 160px; }
+
 
 
 /* @end */

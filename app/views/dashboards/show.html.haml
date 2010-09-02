@@ -5,12 +5,17 @@
         = link_to project.name, project_path(project)
       .fr
         - if project.hours_per_week
-          Hours goal:
-          = project.hours_per_week
-          %br
-          Hours spent:
-          = project.hours_this_week.round(2)
-    %ul
-      - project.stories.where(:state => 'current').each do |story|
-        %li
-          = story.name
+          .clearfix
+            .progress_text.fl
+              == #{project.hours_this_week.round(2)} out of #{project.hours_per_week}
+            %div.progress.fl{:class => "progress_#{project.progress_max}"}
+              %div.progress_bar{:class => "progress_#{project.progress_actual}"}
+    - stories = project.stories.where(:state => 'current')
+    - if stories.present?
+      %ul.dashboard_stories
+        - stories.each do |story|
+          %li{:class => story.story_type}
+            = link_to story.name, project_path(project)+"#/#{story.id}"
+    - else
+      %ul.dashboard_stories
+        %li.none No stories in started state.

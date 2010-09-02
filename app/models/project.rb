@@ -23,7 +23,7 @@ class Project
   field :commit_mode
   field :memberships
   field :integrations
-  field :hours_per_week
+  field :hours_per_week, :type => Integer
   
   field :harvest_project_id
   field :harvest_task_id
@@ -59,6 +59,14 @@ class Project
     time = 0
     time_entries.each { |e| time += e.hours }
     time
+  end
+  
+  def progress_max
+    10
+  end
+  
+  def progress_actual
+    ((progress_max*hours_this_week)/(hours_per_week.to_i)).ceil
   end
 
 end
