@@ -8,22 +8,24 @@
     .edit.hidden
       = f.text_field :name, :class => "name"
       = f.text_area :description
-      %div.clearfix
+      %div.clearfix.row
         .fl.label
           %label{:for => "story_estimate"} Estimate:
         .fl
           = render :partial => "stories/inspector/estimate_select", :locals => {:form => f}
-      %div.clearfix
+      %div.clearfix.row.type
         .fl.label
           %label{:for => "story_type"} Type:
-        .fl
-          = type_select(f)
-      %div.clearfix
+        .fl.type_select
+          - Story::TYPES.each do |type|
+            %label.custom_radio_label{:class => type, :for => "story_story_type_#{type}"}
+              = f.radio_button :story_type, type
+      %div.clearfix.row
         .fl.label
           %label{:for => "story_type"} State:
         .fl
           = state_select(f)
-      %div.clearfix
+      %div.clearfix.row
         .fl.label
           %label{:for => "story_owner"} Owner:
         .fl

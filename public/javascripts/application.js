@@ -16,6 +16,20 @@ $(document).ready(function() {
 	}, function() {
 		$("#project_switcher").hide();
 	});
+	$("label.custom_radio_label input").live('update-label', function(){
+    var selected = $(this).attr('checked');
+    if(selected)
+    {
+      $(this).parents("label:first").addClass("checked").siblings("label").removeClass("checked");
+    };
+	});
+	$("label.custom_radio_label input").trigger('update-label');
+	$(document).ajaxComplete(function(){
+	  $("label.custom_radio_label input").trigger('update-label');
+	})
+	$("label.custom_radio_label input").live('change', function(){
+	  $(this).trigger("update-label");
+	})
 });
 
 $.modal = function(html){
