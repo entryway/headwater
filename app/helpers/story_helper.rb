@@ -18,12 +18,7 @@ module StoryHelper
   end
   
   def commit_message(story)
-    update_message = if ['done', 'archived'].include?(story.state)
-      "Finished"
-    else
-      "Progress"
-    end
-    "[#{update_message}: ##{story._remote_id}] #{story.name}"
+    "[##{story._remote_id}] #{story.name}"
   end
   
   def git_flow_message(story)
