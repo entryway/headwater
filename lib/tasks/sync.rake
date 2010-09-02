@@ -3,6 +3,8 @@
 task :sync => :environment do
   threads = []
   locked = false  
+  
+  puts "----> Starting synchronization"
 
   pull_thread = Thread.new do
     while true do
