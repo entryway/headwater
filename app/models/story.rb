@@ -28,6 +28,8 @@ class Story
   field :is_archived, :type => Boolean, :default => false
   
   field :state
+  
+  referenced_in :owner, :class_name => "User", :inverse_of => :stories
     
   synchronize_fields :project_id
   synchronize_fields :story_type
@@ -47,6 +49,13 @@ class Story
   
   before_save do
     self.updated_at = Time.now
+  end
+  
+  def before_pull(synchronizer)
+    user = User.where(:name => self.owned_by).first
+    if user
+      self.owner = user
+    end
   end
 
   def project

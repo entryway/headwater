@@ -8,7 +8,7 @@
         %h1.logo= link_to 'Headwater', projects_path
         #user_status
           - if user_signed_in?
-            = link_to 'Account settings', edit_registration_path(current_user)
+            = link_to 'Account settings', edit_account_path, :class => "ajax"
             %strong= link_to current_user.email, destroy_user_session_path
         #status
           .content.clearfix

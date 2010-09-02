@@ -39,12 +39,14 @@ module Synchronizer
       else
         local_object = @factory.new
       end
+      local_object.before_pull(self) if local_object.respond_to?(:before_pull)
       object_hash = @service.show(object_name, id)
       @service.clear_contexts
       @factory.synchronizable_fields.each do |key|
         value = object_hash[key.to_s]
         local_object.send("#{key}=", value)
       end
+      local_object.after_pull(self) if local_object.respond_to?(:after_pull)
       local_object.save
     end
     
@@ -99,12 +101,14 @@ module Synchronizer
           local_object = @factory.new
           local_object.update_remote_id(remote_id)
         end
+        local_object.before_pull(self) if local_object.respond_to?(:before_pull)
         local_object._collection_order = index
         fields = @factory.synchronizable_fields(:pull)
         fields.each do |field|
           value = remote_object_hash[field.to_s]
           local_object.send("#{field}=", value)
         end
+        local_object.after_pull(self) if local_object.respond_to?(:after_pull)
         local_object.save
       end
       collection.count
