@@ -4,7 +4,12 @@
     = f.input :story_type, :as => :select, :collection => Story::TYPES
     = f.input :current_state, :as => :select, :collection => Story::STATES
     = f.input :description, :as => :text
-    = f.input :estimate
+    
+    %li.clearfix.estimate
+      %label.estimate Estimate
+      .estimate.fl.clearfix
+        = render :partial => "stories/inspector/estimate_select", :locals => {:form => f}
+    
     = f.input :owner_id, :collection => User.all
 
   = f.buttons

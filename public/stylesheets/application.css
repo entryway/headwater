@@ -444,6 +444,14 @@ form.formtastic li.commit input:active { background-position: 0 -50px; }
 
 form.formtastic legend span { font: 14px 'MentoneSemiBold', 'Lucida Grande'; color: #4a4f57; text-shadow: #fff 0 1px 0; }
 
+form.formtastic label.estimate { padding-top: 4px; }
+
+form.formtastic div.estimate label { display: block; float: left; width: 20px; padding-top: 4px; padding-left: 5px; }
+
+form.formtastic div.estimate input { display: block; float: left; widows: 20px; }
+
+form.formtastic li.estimate { margin-bottom: 5px; }
+
 
 
 /* @end */
