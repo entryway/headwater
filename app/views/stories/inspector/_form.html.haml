@@ -27,7 +27,7 @@
         .fl.label
           %label{:for => "story_owner"} Owner:
         .fl
-          = f.collection_select(:owner_id, User.all, :id, :name)
+          = f.collection_select(:owner_id, User.all, :id, :name, :include_blank => true)
       .clearfix.buttons
         %a{:class => "button small save", :href => "#"}
           %span Save

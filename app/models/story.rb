@@ -57,6 +57,12 @@ class Story
       self.owner = user
     end
   end
+  
+  def before_push(synchronizer)
+    if self.owner
+      self.owned_by = self.owner.name
+    end
+  end
 
   def project
     Project.where(:_remote_id => project_id).first

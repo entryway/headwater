@@ -57,13 +57,15 @@ module Synchronizer
     # @param [Object] Local object
     def push_object(local_object)
       object_name = @factory.object_name.to_sym
+      
+      local_object.before_push(self) if local_object.respond_to?(:before_push)
+      
       changes = {}
       @factory.synchronizable_fields(:push).each do |atr|
         value = local_object.send(atr)
         changes[atr.to_s] = value
       end
       
-      local_object.before_push(self) if local_object.respond_to?(:before_push)
       @service.set_contexts(local_object.contexts)
       
       if local_object._remote_id
