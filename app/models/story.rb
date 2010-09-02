@@ -51,7 +51,7 @@ class Story
     self.updated_at = Time.now
   end
   
-  def before_pull(synchronizer)
+  def after_pull(synchronizer)
     user = User.where(:name => self.owned_by).first
     if user
       self.owner = user
