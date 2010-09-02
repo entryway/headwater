@@ -6,7 +6,7 @@
     .name
       = story.name
       - if story.owner
-        == (#{story.owner.name})
+        %a.owner{:href => "#"}= story.owner.name
     .details.clearfix
       - if story.estimate && story.estimate != -1
         %span.fl.points= story.estimate

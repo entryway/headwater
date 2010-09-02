@@ -1,0 +1,34 @@
+- form_for [@project, @story], :html => {:class => "story"} do |f|
+  .content
+    .view
+      %h3= @story.name
+      %p.description= format_text(@story.description)
+      %a{:href => edit_project_story_path(@project, @story), :class => "edit"} Edit
+  
+    .edit.hidden
+      = f.text_field :name, :class => "name"
+      = f.text_area :description
+      %div.clearfix
+        .fl.label
+          %label{:for => "story_estimate"} Estimate:
+        .fl
+          = render :partial => "stories/inspector/estimate_select", :locals => {:form => f}
+      %div.clearfix
+        .fl.label
+          %label{:for => "story_type"} Type:
+        .fl
+          = type_select(f)
+      %div.clearfix
+        .fl.label
+          %label{:for => "story_type"} State:
+        .fl
+          = state_select(f)
+      %div.clearfix
+        .fl.label
+          %label{:for => "story_owner"} Owner:
+        .fl
+          = f.collection_select(:owner_id, User.all, :id, :name)
+      .clearfix.buttons
+        %a{:class => "button small save", :href => "#"}
+          %span Save
+        %a.fr{:class => "cancel", :href => "#"} Cancel

@@ -14,52 +14,23 @@
         %span Mark as upcoming
 
   
-  - form_for [@project, @story], :html => {:class => "story"} do |f|
-    .content
-      .view
-        %h3= @story.name
-        %p.description= format_text(@story.description)
-        %a{:href => edit_project_story_path(@project, @story), :class => "edit"} Edit
+  = render :partial => "stories/inspector/form"
     
-      .edit.hidden
-        = f.text_field :name, :class => "name"
-        = f.text_area :description
-        %div.clearfix
-          .fl.label
-            %label{:for => "story_estimate"} Estimate:
-          .fl
-            = render :partial => "stories/inspector/estimate_select", :locals => {:form => f}
-        %div.clearfix
-          .fl.label
-            %label{:for => "story_type"} Type:
-          .fl
-            = type_select(f)
-        %div.clearfix
-          .fl.label
-            %label{:for => "story_type"} State:
-          .fl
-            = state_select(f)
-        .clearfix.buttons
-          %a{:class => "button small save", :href => "#"}
-            %span Save
-          %a.fr{:class => "cancel", :href => "#"} Cancel
-    
-    
-    .content    
-      - if @story.notes.present?
-        %h3 Comments
-        %ul.comments
-          - @story.notes.each do |note|
-            %li
-              %strong= note['author']
-              = format_text(note['text'])
-        
-    
-      %h3 Links
+  .content    
+    - if @story.notes.present?
+      %h3 Comments
+      %ul.comments
+        - @story.notes.each do |note|
+          %li
+            %strong= note['author']
+            = format_text(note['text'])
       
-      %ul.links
-        %li= link_to "Pivotal Tracker ›", @story.url, :target => "_blank"
-        %li
-          %input{:type => "text", :class => "message select", :value => commit_message(@story)}
-        %li
-          %input{:type => "text", :class => "message select", :value => git_flow_message(@story)}
+  
+    %h3 Links
+    
+    %ul.links
+      %li= link_to "Pivotal Tracker ›", @story.url, :target => "_blank"
+      %li
+        %input{:type => "text", :class => "message select", :value => commit_message(@story)}
+      %li
+        %input{:type => "text", :class => "message select", :value => git_flow_message(@story)}
