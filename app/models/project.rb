@@ -23,6 +23,7 @@ class Project
   field :commit_mode
   field :memberships
   field :integrations
+  field :hours_per_week
   
   field :harvest_project_id
   field :harvest_task_id
@@ -48,6 +49,16 @@ class Project
   
   def stories
     Story.where(:project_id => self._remote_id).asc(:_collection_order)
+  end
+  
+  def hours_this_week
+    story_ids = self.stories.collect(&:id)
+    monday = Date.parse("monday")
+    days = (monday..(monday+6)).to_a
+    time_entries = TimeEntry.archived.where(:date.in => days, :story_id.in => story_ids)
+    time = 0
+    time_entries.each { |e| time += e.hours }
+    time
   end
 
 end

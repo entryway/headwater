@@ -5,7 +5,7 @@
   %body{:class => params[:controller]}
     #wrapper
       #header
-        %h1.logo= link_to 'Headwater', projects_path
+        %h1.logo= link_to 'Headwater', dashboard_path
         .loader
         #user_status
           = link_to 'Project settings', edit_project_path(@project), :class => "ajax"

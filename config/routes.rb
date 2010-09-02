@@ -26,5 +26,5 @@ Headwater::Application.routes.draw do
     end
   end
   
-  root :to => "projects#index"
+  root :to => "dashboard#show"
 end
