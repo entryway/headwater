@@ -534,6 +534,14 @@ ul.dashboard_stories li.none { text-align: center; color: #bec7d7; }
 
 #dashboard input.toggle_project.expanded { background-position: 0 -50px; }
 
+ul.time_entries { list-style-type: none; padding: 0px; width: 400px; }
+
+ul.time_entries li { color: #9ca7bd; font-size: 11px; }
+
+ul.time_entries li span.time { font-size: 14px; font-weight: bold; color: #2b2c2f; padding-right: 3px; }
+
+ul.time_entries li.running span.time { color: #5366cf; }
+
 
 
 /* @end */

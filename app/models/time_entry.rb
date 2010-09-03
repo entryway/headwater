@@ -30,6 +30,7 @@ class TimeEntry
   referenced_in :user
   referenced_in :story
   
+  scope :started, :where => {:started_at.ne => nil}
   scope :archived, :where => {:length.exists => true, :started_at.ne => nil, :is_running.ne => true}
   # 
   def before_push(synchronizer)
@@ -58,10 +59,6 @@ class TimeEntry
   
   def task_id
     story.project.harvest_task_id
-  end
-  
-  def story
-    Story.find(story_id)
   end
   
   def self.current_for_story_and_user(story, user)

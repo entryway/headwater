@@ -1,22 +1,24 @@
 #dashboard
   .content.user
-    %h2= current_user.name
     .clearfix
       .fl
+        %h2= current_user.name
         Hours this week:
-        = current_user.hours_this_week.round(2)
+        = current_user.hours_this_week.to_f.round(2)
         %br
         Hours today:
-        = current_user.hours_today.round(2)
+        = current_user.hours_today.to_f.round(2)
       .fr
-        %ul
+        %ul.time_entries
           - @time_entries.each do |time_entry|
-            %li
-              = time_entry.total_length
-              minutes:
-              - if time_entry.story
-                = time_entry.story.project.name
-                = time_entry.story.name
+            %li{:class => time_entry.is_running ? "running" : ""}
+              %span.time= format_as_time(time_entry.total_length)
+              %span.note
+                - if time_entry.story
+                  %strong= time_entry.story.project.name
+                  = time_entry.story.name
+                - if time_entry.note
+                = time_entry.note
 
   .content
     - @projects.each do |project|

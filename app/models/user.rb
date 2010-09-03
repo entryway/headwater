@@ -18,7 +18,7 @@ class User
   end
   
   def time_entries_today
-    TimeEntry.archived.where(:date => Date.today).order_by(:last_started_at)
+    TimeEntry.started.where(:date => Date.today).order_by(:last_started_at)
   end
   
   def hours_this_week
