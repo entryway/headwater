@@ -1,3 +1,12 @@
+.content.user
+  %h2= current_user.name
+  %p
+    Hours this week:
+    = current_user.hours_this_week.round(2)
+    %br
+    Hours today:
+    = current_user.hours_today.round(2)
+
 .content
   - @projects.each do |project|
     .clearfix

@@ -16,5 +16,17 @@ class User
   def to_s
     email
   end
+  
+  def hours_this_week
+    monday = Date.parse("monday")
+    days = (monday..(monday+6)).to_a
+    time_entries = TimeEntry.archived.where(:date.in => days)
+    time_entries.inject(0) { |sum, e| sum + e.hours }
+  end
+  
+  def hours_today
+    time_entries = TimeEntry.archived.where(:date => Date.today)
+    time_entries.inject(0) { |sum, e| sum + e.hours }
+  end
 
 end

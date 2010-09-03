@@ -10,6 +10,7 @@
         #status
           .content.clearfix
             %h1 Dashboard
+          #time_tracker{:"data-path" => current_time_entries_path}          
       #main
         #document.dashboard
           - if flash[:notice]
