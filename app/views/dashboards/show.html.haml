@@ -1,30 +1,43 @@
-.content.user
-  %h2= current_user.name
-  %p
-    Hours this week:
-    = current_user.hours_this_week.round(2)
-    %br
-    Hours today:
-    = current_user.hours_today.round(2)
-
-.content
-  - @projects.each do |project|
+#dashboard
+  .content.user
+    %h2= current_user.name
     .clearfix
-      %h2.fl
-        = link_to project.name, project_path(project)
+      .fl
+        Hours this week:
+        = current_user.hours_this_week.round(2)
+        %br
+        Hours today:
+        = current_user.hours_today.round(2)
       .fr
-        - if project.hours_per_week
-          .clearfix
-            .progress_text.fl
-              == #{project.hours_this_week.to_f.round(2)} out of #{project.hours_per_week}
-            %div.progress.fl{:class => "progress_#{project.progress_max}"}
-              %div.progress_bar{:class => "progress_#{project.progress_actual}"}
-    - stories = project.stories.where(:state => 'current')
-    - if stories.present?
-      %ul.dashboard_stories
-        - stories.each do |story|
-          %li{:class => story.story_type}
-            = link_to story.name, project_path(project)+"#/#{story.id}"
-    - else
-      %ul.dashboard_stories
-        %li.none No stories in started state.
+        %ul
+          - @time_entries.each do |time_entry|
+            %li
+              = time_entry.total_length
+              minutes:
+              - if time_entry.story
+                = time_entry.story.project.name
+                = time_entry.story.name
+
+  .content
+    - @projects.each do |project|
+      .dashboard_project
+        .clearfix
+          %h2.fl
+            %input.toggle_project.expanded{:type => "button"}
+            = link_to project.name, project_path(project)
+          .fr
+            - if project.hours_per_week
+              .clearfix
+                .progress_text.fl
+                  == #{project.hours_this_week.to_f.round(2)} out of #{project.hours_per_week}
+                %div.progress.fl{:class => "progress_#{project.progress_max}"}
+                  %div.progress_bar{:class => "progress_#{project.progress_actual}"}
+        - stories = project.stories.where(:state => 'current')
+        - if stories.present?
+          %ul.dashboard_stories
+            - stories.each do |story|
+              %li{:class => story.story_type}
+                = link_to story.name, project_path(project)+"#/#{story.id}"
+        - else
+          %ul.dashboard_stories
+            %li.none No stories in started state.

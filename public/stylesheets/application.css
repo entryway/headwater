@@ -530,6 +530,10 @@ ul.dashboard_stories li.none { text-align: center; color: #bec7d7; }
 
 .content.user { background-color: #f5f5f5; }
 
+#dashboard input.toggle_project { width: 12px; height: 11px; border: none; cursor: pointer; background: url(../images/dashboard_toggle_buttons.png) 0 0px; }
+
+#dashboard input.toggle_project.expanded { background-position: 0 -50px; }
+
 
 
 /* @end */

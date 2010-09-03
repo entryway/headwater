@@ -5,5 +5,6 @@ class DashboardsController < ApplicationController
   
   def show
     @projects = Project.all.order_by(:hours_per_week => :desc)
+    @time_entries = current_user.time_entries_today
   end
 end
