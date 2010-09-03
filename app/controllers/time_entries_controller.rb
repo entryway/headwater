@@ -51,6 +51,7 @@ class TimeEntriesController < ProjectsController
   def pause
     @time_entry = TimeEntry.find(params[:id])
     @time_entry.pause
+    @time_entry.push
     respond_to do |wants|
       wants.json { render :json => @time_entry }
       wants.js { render :action => :show }

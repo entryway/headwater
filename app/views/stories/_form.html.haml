@@ -1,7 +1,14 @@
 - semantic_form_for [@project, @story] do |f|
   - f.inputs do
     = f.input :name
-    = f.input :story_type, :as => :select, :collection => Story::TYPES
+    
+    %li.clearfix.story_type
+      %label.story_type Type
+      .fl.type_select
+        - Story::TYPES.each do |type|
+          %label.custom_radio_label{:class => type, :for => "story_story_type_#{type}"}
+            = f.radio_button :story_type, type
+            
     = f.input :current_state, :as => :select, :collection => Story::STATES
     = f.input :description, :as => :text
     

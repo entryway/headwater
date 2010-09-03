@@ -207,6 +207,50 @@ body.with_inspector #main #document { right: 250px; }
 
 /* @end */
 
+/* @group Forms */
+
+form.formtastic fieldset { border: none; padding-top: 0px; padding-bottom: 0px; padding-left: 5px; }
+
+form.formtastic ol { list-style-type: none; padding: 0px; }
+
+form.formtastic label { border: none; font-size: 12px; color: #5c5c5c; font-weight: normal; display: block; width: 150px; float: left; padding-top: 16px; }
+
+form.formtastic label.story_type { padding-top: 2px; }
+
+form.formtastic li.error { padding: 0px; margin: 0px; border: none; background: none; }
+
+form.formtastic li.error label { color: #ae1d18; }
+
+form.formtastic li.error p.inline-errors { display: none; }
+
+form.formtastic li.select label { padding-top: 7px; }
+
+form.formtastic fieldset.inputs input, form.formtastic textarea { color: #232323; font-size: 14px; font-weight: bold; padding: 10px; border: 1px solid #c6c6c6; background: #fff url(../images/input_background.png) repeat-x; -webkit-box-shadow: #f8f8f8 0px 1px 0px; -moz-box-shadow: #f8f8f8 0px 1px 0px; }
+
+form.formtastic textarea { font-size: 12px; height: 100px; }
+
+form.formtastic select { font-size: 14px; }
+
+form.formtastic li.commit input { background: transparent url(../images/submit_button_background.png) no-repeat; border: none; padding: 12px; width: 136px; color: #fff; font: normal normal 13px MentoneSemiBold; text-transform: uppercase; text-shadow: #2f558e 0 1px 0; cursor: pointer; }
+
+form.formtastic li.commit { margin-left: 150px; }
+
+form.formtastic li.commit input:active { background-position: 0 -50px; }
+
+form.formtastic legend span { font: 14px 'MentoneSemiBold', 'Lucida Grande'; color: #4a4f57; text-shadow: #fff 0 1px 0; }
+
+form.formtastic label.estimate { padding-top: 4px; }
+
+form.formtastic div.estimate label { display: block; float: left; width: 20px; padding-top: 4px; padding-left: 5px; }
+
+form.formtastic div.estimate input { display: block; float: left; width: 20px; }
+
+form.formtastic li.estimate { margin-bottom: 5px; }
+
+
+
+/* @end */
+
 /* @group Stories */
 
 ul.stories { padding: 0px; margin: 0px; }
@@ -379,7 +423,7 @@ ul.comments li { margin-bottom: 5px; color: #818283; text-shadow: #fff 0px 1px 0
 
 .type_select { background-image: url(../images/story_type_picker.png); width: 126px; height: 24px; border: 1px solid #b3bbc2; -webkit-border-radius: 3px; }
 
-.type_select label { width: 42px; display: block; float: left; height: 24px; cursor: pointer; }
+.type_select label { width: 42px !important; display: block !important; float: left !important; height: 24px !important; cursor: pointer; padding: 0px !important; }
 
 .type_select label.checked.feature { background: url(../images/story_type_picker.png) 0 -24px; }
 
@@ -434,48 +478,6 @@ a.button.small.disabled span { background-position: 0 -100px; color: #9e9fa2; te
 
 /* @end */
 
-/* @group Forms */
-
-form.formtastic fieldset { border: none; padding-top: 0px; padding-bottom: 0px; padding-left: 5px; }
-
-form.formtastic ol { list-style-type: none; padding: 0px; }
-
-form.formtastic label { border: none; font-size: 12px; color: #5c5c5c; font-weight: normal; display: block; width: 150px; float: left; padding-top: 16px; }
-
-form.formtastic li.error { padding: 0px; margin: 0px; border: none; background: none; }
-
-form.formtastic li.error label { color: #ae1d18; }
-
-form.formtastic li.error p.inline-errors { display: none; }
-
-form.formtastic li.select label { padding-top: 7px; }
-
-form.formtastic fieldset.inputs input, form.formtastic textarea { color: #232323; font-size: 14px; font-weight: bold; padding: 10px; border: 1px solid #c6c6c6; background: #fff url(../images/input_background.png) repeat-x; -webkit-box-shadow: #f8f8f8 0px 1px 0px; -moz-box-shadow: #f8f8f8 0px 1px 0px; }
-
-form.formtastic textarea { font-size: 12px; height: 100px; }
-
-form.formtastic select { font-size: 14px; }
-
-form.formtastic li.commit input { background: transparent url(../images/submit_button_background.png) no-repeat; border: none; padding: 12px; width: 136px; color: #fff; font: normal normal 13px MentoneSemiBold; text-transform: uppercase; text-shadow: #2f558e 0 1px 0; cursor: pointer; }
-
-form.formtastic li.commit { margin-left: 150px; }
-
-form.formtastic li.commit input:active { background-position: 0 -50px; }
-
-form.formtastic legend span { font: 14px 'MentoneSemiBold', 'Lucida Grande'; color: #4a4f57; text-shadow: #fff 0 1px 0; }
-
-form.formtastic label.estimate { padding-top: 4px; }
-
-form.formtastic div.estimate label { display: block; float: left; width: 20px; padding-top: 4px; padding-left: 5px; }
-
-form.formtastic div.estimate input { display: block; float: left; width: 20px; }
-
-form.formtastic li.estimate { margin-bottom: 5px; }
-
-
-
-/* @end */
-
 /* @group Dashboard */
 
 #document.dashboard { background-color: #fdfcfe !important; }
@@ -486,7 +488,7 @@ ul.dashboard_stories li { border-bottom: 1px solid #e8ebee; font-size: 13px; col
 
 ul.dashboard_stories li a { color: #afb8c5; }
 
-ul.dashboard_stories li a:hover { color: #adb5c4; }
+ul.dashboard_stories li a:hover { color: #a0a8b5; }
 
 ul.dashboard_stories li.feature { background: url(../images/dashboard_story_icons.png) no-repeat 8px 6px; }
 

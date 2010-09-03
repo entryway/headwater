@@ -7,7 +7,7 @@
         - if project.hours_per_week
           .clearfix
             .progress_text.fl
-              == #{project.hours_this_week.round(2)} out of #{project.hours_per_week}
+              == #{project.hours_this_week.to_f.round(2)} out of #{project.hours_per_week}
             %div.progress.fl{:class => "progress_#{project.progress_max}"}
               %div.progress_bar{:class => "progress_#{project.progress_actual}"}
     - stories = project.stories.where(:state => 'current')
