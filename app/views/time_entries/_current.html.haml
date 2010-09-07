@@ -7,7 +7,8 @@
       - else
         %a.toggle.start{:href => start_time_entry_path(@time_entry, :cache => Time.now.to_i)} Start
     .fr.entry
-      = @time_entry.story.name
+      - if @time_entry.story
+        = link_to @time_entry.story.name, project_path(@time_entry.story.project) + "#/" + @time_entry.story.id.to_s
   - else
     .fr.clock
       %strong 00:00

@@ -16,13 +16,13 @@
               %span.note
                 - if time_entry.story
                   %strong= time_entry.story.project.name
-                  = time_entry.story.name
+                  = link_to time_entry.story.name, project_path(time_entry.story.project) + "#/" + time_entry.story.id.to_s
                 - if time_entry.note
                 = time_entry.note
 
   .content
     - @projects.each do |project|
-      .dashboard_project
+      .dashboard_project[project]
         .clearfix
           %h2.fl
             %input.toggle_project.expanded{:type => "button"}

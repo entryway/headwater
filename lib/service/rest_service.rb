@@ -116,7 +116,12 @@ module Service
     # @param [String] XML
     # @return [Array<Hash>] Parsed XML in Ruby primitives
     def parse_xml(xml_string)
-      Hash.from_xml(xml_string)
+      return {} if xml_string.blank?
+      begin
+        Hash.from_xml(xml_string)
+      rescue Exception => e
+        return {}
+      end
     end
     
     def find_object_in_result(result, object_type, action)
@@ -124,6 +129,7 @@ module Service
       # puts result
       if @root
         @root.split('/').each do |branch|
+          break if data.nil?
           data = data[branch]
         end
         data

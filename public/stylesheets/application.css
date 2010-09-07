@@ -108,6 +108,10 @@ body.loading #header .loader { opacity: 1; _display: block; }
 
 #time_tracker .entry { padding-top: 12px; padding-right: 7px; }
 
+#time_tracker .entry a { color: #66686c; }
+
+#time_tracker .entry a:hover { color: #878b90; }
+
 #time_tracker .clock { padding: 11px 50px 10px 15px; background: url(../images/time_tracker_clock_background.png) no-repeat; position: relative; }
 
 #time_tracker .clock a.toggle { position: absolute; right: 19px; top: 7px; display: block; width: 26px; height: 25px; text-indent: -9999px; background-image: url(../images/time_tracker_clock_button.png); }
@@ -537,6 +541,8 @@ ul.dashboard_stories li.none { text-align: center; color: #bec7d7; }
 ul.time_entries { list-style-type: none; padding: 0px; width: 400px; }
 
 ul.time_entries li { color: #9ca7bd; font-size: 11px; }
+
+ul.time_entries li a { color: #9ca7bd; }
 
 ul.time_entries li span.time { font-size: 14px; font-weight: bold; color: #2b2c2f; padding-right: 3px; }
 
