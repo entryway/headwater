@@ -30,6 +30,10 @@
           %label{:for => "story_owner"} Owner:
         .fl
           = f.collection_select(:owner_id, User.all, :id, :name, :include_blank => true)
+      %div.clearfix.row
+        %label{:for => "tags"} Tags:
+        = f.text_field :tags, :value => @story.tags.join(', '), :class => 'tags'
+        
       .clearfix.buttons
         %a{:class => "button small save", :href => "#"}
           %span Save

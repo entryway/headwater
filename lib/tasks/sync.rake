@@ -26,7 +26,7 @@ task :sync => :environment do
       end
       STDOUT.puts "‹Thread/Pull› Finished\n"
       locked = false
-      sleep 60
+      sleep 120
     end
   end
 

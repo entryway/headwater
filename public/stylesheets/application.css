@@ -333,9 +333,9 @@ ul.stories.edit_mode .delete_button a { display: block; background-image: url(..
 
 /* Tags */
 
-.story .tags { color: #eff3f7; text-shadow: none; margin-left: 10px; margin-top: 3px; font-weight: bold; font-size: 9px; }
+li.story .tags { color: #eff3f7; margin-left: 10px; margin-top: 3px; font-weight: bold; font-size: 9px; text-shadow: #757a80 0 1px 0; }
 
-.story .tags .tag { background: #81868d url(../images/tag_icon.png) no-repeat 4px 3px; text-transform: uppercase; -webkit-border-radius: 2px; -moz-border-radius: 2px; padding: 2px 4px 2px 17px; }
+li.story .tags .tag { background: #81868d url(../images/tag_icon.png) no-repeat 4px 3px; text-transform: uppercase; -webkit-border-radius: 2px; -moz-border-radius: 2px; padding: 2px 4px 2px 17px; }
 
 /* @group Inspector */
 
@@ -356,6 +356,8 @@ ul.stories.edit_mode .delete_button a { display: block; background-image: url(..
 .story_inspector label { color: #808587; font-weight: normal; font-style: normal; font-size: 12px; }
 
 .story_inspector .label { width: 70px; padding-top: 4px; }
+
+.story_inspector input.tags { width: 130px; margin-left: 38px; }
 
 /* Buttons */
 

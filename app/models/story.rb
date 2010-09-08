@@ -23,6 +23,7 @@ class Story
   field :tasks
   field :estimate
   field :labels
+  field :tags, :type => Array
   field :deadline
   field :attachments, :type => Array
   field :is_archived, :type => Boolean, :default => false
@@ -112,8 +113,15 @@ class Story
     {:projects => self.project_id}
   end
   
-  def tags
-    (labels||"").split(',')
+  def labels=(labels)
+    write_attribute :labels=, labels
+    write_attribute :tags, (labels||"").split(/,\s*/)
+  end
+  
+  def tags=(tags)
+    tags_array = tags.split(/,\s*/)
+    write_attribute :tags, tags_array
+    write_attribute :labels, tags_array.join(',')
   end
   
 end
