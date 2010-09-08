@@ -32,6 +32,11 @@ var Story = {
       self.select(story);
       Story.loadSelected();
 		})
+		$('#document').bind('click', function(e){
+      if($(e.target).parents("ul.stories:first").length == 0) {
+        self.deselect();
+      }
+		})
   },
   
   select: function(story) {
@@ -45,8 +50,11 @@ var Story = {
   },
 
 	deselect: function() {
-		$("li.story").removeClass("selected")
-		$(document).trigger('story-deselected')
+	  var self = this;
+	  self.selected_story = null;
+		$("li.story").removeClass("selected");
+		$.address.value('');
+		$(document).trigger('story-deselected');
 	},
 
 	loadSelected: function() {

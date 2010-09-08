@@ -18,7 +18,7 @@
                   %strong= time_entry.story.project.name
                   = link_to time_entry.story.name, project_path(time_entry.story.project) + "#/" + time_entry.story.id.to_s
                 - if time_entry.note
-                = time_entry.note
+                  = time_entry.note
 
   .content
     - @projects.each do |project|

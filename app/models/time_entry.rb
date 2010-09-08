@@ -42,7 +42,14 @@ class TimeEntry
   end
   
   def notes
-    "[##{story._remote_id}] #{story.name}"
+    notes = ""
+    if story
+      notes << "[##{story._remote_id}] #{story.name}"
+    end
+    if note
+      notes << note
+    end
+    notes
   end
   
   def hours
@@ -54,11 +61,11 @@ class TimeEntry
   end
   
   def project_id
-    story.project.harvest_project_id
+    story.project.harvest_project_id if story
   end
   
   def task_id
-    story.project.harvest_task_id
+    story.project.harvest_task_id if story
   end
   
   def self.current_for_story_and_user(story, user)

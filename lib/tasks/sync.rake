@@ -15,7 +15,7 @@ task :sync => :environment do
         begin
           STDOUT.puts "‹Thread/Pull› Pulling project #{project.name}\n"
           Story.synchronizer.set_context :projects, project._remote_id
-          # Story.synchronizer.pull_collection
+          Story.synchronizer.pull_collection
         rescue Exception => e
           STDOUT.puts "‹Thread/Pull› FAILED\n"
           STDOUT.puts "---------------------"

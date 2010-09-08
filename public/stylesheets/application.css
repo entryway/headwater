@@ -124,6 +124,10 @@ body.loading #header .loader { opacity: 1; _display: block; }
 
 #time_tracker .clock strong { color: #4d4f54; font: normal normal 14px 'MentoneSemiBold', 'Lucida Grande'; text-shadow: #121212 0 -1px 0; }
 
+#time_tracker .note { float: left; }
+
+#time_tracker a.update { display: block; float: left; background-image: url(../images/refresh_icon.png); width: 12px; height: 11px; text-indent: -9999px; margin-left: 5px; margin-top: 1px; display: none; }
+
 #user_status { position: absolute; right: 0px; top: 0px; color: #4b6287; padding-top: 10px; padding-right: 15px; font-size: 11px; text-shadow: #182334 0 1px 0; }
 
 #user_status a { color: #4b6287; margin-right: 15px; }

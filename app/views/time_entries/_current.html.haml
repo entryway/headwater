@@ -9,9 +9,14 @@
     .fr.entry
       - if @time_entry.story
         = link_to @time_entry.story.name, project_path(@time_entry.story.project) + "#/" + @time_entry.story.id.to_s
+      - else
+        .clearfix
+          .note
+            = @time_entry.note || "- Empty -"
+          %a.update.hidden{:href => time_entry_path(@time_entry), :title => "Updates time entry with selected story"} Update
   - else
     .fr.clock
       %strong 00:00
-      %a.toggle.start{:href => "#"} Toggle
+      %a.toggle.start.create{:href => time_entries_path} Toggle
     .fr.entry
       Select a story

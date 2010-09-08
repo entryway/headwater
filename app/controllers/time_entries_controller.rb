@@ -15,14 +15,33 @@ class TimeEntriesController < ProjectsController
   
   def create
     story_id = params[:time_entry].delete(:story_id)
-    story = Story.find(story_id)
-    @entry = TimeEntry.new_for_story_and_user(story, current_user)
-    @entry = TimeEntry.update_attributes(params[:time_entry])
-    redirect_to story.project
+    story = Story.find(story_id) if story_id
+    @time_entry = TimeEntry.new
+    @time_entry.user = current_user
+    @time_entry.story = story
+    @time_entry.date = Date.today
+    @time_entry.update_attributes(params[:time_entry])
+    if params[:start]
+      @time_entry.start
+    end
+    
+    respond_to do |wants|
+      wants.html { redirect_to story.project }
+      wants.js { render :action => :show }
+    end
+  end
+  
+  def update
+    @time_entry = TimeEntry.find(params[:id])
+    @time_entry.update_attributes(params[:time_entry])
+    respond_to do |wants|
+      wants.html { redirect_to story.project }
+      wants.js { render :action => :show }
+    end
   end
   
   def current
-    @time_entry = TimeEntry.where(:is_running => true).first
+    @time_entry = TimeEntry.where(:is_running => true, :user_id => current_user.id).first
     
     set_current
     

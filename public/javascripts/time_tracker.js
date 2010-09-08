@@ -16,13 +16,52 @@ TimeTracker.setup = function() {
 	$(document).bind('story-selected', function() {
 		TimeTracker.update(false);
 	});
+	$(document).bind('story-deselected', function(){
+	  TimeTracker.update(false);
+	})
+	$("#time_tracker .clock a.toggle.create").live('click', function(){
+	  var note = prompt('Description:');
+	  var data = {
+	    'time_entry[note]': note,
+	    'start': true
+	  }
+	  $.ajax({
+	    url: $(this).attr('href'),
+	    type: 'post',
+	    dataType: 'script',
+	    data: data
+	  })
+	  return false;
+	})
 	$("#time_tracker .clock a.toggle").live('click', function(){
+	  if($(this).hasClass("create")) {
+	    return false;
+	  }
     $.ajax({
       type: 'get',
       url: $(this).attr('href'),
       dataType: 'script',
       data: {story_id: $(Story.selected_story).attr('data-id')}
     });
+    return false;
+	});
+	$("#time_tracker a.update").live('click', function(){
+	  if(!Story.selected_story)
+	  {
+      return false;
+	  };
+	  var data = {
+	    _method: 'put',
+      'time_entry[story_id]': $(Story.selected_story).attr('data-id')
+	  };
+
+    $.ajax({
+      type: 'post',
+      url: $(this).attr('href'),
+      dataType: 'script',
+      data: data
+    })
+
     return false;
 	})
 }
@@ -42,6 +81,12 @@ TimeTracker.update = function(first_time) {
 			if (first_time) {
 				$("#time_tracker").animate({opacity: 1})
 			};
+			if(story)
+			{
+			  $("#time_tracker a.update").show();
+			} else {
+			  $("#time_tracker a.update").hide();
+			}
 		}
 	})
   setTimeout(function() {
