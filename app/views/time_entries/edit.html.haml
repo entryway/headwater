@@ -1,0 +1,10 @@
+.content
+  %h2 Edit time entry
+  
+  - semantic_form_for @time_entry do |f|
+    - f.inputs do
+      = f.input :date
+      = f.input :length
+    - f.buttons do
+      %li.commit
+        = f.submit 'Update'

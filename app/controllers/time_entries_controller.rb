@@ -1,4 +1,4 @@
-class TimeEntriesController < ProjectsController
+class TimeEntriesController < ApplicationController
   before_filter do
     @project = Project.find(params[:project_id]) if params[:project_id]
   end
@@ -31,11 +31,15 @@ class TimeEntriesController < ProjectsController
     end
   end
   
+  def edit
+    @time_entry = TimeEntry.find(params[:id])
+  end
+  
   def update
     @time_entry = TimeEntry.find(params[:id])
     @time_entry.update_attributes(params[:time_entry])
     respond_to do |wants|
-      wants.html { redirect_to story.project }
+      wants.html { redirect_to dashboard_path }
       wants.js { render :action => :show }
     end
   end
@@ -83,6 +87,7 @@ class TimeEntriesController < ProjectsController
     
     respond_to do |wants|
       wants.js
+      wants.html { redirect_to dashboard_path }
     end
   end
   

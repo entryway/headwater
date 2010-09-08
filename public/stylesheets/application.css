@@ -171,7 +171,7 @@ ul.navigation { width: 100%; list-style-type: none; padding: 0px; }
 
 #main #document.with_inspector { bottom: 250px; }
 
-#main #inspector { background: #dadee3; position: absolute; right: 0px; width: 250px; top: 0px; bottom: 0px; border-left: 1px solid #bbb; overflow: none; }
+#main #inspector { background: #dadee3; position: absolute; right: 0px; width: 250px; top: 0px; bottom: 0px; border-left: 1px solid #bbb; overflow: auto; }
 
 #main #inspector p { color: #939393; font-size: 12px; text-shadow: #fff 0 1px 0; }
 
@@ -561,6 +561,8 @@ table.time_entries tr td a { color: #5d6473; }
 table.time_entries tr td span.time { font-size: 14px; font-weight: bold; color: #2b2c2f; padding-right: 3px; }
 
 table.time_entries tr.running span.time { color: #3b60c4; }
+
+table.time_entries tr td a.edit { font-size: 11px; color: #16181e; text-shadow: #fff 0 1px 0; }
 
 
 
