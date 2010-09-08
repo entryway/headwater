@@ -23,7 +23,7 @@ class Story
   field :tasks
   field :estimate
   field :labels
-  field :tags, :type => Array
+  field :tags, :type => Array, :default => []
   field :deadline
   field :attachments, :type => Array
   field :is_archived, :type => Boolean, :default => false
@@ -62,6 +62,9 @@ class Story
   def before_push(synchronizer)
     if self.owner
       self.owned_by = self.owner.name
+    end
+    if ['chore', 'bug'].include?(self.story_type)
+      self.estimate = -1
     end
   end
 
