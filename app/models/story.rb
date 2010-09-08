@@ -112,4 +112,8 @@ class Story
     {:projects => self.project_id}
   end
   
+  def tags
+    (labels||"").split(',')
+  end
+  
 end

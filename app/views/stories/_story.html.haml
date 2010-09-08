@@ -3,10 +3,16 @@
     .sort_handle
     .delete_button
       %a{:href => "#"} Delete
-    .name
-      = story.name
-      - if story.owner
-        %a.owner{:href => "#"}= story.owner.name
+    .name.clearfix
+      .fl
+        = story.name
+      .fl
+        - if story.owner
+          %a.owner{:href => "#"}= story.owner.name
+      - if story.tags.present?
+        .fl.tags.clearfix
+          - story.tags.each do |tag|
+            %span.tag= tag
     .details.clearfix
       - if story.estimate && story.estimate != -1
         %span.fl.points= story.estimate
