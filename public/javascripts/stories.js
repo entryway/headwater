@@ -29,8 +29,10 @@ var Story = {
 		$.address.externalChange(function(e){
 		  var id = e.value.replace('/', '');
       var story = $("ul.stories li.story[data-id="+id+"]");
-      self.select(story);
-      Story.loadSelected();
+      if(story.length > 0) {
+        self.select(story);
+        Story.loadSelected();
+      }
 		})
 		$('#document').bind('click', function(e){
       if($(e.target).parents("ul.stories:first").length == 0) {

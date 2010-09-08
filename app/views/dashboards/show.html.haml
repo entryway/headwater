@@ -1,25 +1,4 @@
 #dashboard
-  .content.user
-    .clearfix
-      .fl
-        %h2= current_user.name
-        Hours this week:
-        = current_user.hours_this_week.to_f.round(2)
-        %br
-        Hours today:
-        = current_user.hours_today.to_f.round(2)
-      .fr
-        %ul.time_entries
-          - @time_entries.each do |time_entry|
-            %li{:class => time_entry.is_running ? "running" : ""}
-              %span.time= format_as_time(time_entry.total_length)
-              %span.note
-                - if time_entry.story
-                  %strong= time_entry.story.project.name
-                  = link_to time_entry.story.name, project_path(time_entry.story.project) + "#/" + time_entry.story.id.to_s
-                - if time_entry.note
-                  = time_entry.note
-
   .content
     - @projects.each do |project|
       .dashboard_project[project]
@@ -43,3 +22,24 @@
         - else
           %ul.dashboard_stories
             %li.none No stories in started state.
+            
+- content_for :inspector do
+  .content
+    %h2= current_user.name
+    Hours this week:
+    = current_user.hours_this_week.to_f.round(2)
+    %br
+    Hours today:
+    = current_user.hours_today.to_f.round(2)
+    %table.time_entries
+      - @time_entries[0..5].each do |time_entry|
+        %tr{:class => time_entry.is_running ? "running" : ""}
+          %td
+            %span.time= format_as_time(time_entry.total_length)
+          %td
+            %span.note
+              - if time_entry.story
+                %strong= time_entry.story.project.name
+                = link_to time_entry.story.name, project_path(time_entry.story.project) + "#/" + time_entry.story.id.to_s
+              - if time_entry.note
+                = time_entry.note

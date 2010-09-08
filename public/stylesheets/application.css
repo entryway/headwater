@@ -171,7 +171,7 @@ ul.navigation { width: 100%; list-style-type: none; padding: 0px; }
 
 #main #document.with_inspector { bottom: 250px; }
 
-#main #inspector { background: #f3f3f3 url(../images/inspector_background.png); position: absolute; right: 0px; width: 250px; top: 0px; bottom: 0px; border-left: 1px solid #bbb; overflow: auto; }
+#main #inspector { background: #dadee3; position: absolute; right: 0px; width: 250px; top: 0px; bottom: 0px; border-left: 1px solid #bbb; overflow: none; }
 
 #main #inspector p { color: #939393; font-size: 12px; text-shadow: #fff 0 1px 0; }
 
@@ -550,15 +550,17 @@ ul.dashboard_stories li.none { text-align: center; color: #bec7d7; }
 
 #dashboard input.toggle_project.expanded { background-position: 0 -50px; }
 
-ul.time_entries { list-style-type: none; padding: 0px; width: 400px; }
+table.time_entries { margin-top: 10px; }
 
-ul.time_entries li { color: #9ca7bd; font-size: 11px; }
+table.time_entries tr td { color: #474c58; font-size˚: 11px; font-size: 12px; border-bottom: 1px solid #c9cbcf; }
 
-ul.time_entries li a { color: #9ca7bd; }
+table.time_entries tr:last-child td { border: none; }
 
-ul.time_entries li span.time { font-size: 14px; font-weight: bold; color: #2b2c2f; padding-right: 3px; }
+table.time_entries tr td a { color: #5d6473; }
 
-ul.time_entries li.running span.time { color: #5366cf; }
+table.time_entries tr td span.time { font-size: 14px; font-weight: bold; color: #2b2c2f; padding-right: 3px; }
+
+table.time_entries tr.running span.time { color: #3b60c4; }
 
 
 

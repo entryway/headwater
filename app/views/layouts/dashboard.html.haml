@@ -2,7 +2,7 @@
 %html
   = render :partial => "layouts/html_head"
 
-  %body{:class => params[:controller]}
+  %body{:class => params[:controller] + " " + (content_for?(:inspector) ? "with_inspector" : "")}
     #wrapper
       #header
         %h1.logo= link_to 'Headwater', dashboard_path
@@ -13,12 +13,12 @@
           #time_tracker{:"data-path" => current_time_entries_path}          
       #main
         #document.dashboard
-          - if flash[:notice]
-            %p.notice= flash[:notice]
-          - if flash[:alert]
-            %p.error= flash[:alert]
           = yield
-        #inspector.hidden
+        - if content_for?(:inspector)
+          #inspector
+            = yield(:inspector)
+        - else
+          #inspector.hidden
         
       #footer
         #footer_main

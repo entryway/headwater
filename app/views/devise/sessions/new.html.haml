@@ -1,17 +1,10 @@
 .content
-  %h3 Login
+  %h2 Login
   
-  - form_for resource, :as => resource_name, :url => session_path(resource_name) do |f|
-    %p
-      = f.label :email
-      = f.text_field :email
-    
-    %p
-      = f.label :password
-      = f.password_field :password
-    
-    %p
-      = f.submit "Login"
-      
-  
-  = render :partial => "devise/shared/links"
+  - semantic_form_for resource, :as => resource_name, :url => session_path(resource_name) do |f|
+    = f.inputs do
+      = f.input :email
+      = f.input :password
+    = f.buttons do
+      %li.commit
+        = f.submit 'Log in'

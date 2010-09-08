@@ -65,6 +65,9 @@ class Story
     end
     if ['chore', 'bug'].include?(self.story_type)
       self.estimate = -1
+      if self.current_state == 'finished'
+        self.current_state = 'accepted'
+      end
     end
   end
 

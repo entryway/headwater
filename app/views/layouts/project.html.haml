@@ -37,10 +37,6 @@
                 %li{:class => viewing?(project) ? "active" : ""}
                   %a{:href => project_path(project)}= project.name
         #document
-          - if flash[:notice]
-            %p.notice= flash[:notice]
-          - if flash[:alert]
-            %p.error= flash[:alert]
           = yield
         #inspector.hidden
         
