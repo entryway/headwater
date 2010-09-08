@@ -327,9 +327,11 @@ ul.stories.edit_mode .details { display: none; }
 
 ul.stories .delete_button { display: none; }
 
-ul.stories.edit_mode .delete_button { display: block; position: absolute; right: 12px; top: 10px; }
+ul.stories.edit_mode .delete_button { display: block; position: absolute; right: 12px; top: 14px; }
 
-ul.stories.edit_mode .delete_button a { display: block; background-image: url(../images/story_remove.png); text-indent: -9999px; width: 87px; height: 24px; }
+ul.stories.edit_mode .delete_button a { display: block; text-indent: -9999px; width: 16px; height: 17px; background: url(../images/delete_icon.png) 0 0; }
+
+ul.stories.edit_mode li.story .delete_button a:hover { background-position: 0 -17px; }
 
 /* Tags */
 
