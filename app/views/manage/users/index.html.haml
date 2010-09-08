@@ -1,0 +1,19 @@
+.content
+  %h2 User accounts
+  
+  %table
+    %tr
+      %th Name
+      %th E-mail
+      %th
+      
+    - @users.each do |user|
+      %tr
+        %td= user.name
+        %td= user.email
+        %td
+          = link_to 'Edit', edit_user_path(user)
+          = link_to 'Destroy', manage_user_path(user), :method => "delete"
+          
+          
+  = link_to 'New user', new_manage_user_path

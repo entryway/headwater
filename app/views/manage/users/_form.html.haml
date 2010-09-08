@@ -1,0 +1,8 @@
+- semantic_form_for [:manage, @user] do |f|
+  - f.inputs "Settings" do
+    = f.input :email
+    = f.input :name
+    = f.input :password, :as => :password
+    = f.input :password_confirmation, :as => :password
+
+  = f.buttons

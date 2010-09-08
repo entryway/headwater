@@ -7,10 +7,7 @@
       #header
         %h1.logo= link_to 'Headwater', dashboard_path
         .loader
-        #user_status
-          = link_to 'Project settings', edit_project_path(@project), :class => "ajax"
-          = link_to 'Account settings', edit_account_path, :class => "ajax"
-          %strong= link_to current_user.email, destroy_user_session_path
+        = render :partial => "layouts/user_status"
         #status
           .content.clearfix
             .fl.project_name

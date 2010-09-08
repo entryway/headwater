@@ -1,4 +1,7 @@
 #user_status
-  - if user_signed_in?
+  - if current_user
+    - if @project
+      = link_to 'Project settings', edit_project_path(@project), :class => "ajax"
     = link_to 'Account settings', edit_account_path, :class => "ajax"
+    = link_to 'Team', manage_users_path
     %strong= link_to current_user.email, destroy_user_session_path

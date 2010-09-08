@@ -4,7 +4,11 @@ Headwater::Application.routes.draw do
   resource :dashboard
 
   resources :users
-  resource :account
+  resource :account, :controller => 'Account'
+  
+  namespace :manage do
+    resources :users
+  end
 
   resources :projects do
     resources :stories do
