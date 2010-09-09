@@ -54,9 +54,7 @@ class Story
   
   def after_pull(synchronizer)
     user = User.where(:name => self.owned_by).first
-    if user
-      self.owner = user
-    end
+    update_attributes(:owner => user)
   end
   
   def before_push(synchronizer)
