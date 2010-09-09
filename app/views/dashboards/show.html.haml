@@ -25,13 +25,19 @@
     
 - if @time_entries.present?        
   - content_for :inspector do
-    .content
-      %h2= current_user.name
-      Hours this week:
-      = current_user.hours_this_week.to_f.round(2)
-      %br
-      Hours today:
-      = current_user.hours_today.to_f.round(2)
+    .content.dashboard_user_status.clearfix
+      .fl.avatar
+        = gravatar_image_tag_for_email(current_user.email)
+      .fl.status
+        %h3= current_user.name
+        .clearfix
+          .fl.time_status
+            Week
+            %span.time= current_user.hours_this_week.to_f.round(2)
+          .fl.time_status
+            Day
+            %span.time= current_user.hours_today.to_f.round(2)
+    .content.time_entries
       %table.time_entries
         - @time_entries.each do |time_entry|
           %tr{:class => time_entry.is_running ? "running" : ""}
