@@ -5,7 +5,11 @@ class TimeEntriesController < ApplicationController
   
   def index
     @entries = TimeEntry.archived
-    @entries = @entries.group_by { |e| e.story.project }
+    if params[:day]
+      @entries = @entries.where(:date => params[:day])
+    end
+    @sum = @entries.inject(0) { |sum, e| sum + e.hours }
+    @entries = @entries.group_by { |e| e.story ? e.story.project : nil }
   end
   
   def new
@@ -38,6 +42,7 @@ class TimeEntriesController < ApplicationController
   def update
     @time_entry = TimeEntry.find(params[:id])
     @time_entry.update_attributes(params[:time_entry])
+    @time_entry.push
     respond_to do |wants|
       wants.html { redirect_to dashboard_path }
       wants.js { render :action => :show }

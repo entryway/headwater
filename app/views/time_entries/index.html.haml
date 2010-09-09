@@ -1,6 +1,17 @@
 .content
+  - if params[:day]
+    %h2== Time entries for #{params[:day]}
+  - else
+    %h2 Time entries
+    
+  Total:
+  = @sum
+
   - @entries.each do |project, entries|
-    %h3= project.name
+    - if project
+      %h3= project.name
+    - else
+      %h3 No project
     
     %table
       %tr
@@ -15,7 +26,11 @@
         %tr
           %td= entry.date
           %td= entry.user
-          %td= commit_message(entry.story)
+          %td
+            = commit_message(entry.story)
+            = entry.note
           %td= entry.total_length
           %td= "%0.2f" % entry.hours
-          %td= link_to "Remove", remove_time_entry_path(entry), :class => "ajax"
+          %td
+            = link_to "Edit", edit_time_entry_path(entry)
+            = link_to "Remove", remove_time_entry_path(entry), :class => "ajax"

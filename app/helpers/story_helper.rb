@@ -18,7 +18,7 @@ module StoryHelper
   end
   
   def commit_message(story)
-    "[##{story._remote_id}] #{story.name}"
+    "[##{story._remote_id}] #{story.name}" if story
   end
   
   def git_flow_message(story)

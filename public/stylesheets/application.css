@@ -10,7 +10,9 @@ body { font-family: Helvetica; }
 
 h1 { font-size: 25pt; color: #ABC8E2; }
 
-a { color: #375D81; text-decoration: none; }
+a { color: #4776a8; text-decoration: none; }
+
+a:hover { color: #3b6694; }
 
 .fl { float: left; }
 

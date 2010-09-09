@@ -46,3 +46,5 @@
                   = time_entry.note
                 = link_to "edit ›", edit_time_entry_path(time_entry), :class => "edit"
                 = link_to "destroy ›", remove_time_entry_path(time_entry), :class => "edit"
+                
+      = link_to "All time entries »", time_entries_path(:day => Date.today)
