@@ -8,8 +8,11 @@ class TimeEntriesController < ApplicationController
     if params[:day]
       @entries = @entries.where(:date => params[:day])
     end
-    @sum = @entries.inject(0) { |sum, e| sum + e.hours }
+    @sum_for_day = TimeEntry.total_hours(@entries)
     @entries = @entries.group_by { |e| e.story ? e.story.project : nil }
+    # Week entries
+    @entries_for_week = TimeEntry.archived.this_week
+    @sum_for_week = TimeEntry.total_hours(@entries_for_week)
   end
   
   def new

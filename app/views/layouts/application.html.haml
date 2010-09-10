@@ -21,7 +21,7 @@
               - @projects.each do |project|
                 %li{:class => viewing?(project) ? "active" : ""}
                   %a{:href => project_path(project)}= project.name
-        #document
+        #document.dashboard
           = yield
         #inspector.hidden
         

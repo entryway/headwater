@@ -578,7 +578,7 @@ table.time_entries tr td a.edit { font-size: 11px; color: #16181e; text-shadow: 
 
 .dashboard_user_status .avatar img { width: 50px; }
 
-.dashboard_user_status .status { width: 145px; margin-left: 0; }
+.dashboard_user_status .status { width: 140px; margin-left: 0; }
 
 .dashboard_user_status .time_status { margin-right: 10px; color: #737881; font-size: 11px; }
 

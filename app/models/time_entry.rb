@@ -32,7 +32,18 @@ class TimeEntry
   
   scope :started, :where => {:started_at.ne => nil}
   scope :archived, :where => {:length.exists => true, :started_at.ne => nil, :is_running.ne => true}
-  # 
+  
+  def self.total_hours(collection)
+    collection.inject(0) { |sum, e| sum + e.hours }
+  end
+  
+  def self.days_this_week
+    monday = Date.parse("monday")
+    return (monday..(monday+6)).to_a
+  end
+  
+  scope :this_week, :where => {:date.in => self.days_this_week}
+  
   def before_push(synchronizer)
     synchronizer.service.auth = {:username => user.harvest_username, :password => user.harvest_password}
   end

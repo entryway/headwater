@@ -1,11 +1,19 @@
 .content
   - if params[:day]
-    %h2== Time entries for #{params[:day]}
+    .clearfix
+      %h2.fl== Time entries for #{params[:day]}
+      %h3.fr
+        = link_to '‹ Previous day', time_entries_path(:day => Date.parse(params[:day]) - 1)
+        &nbsp;&nbsp;
+        = link_to 'Next day ›', time_entries_path(:day => Date.parse(params[:day]) + 1)
   - else
     %h2 Time entries
     
-  Total:
-  = @sum
+  Total today:
+  = @sum_for_day
+  %br
+  Total this week:
+  = @sum_for_week
 
   - @entries.each do |project, entries|
     - if project
