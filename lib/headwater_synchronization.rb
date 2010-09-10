@@ -5,7 +5,7 @@ class HeadwaterSynchronization
       pref = Preferences.instance
       last_pull = pref.value_for('headwater.synchronization.last_pull')
       diff = Time.now - last_pull
-      if diff > 360
+      if !last_pull || diff > 360
         self.pull
       end
     end
