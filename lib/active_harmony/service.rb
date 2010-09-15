@@ -1,4 +1,4 @@
-module Service
+module ActiveHarmony
   class RestService < Base
     attr_accessor :base_url, :header, :root, :auth
     

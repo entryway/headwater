@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-module Synchronizer
-  class ServiceSynchronizer
+module ActiveHarmony
+  class Synchronizer
     attr_accessor :factory, :service
     
     ##

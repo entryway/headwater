@@ -1,4 +1,4 @@
-module Synchronizer
+module ActiveHarmony
   class Queue
     include Singleton
   

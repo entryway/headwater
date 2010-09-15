@@ -1,34 +1,34 @@
 class TimeEntry
   include Mongoid::Document
-  include Synchronizable
-  
-  field :date, :type => String
-  field :started_at, :type => DateTime
-  field :last_started_at, :type => DateTime
-  field :is_running, :type => Boolean
-  field :length, :type => Integer, :default => 0
-  field :note, :type => String
-  
-  synchronizes_through Synchronizer::ServiceSynchronizer do |sync|
-    sync.service = Service::RestService.new
-    sync.service.base_url = "https://#{HARVEST_SUBDOMAIN}.harvestapp.com"
-    sync.service.header['Accept'] = 'application/xml'
-    sync.service.add_custom_url(:timeentry, :create, '/daily/add')
-    sync.service.add_custom_url(:timeentry, :update, 'daily/update/:id', :post)
-    sync.service.add_object_name(:timeentry, :create, 'request')
-    sync.service.add_object_name(:timeentry, :update, 'request')
-    sync.service.root = "add/day_entry"
-    sync.factory = self
-  end
-  
-  synchronize_field :notes => :push
-  synchronize_field :hours => :push
-  synchronize_field :spent_at => :push
-  synchronize_field :project_id => :push
-  synchronize_field :task_id => :push
-  
-  referenced_in :user
-  referenced_in :story
+  # include Synchronizable
+  #   
+  #   field :date, :type => String
+  #   field :started_at, :type => DateTime
+  #   field :last_started_at, :type => DateTime
+  #   field :is_running, :type => Boolean
+  #   field :length, :type => Integer, :default => 0
+  #   field :note, :type => String
+  #   
+  #   synchronizes_through Synchronizer::ServiceSynchronizer do |sync|
+  #     sync.service = Service::RestService.new
+  #     sync.service.base_url = "https://#{HARVEST_SUBDOMAIN}.harvestapp.com"
+  #     sync.service.header['Accept'] = 'application/xml'
+  #     sync.service.add_custom_url(:timeentry, :create, '/daily/add')
+  #     sync.service.add_custom_url(:timeentry, :update, 'daily/update/:id', :post)
+  #     sync.service.add_object_name(:timeentry, :create, 'request')
+  #     sync.service.add_object_name(:timeentry, :update, 'request')
+  #     sync.service.root = "add/day_entry"
+  #     sync.factory = self
+  #   end
+  #   
+  #   synchronize_field :notes => :push
+  #   synchronize_field :hours => :push
+  #   synchronize_field :spent_at => :push
+  #   synchronize_field :project_id => :push
+  #   synchronize_field :task_id => :push
+  #   
+  #   referenced_in :user
+  #   referenced_in :story
   
   scope :started, :where => {:started_at.ne => nil}
   scope :archived, :where => {:length.exists => true, :started_at.ne => nil, :is_running.ne => true}
