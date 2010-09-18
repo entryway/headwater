@@ -3,10 +3,12 @@ class ApplicationController < ActionController::Base
   layout "application"
   
   after_filter do
-    fork do
-      result = Synchronizer::Queue.instance.run
-      Rails.logger.info("Running queue: #{result.count}")
-      HeadwaterSynchronization.pull_if_needed
+    queue = Synchronizer::Queue.instance
+    if queue.should_run?
+      fork do
+        result = queue.run
+        Rails.logger.info("Running queue: #{result.count}")
+      end
     end
   end
 end
