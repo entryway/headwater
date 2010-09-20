@@ -2,13 +2,14 @@
 
 module ActiveHarmony
   class Synchronizer
-    attr_accessor :factory, :service
+    attr_accessor :factory, :service, :configuration
     
     ##
     # Initializes new Service Synchronizer to do some
-    # synchrinizing magic.
+    # synchronizing magic.
     def initialize
       @contexts = {}
+      @configuration = SynchronizerConfiguration.new
     end
     
     ##
@@ -24,6 +25,13 @@ module ActiveHarmony
     # @param [String, Integer] Value
     def set_context(context_name, context_value)
       @contexts[context_name.to_sym] = context_value
+    end
+    
+    ##
+    # Takes block to configure synchronization
+    # @yield Configuration block
+    def configure
+      yield(@configuration)
     end
     
     ##

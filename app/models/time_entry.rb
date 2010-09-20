@@ -1,6 +1,8 @@
 class TimeEntry
   include Mongoid::Document
-  # include Synchronizable
+  
+  include ActiveHarmony::Synchronizable::Core
+  include ActiveHarmony::Synchronizable::Mongoid
   #   
   #   field :date, :type => String
   #   field :started_at, :type => DateTime

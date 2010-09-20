@@ -1,14 +1,15 @@
 require "spec_helper"
-require "synchronizer"
-require "service"
 
-module Synchronizer
-  describe ServiceSynchronizer do
+module ActiveHarmony
+  describe Synchronizer do
     before :each do
-      @syncer = ServiceSynchronizer.new
-      @service = Service::RestService.new
+      @syncer = Synchronizer.new
+      @service = Service.new
       @service.base_url = "http://chunky.bacon"
     end
+    
+    ####################################################
+    # Initialization
   
     describe "#factory=" do
       it "should set factory class for finding and creating objects" do
@@ -22,6 +23,24 @@ module Synchronizer
         @syncer.service.should == @service
       end
     end
+    
+    ###################################################
+    # Configuration
+    
+    describe "#configure" do
+      it "should raise an exception when there's no block" do
+        lambda {
+          @syncer.configure
+        }.should raise_exception LocalJumpError
+      end
+      
+      it "should yield synchronizer configuration object" do
+        @syncer.configure do |config|
+          config.should == @syncer.configuration
+        end
+      end
+    end
+    
     
     describe "#object_name" do
       it "should return object name for our factory class" do
