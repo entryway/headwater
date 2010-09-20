@@ -214,9 +214,9 @@ module ActiveHarmony
     
     ##
     # Returns custom path
-    # @params [Symbol] Object type
+    # @param [Symbol] Object type
     # @param [Symbol] Action
-    # @retun [Service::ServiceUrl] Custom path
+    # @return [Service::ServiceUrl] Custom path
     def custom_url_for(object_type, action)
       path = @paths.find do |path|
         path[:object_type] == object_type &&

@@ -31,7 +31,7 @@ module ActiveHarmony
     context "type pull" do
       describe "#process_item" do
          it "should tell synchronizer to pull object" do
-            queue.queue_pull('MyClass', 123)
+            queue.queue_pull(::MyClass, 123)
             item = QueueItem.last
             item.object_type.should == "MyClass"
             item.kind.should == "pull"
