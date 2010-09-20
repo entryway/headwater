@@ -35,7 +35,13 @@ Dashboard.prototype.conserve = function(){
 
 Dashboard.prototype.restore = function(){
   var self = this;
-  var collapsedProjects = $.cookie('dashboard').split(',');
+  var collapsedProjectsString = $.cookie('dashboard');
+  var collapsedProjects;
+  if(collapsedProjectsString) {
+    collapsedProjects = collapsedProjectsString.split(',');
+  } else {
+    collapsedProjects = [];
+  }
   var project = null;
   for(i in collapsedProjects) {
     project = self.projects[collapsedProjects[i]];
