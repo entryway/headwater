@@ -12,7 +12,7 @@ module ActiveHarmony
     
     def queue_pull(object_type, remote_id)
       queue_item = QueueItem.new( :kind => "pull",
-                                  :object_type => object_type,
+                                  :object_type => object_type.class.name,
                                   :object_remote_id => remote_id,
                                   :state => "new" )
       queue_item.save
