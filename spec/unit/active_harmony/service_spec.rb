@@ -11,14 +11,16 @@ module ActiveHarmony
       @service.base_url = @base_url
     end
     
-    ##
-    # Initialization and configuration
+    ############################################################
+    # Initialization
     describe "#initialize" do
       it "should create new instance of Service::Rest" do
         @service.should be_a(Service)
       end
     end
   
+    ############################################################
+    # URL and header configuration
     describe "#base_url=" do
       it "should set base url for the service" do
         @service.base_url = @base_url

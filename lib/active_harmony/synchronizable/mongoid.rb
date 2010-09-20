@@ -8,8 +8,6 @@ module ActiveHarmony
         field :_collection_order, :type => Float, :default => 9999.0
       end
       
-      ## Class Methods
-      
       module ClassMethods
         def object_name
           self.name.downcase
@@ -19,8 +17,6 @@ module ActiveHarmony
           self.find(:first, :conditions => {:_remote_id => id.to_i})
         end
       end
-      
-      ## Instance methods
       
       def update_remote_id(id)
         self._remote_id = id

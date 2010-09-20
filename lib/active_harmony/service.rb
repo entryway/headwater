@@ -2,6 +2,9 @@ module ActiveHarmony
   class Service
     attr_accessor :base_url, :header, :root, :auth
     
+    ############################################################
+    # Initialization & Configuration
+    
     ##
     # Initializes new Rest Service
     def initialize
@@ -19,6 +22,9 @@ module ActiveHarmony
     def set_header(name, value)
       @header[name] = value
     end
+    
+    ############################################################
+    # Generating URLs
     
     ##
     # Generates url for REST service
@@ -71,6 +77,9 @@ module ActiveHarmony
       path = "#{@base_url}/#{path}"
     end
     
+    ############################################################
+    # Retrieving data from networks
+    
     ##
     # Retrieves data from URL
     # @param [String] URL
@@ -111,6 +120,9 @@ module ActiveHarmony
       response
     end
     
+    ############################################################
+    # Parsing response
+    
     ##
     # Parses XML
     # @param [String] XML
@@ -143,6 +155,9 @@ module ActiveHarmony
       end
     end
     
+    ############################################################
+    # Working with REST services
+    
     ##
     # List collection of remote objects
     # @param [Symbol] Object type
@@ -157,7 +172,7 @@ module ActiveHarmony
     ##
     # Shows remote object
     # @param [Symbol] Object type
-    # @param [Integer] Object ID
+    # @param [String] Object ID
     # @return [Hash] Object
     def show(object_type, id)
       url = generate_rest_url(:show, object_type, id)
@@ -166,6 +181,11 @@ module ActiveHarmony
       find_object_in_result(parsed_result, object_type, :show)
     end
     
+    ##
+    # Updates remote object
+    # @param [Symbol] Object type
+    # @param [String] Object ID
+    # @param [Hash] Data to be sent
     def update(object_type, id, data)
       url = generate_rest_url(:update, object_type, id)
       object_name = object_name_for(object_type, :update)
@@ -174,6 +194,10 @@ module ActiveHarmony
       find_object_in_result(result, object_type, :update)
     end
     
+    ##
+    # Creates a new remote object
+    # @param [Symbol] Object type
+    # @param [Hash] Data to be sent
     def create(object_type, data)
       url = generate_rest_url(:create, object_type)
       object_name = object_name_for(object_type, :create)
@@ -182,6 +206,9 @@ module ActiveHarmony
       parsed_result = parse_xml(result)
       find_object_in_result(parsed_result, object_type, :create)
     end
+    
+    ############################################################
+    # Setting contexts
     
     ##
     # Set contexts for service
@@ -197,6 +224,9 @@ module ActiveHarmony
     def clear_contexts
       @contexts = {}
     end
+    
+    ############################################################
+    # Setting custom URLs
     
     ##
     # Adds custom path
@@ -227,9 +257,12 @@ module ActiveHarmony
       end
     end
     
+    ############################################################
+    # Setting custom object names for objects
+    
     ##
     # Adds new name for some type of object
-    # @param [Symbol] Object name
+    # @param [Symbol] Object type
     # @param [Symbol] Action
     # @param [String] New object name
     def add_object_name(object_type, action, new_object_name)
@@ -239,7 +272,11 @@ module ActiveHarmony
         :new_object_name => new_object_name.to_s
       }
     end
-    
+   
+    ##
+    # Returns custom object name for action
+    # @param [Symbol] Object type
+    # @param [Symbol] Action
     def object_name_for(object_type, action)
       object_name = @object_names.find do |object_name|
         object_name[:object_type] == object_type
