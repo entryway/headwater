@@ -1,5 +1,5 @@
 module ActiveHarmony
-  class RestService < Base
+  class Service
     attr_accessor :base_url, :header, :root, :auth
     
     ##
@@ -25,7 +25,7 @@ module ActiveHarmony
     # @param [Symbol] Action: show, list, update or destroy
     # @param [Symbol] Object type
     # @param [Integer] Object ID
-    # @return [Service::Url] Generated URL
+    # @return [Service::ServiceUrl] Generated URL
     def generate_rest_url(action, object_type, object_id = nil)
       url = custom_url_for(object_type, action)
       
@@ -57,7 +57,7 @@ module ActiveHarmony
       end
       url = generate_url(path)
       
-      Url.new(url, method)
+      ServiceUrl.new(url, method)
     end
     
     ##
@@ -216,14 +216,14 @@ module ActiveHarmony
     # Returns custom path
     # @params [Symbol] Object type
     # @param [Symbol] Action
-    # @retun [Service::Url] Custom path
+    # @retun [Service::ServiceUrl] Custom path
     def custom_url_for(object_type, action)
       path = @paths.find do |path|
         path[:object_type] == object_type &&
         path[:action] == action
       end
       if path
-        Url.new(generate_url(path[:path]), path[:method])
+        ServiceUrl.new(generate_url(path[:path]), path[:method])
       end
     end
     
