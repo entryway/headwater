@@ -28,8 +28,7 @@ module ActiveHarmony
     ##
     # Runs queue
     def run
-      items = QueueItem.where(:state => "new").all
-      items.each do |item|
+      queued_items.each do |item|
         item.process_item
       end
     end

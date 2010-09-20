@@ -11,6 +11,10 @@ module ActiveHarmony
       @bacon = Bacon.create
     end
     
+    before :each do
+      QueueItem.delete_all
+    end
+    
     describe '#queue_push' do
       it 'should create queue item for push' do
         @queue.queue_push(@bacon)
@@ -35,14 +39,23 @@ module ActiveHarmony
     end
     
     describe '#run' do
-      it 'should tell every new item in queue to process' do
+      it 'should queued items to process' do        
+        items = (1..5).collect do
+          item = QueueItem.new(:state => 'new')
+          item.expects(:process_item)
+          item
+        end
+        @queue.expects(:queued_items).returns(items)
+        @queue.run
+      end
+    end
+    
+    describe '#queued_items' do
+      it 'should return all items with state new' do
         item_with_no_state = QueueItem.create(:state => nil)
         item_with_new_state = QueueItem.create(:state => 'new')
-        
-        item_with_no_state.expects(:process_item).never
-        item_with_new_state.expects(:process_item).once
-        
-        @queue.run
+        queued_items = QueueItem.where(:state => "new").to_a
+        @queue.queued_items.to_a.should == queued_items
       end
     end
   end
