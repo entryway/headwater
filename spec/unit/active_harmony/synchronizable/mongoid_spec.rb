@@ -2,7 +2,7 @@ require "spec_helper"
 
 module ActiveHarmony
   module Synchronizable
-    class MyModel; include Mongoid::Document; end
+    class MyModel; include ::Mongoid::Document; end
     
     describe Mongoid do
     

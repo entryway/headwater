@@ -3,10 +3,7 @@ require "spec_helper"
 class MyClass
   include Mongoid::Document
   include ActiveHarmony::Synchronizable::Core
-  # include Synchronizable::Mongoid
-  synchronizes_through ActiveHarmony::Synchronizer
   field :foo
-  synchronize_fields :foo
 end
 
 module ActiveHarmony

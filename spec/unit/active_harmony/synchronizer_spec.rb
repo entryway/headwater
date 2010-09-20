@@ -1,11 +1,34 @@
 require "spec_helper"
 
+# Bacon.
+class Bacon
+  include ::Mongoid::Document
+  
+  include ActiveHarmony::Synchronizable::Core
+  include ActiveHarmony::Synchronizable::Mongoid
+  
+  field :tastyness
+end
+
+# Wire up connections
+synchronizer = ActiveHarmony::Synchronizer.new
+synchronizer.service = ActiveHarmony::Service.new
+synchronizer.factory = Bacon
+synchronizer.configure do |config|
+  config.synchronize :tastyness
+end
+Bacon.synchronizer = synchronizer
+
 module ActiveHarmony
   describe Synchronizer do
+    before :all do
+      # References to wired up objects
+      @synchronizer = Bacon.synchronizer
+      @service      = Bacon.synchronizer.service
+    end
+    
     before :each do
-      @syncer = Synchronizer.new
-      @service = Service.new
-      @service.base_url = "http://chunky.bacon"
+      Bacon.delete_all
     end
     
     ####################################################
@@ -13,14 +36,17 @@ module ActiveHarmony
   
     describe "#factory=" do
       it "should set factory class for finding and creating objects" do
+        synchronizer = Synchronizer.new
         factory = Class.new
-        @syncer.factory = factory
-        @syncer.factory.should == factory
+        synchronizer.factory = factory
+        synchronizer.factory.should == factory
       end
       
       it "should set service" do
-        @syncer.service = @service
-        @syncer.service.should == @service
+        synchronizer = Synchronizer.new
+        service = Service.new
+        synchronizer.service = service
+        synchronizer.service.should == service
       end
     end
     
@@ -29,14 +55,16 @@ module ActiveHarmony
     
     describe "#configure" do
       it "should raise an exception when there's no block" do
+        synchronizer = Synchronizer.new
         lambda {
-          @syncer.configure
+          synchronizer.configure
         }.should raise_exception LocalJumpError
       end
       
       it "should yield synchronizer configuration object" do
-        @syncer.configure do |config|
-          config.should == @syncer.configuration
+        synchronizer = Synchronizer.new
+        synchronizer.configure do |config|
+          config.should == synchronizer.configuration
         end
       end
     end
@@ -44,206 +72,111 @@ module ActiveHarmony
     
     describe "#object_name" do
       it "should return object name for our factory class" do
-        factory_class = mock('MyObject')
-        factory_class.stubs(:object_name).returns("my_object")
-        @syncer.factory = factory_class
-        @syncer.object_name.should == :my_object
+        # @synchronizer is now reference to Bacon's synchronizer, remember?
+        # If not, take a look at before filter on lines 26-27.
+        @synchronizer.object_name.should == :bacon
       end
     end
     
     describe "#pull_object" do
-      it "should pull remote changes for synchronizable fields to local object" do
-        object = <<-EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<my_object>
-<id type="integer">123</id>
-<name>first</name>
-<some_stupid_attribute>bla bla bla</some_stupid_attribute>
-</my_object>
-EOF
-        stub_request(:get, "http://chunky.bacon/my_objects/123").to_return(:body => object)
-        # [Local] Factory class for finding/creating objects
-        object = mock('object_123')
-        object.expects(:name=).with("first").returns(true)
-        object.expects(:save).returns(true)
-        object.expects(:some_stupid_attribute).never
-        object.expects(:contexts).returns({})
-        factory_class = mock('MyObject')
-        factory_class.stubs(:object_name).returns("my_object")
-        factory_class.expects(:with_remote_id).with(123).returns(object)
-        factory_class.stubs(:synchronizable_fields).returns([:name])
-        @syncer.factory = factory_class
-        # [Remote] REST service
-        @syncer.service = @service
-        # Pull it!
-        @syncer.pull_object(123)
+      it "should update local object" do
+        local_bacon = Bacon.create({
+          :_remote_id => 123,
+          :tastyness => 'Meh'
+        })
+        @service.expects(:show).with(:bacon, 123).returns({
+          'id' => 123,
+          'tastyness' => 'Average'
+        })
+        @synchronizer.pull_object(123)
+        local_bacon.reload
+        local_bacon.tastyness.should == 'Average'
       end
       
-      it "should create a new local object for remote object" do
-        object = <<-EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<my_object>
-<id type="integer">123</id>
-<name>first</name>
-<some_stupid_attribute>bla bla bla</some_stupid_attribute>
-</my_object>
-EOF
-        stub_request(:get, "http://chunky.bacon/my_objects/123").to_return(:body => object)
-        # [Local] Factory class for finding/creating objects
-        object = mock('object_123')
-        object.expects(:name=).with("first")
-        object.expects(:save)
-        factory_class = mock('MyObject')
-        factory_class.stubs(:synchronizable_fields).returns([:name])
-        factory_class.stubs(:object_name).returns("my_object")
-        factory_class.stubs(:with_remote_id).returns(nil)
-        factory_class.expects(:new).returns(object)
-        @syncer.factory = factory_class
-        # [Remote] REST service
-        @syncer.service = @service
-        # Pull it!
-        @syncer.pull_object(123)
+      it "should create a new local object" do
+        # In the Before Block, we're deleting all Bacons.
+        Bacon.count.should == 0 # <-- Do you believe me now?
+        @service.expects(:show).with(:bacon, 123).returns({
+          'id' => 123,
+          'tastyness' => 'Average'
+        })
+        @synchronizer.pull_object(123)
+        bacon = Bacon.last
+        bacon._remote_id.should == 123
+        bacon.tastyness.should == 'Average'
       end
     end
     
     describe "#push_object" do
-      before do
-        @syncer.service = @service
-        @object = mock('object_123')
-        @object.stubs(:name).returns("just_another_name")
-        @object.stubs(:write_attribute)
-        @object.stubs(:contexts).returns({})
-        factory_class = mock('MyObject')
-        factory_class.stubs(:object_name).returns("my_object")
-        factory_class.stubs(:synchronizable_fields).returns([:name])
-        @syncer.factory = factory_class
+      before :each do
+        @bacon = Bacon.create(:tastyness => "Chunky")
       end
       
       context "remote object exists" do
-        before do
-          @object.stubs(:_remote_id).returns(123)
+        before :each do
+          @bacon._remote_id = 123
         end
         
         it "should update remote object" do
-          @service.expects(:update).with(:my_object, 123, {"name" => "just_another_name"})
-          @syncer.push_object(@object)
+          @service.expects(:update).with(:bacon, 123, {"tastyness" => "Chunky"})
+          @synchronizer.push_object(@bacon)
         end
       end
       
       context "remote object does not exist" do
-        before do
-          @object.stubs(:_remote_id).returns(nil)
+        before :each do
+          @bacon._remote_id = nil
         end
         
         it "should create a new remote object" do
           @service.expects(:update).never
-          @service.expects(:create).with(:my_object, {"name" => "just_another_name"})
-          @syncer.push_object(@object)
+          @service.expects(:create).with(:bacon, {"tastyness" => "Chunky"})
+          @synchronizer.push_object(@bacon)
         end
         
         it "should save remote id of newly created remote object" do
-          @service.expects(:create).with(:my_object, {"name" => "just_another_name"}).
-            returns({"id" => 202, "name" => "just_another_name"})
-          @object.expects(:_remote_id=)
-          @object.stubs(:save)
-          @syncer.push_object(@object)
+          @service.
+            expects(:create).
+            with(:bacon, {"tastyness" => "Chunky"}).
+            returns({"id" => 202, "tastyness" => "Average"})
+          @synchronizer.push_object(@bacon)
+          @bacon.reload
+          @bacon._remote_id.should == 202
+          @bacon.tastyness.should == "Average"
         end
       end
     end
     
     describe "#pull_collection" do
-      before do
-        @object_1 = mock('object_1')
-        @object_1.stubs(:id).returns(1)
-        @object_1.stubs(:name).returns("first")
-        @object_2 = mock('object_2')
-        @object_2.stubs(:id).returns(2)
-        @object_2.stubs(:name).returns("second")
-        @factory_class = mock('MyObject')
-        @factory_class.stubs(:object_name).returns("my_object")
-        @factory_class.stubs(:with_remote_id).with(1).returns(@object_1)
-        @factory_class.stubs(:with_remote_id).with(2).returns(@object_2)
-        @factory_class.stubs(:synchronizable_fields).with(:pull).returns([:name])
-        @syncer.service = @service
-        @syncer.factory = @factory_class
+      before :each do
+        @bacons = [
+          Bacon.create(:_remote_id => 1, :tastyness => 'Meh'),
+          Bacon.create(:_remote_id => 2, :tastyness => 'Average')
+        ]
+        
+        @service.expects(:list).with(:bacon).returns([
+          {'id' => 1, 'tastyness' => 'Super Meh'},
+          {'id' => 2, 'tastyness' => 'Super Average'},
+          {'id' => 3, 'tastyness' => 'Mmmmmmmmmm'}
+        ])
+        
+        @synchronizer.pull_collection
+        @bacons.each { |b| b.reload }
       end
       
-      context "without a context" do
-        it "should update local objects" do
-          collection = <<-EOF
-  <?xml version="1.0" encoding="UTF-8"?>
-  <my_objects type="array">
-    <my_object>
-      <id type="integer">1</id>
-      <name>updated first</name>
-      <nosync>something</nosync>
-    </my_object>
-    <my_object>
-      <id type="integer">2</id>
-      <name>updated second</name>
-      <nosync>something else</nosync>
-    </my_object>
-  </my_objects>
-  EOF
-          stub_request(:get, "http://chunky.bacon/my_objects").to_return(:body => collection)
-          @object_1.expects(:name=).with("updated first")
-          @object_1.expects(:save)
-          @object_1.stubs(:_collection_order=)
-          @object_2.expects(:name=).with("updated second")
-          @object_2.expects(:save)
-          @object_2.stubs(:_collection_order=)
-          @syncer.pull_collection
-        end
+      it "should update objects" do
+        @bacons[0].tastyness.should == 'Super Meh'
+        @bacons[1].tastyness.should == 'Super Average'
+      end
+    
+      it "should create new object" do
+        new_bacon = Bacon.last
+        new_bacon.tastyness.should == 'Mmmmmmmmmm'
+      end
       
-        it "should create local object" do
-          collection = <<-EOF
-  <?xml version="1.0" encoding="UTF-8"?>
-  <my_objects type="array">
-    <my_object>
-      <id type="integer">3</id>
-      <name>new object</name>
-    </my_object>
-  </my_objects>
-  EOF
-          stub_request(:get, "http://chunky.bacon/my_objects").to_return(:body => collection)
-          @factory_class.stubs(:with_remote_id).with(3).returns(nil)
-          object_3 = mock("object_3")
-          @factory_class.stubs(:new).returns(object_3)
-          object_3.expects(:name=).with("new object")
-          object_3.expects(:update_remote_id).with(3)
-          object_3.stubs(:_collection_order=)
-          object_3.expects(:save)
-          @syncer.pull_collection
-        end
-      end # context: without a context
-      
-      context "with a context" do
-        it "should update local objects" do
-          collection = <<-EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<my_objects type="array">
-  <my_object>
-    <id type="integer">1</id>
-    <name>updated first</name>
-  </my_object>
-  <my_object>
-    <id type="integer">2</id>
-    <name>updated second</name>
-  </my_object>
-</my_objects>
-EOF
-
-          stub_request(:get, "http://chunky.bacon/context_object/801/my_objects").to_return(:body => collection)
-          @object_1.expects(:name=).with("updated first")
-          @object_1.expects(:save)
-          @object_1.stubs(:_collection_order=)
-          @object_2.expects(:name=).with("updated second")
-          @object_2.expects(:save)
-          @object_2.stubs(:_collection_order=)
-          @syncer.set_context(:context_object, 801)
-          @syncer.pull_collection
-        end
-      end # context
-    end # describe pull_collection
+      it 'should set order' do
+        pending
+      end
+    end
   end
 end

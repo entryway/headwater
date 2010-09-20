@@ -15,6 +15,7 @@ harvest_service.add_object_name(:timeentry, :update, 'request')
 harvest_service.root = "add/day_entry"
 
 TimeEntry.synchronizer = ActiveHarmony::Synchronizer.new
+TimeEntry.synchronizer.factory = TimeEntry
 TimeEntry.synchronizer.service = harvest_service
 TimeEntry.synchronizer.configure do |config|
   config.push :notes

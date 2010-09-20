@@ -28,9 +28,9 @@ class TimeEntry
   #   synchronize_field :spent_at => :push
   #   synchronize_field :project_id => :push
   #   synchronize_field :task_id => :push
-  #   
-  #   referenced_in :user
-  #   referenced_in :story
+    
+    referenced_in :user
+    referenced_in :story
   
   scope :started, :where => {:started_at.ne => nil}
   scope :archived, :where => {:length.exists => true, :started_at.ne => nil, :is_running.ne => true}
