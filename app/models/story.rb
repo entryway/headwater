@@ -2,50 +2,55 @@ class Story
   
   STATES = ['unscheduled', 'unstarted', 'started', 'finished', 'delivered', 'accepted']
   TYPES = ['feature', 'chore', 'bug']
-  
+
   include Mongoid::Document
-  #   include Synchronizable::PivotalTracker
-  #   
-  #   field :project_id, :type => Integer # reference to Project#_remote_id
-  #   field :story_type
-  #   field :url
-  #   field :current_state
-  #   field :description
-  #   field :name
-  #   field :requested_by
-  #   field :owned_by
-  #   field :created_at
-  #   field :updated_at, :type => Time
-  #   field :accepted_at
-  #   field :notes, :type => Array
-  #   field :tasks
-  #   field :estimate
-  #   field :labels
-  #   field :tags, :type => Array, :default => []
-  #   field :deadline
-  #   field :attachments, :type => Array
-  #   field :is_archived, :type => Boolean, :default => false
-  #   
-  #   field :state
-  #   
-  #   referenced_in :owner, :class_name => "User", :inverse_of => :stories
-  #     
-  #   synchronize_fields :project_id
-  #   synchronize_fields :story_type
-  #   synchronize_field :url => :pull
-  #   synchronize_fields :current_state
-  #   synchronize_fields :description
-  #   synchronize_fields :name
-  #   synchronize_fields :requested_by
-  #   synchronize_fields :owned_by
-  #   synchronize_fields :created_at
-  #   synchronize_fields :updated_at
-  #   synchronize_fields :accepted_at
-  #   synchronize_fields :estimate
-  #   synchronize_fields :labels
-  #   synchronize_fields :deadline
-  #   synchronize_fields :notes => :pull
+  include ActiveHarmony::Synchronizable::Core
+  include ActiveHarmony::Synchronizable::Mongoid  
   
+  field :project_id, :type => Integer # reference to Project#_remote_id
+  field :story_type
+  field :url
+  field :current_state
+  field :description
+  field :name
+  field :requested_by
+  field :owned_by
+  field :created_at
+  field :updated_at, :type => Time
+  field :accepted_at
+  field :notes, :type => Array
+  field :tasks
+  field :estimate
+  field :labels
+  field :tags, :type => Array, :default => []
+  field :deadline
+  field :attachments, :type => Array
+  field :is_archived, :type => Boolean, :default => false
+  
+  field :state
+  
+  referenced_in :owner, :class_name => "User", :inverse_of => :stories
+  
+  synchronizer.service = \
+    SERVICE_MANAGER.service_with_identifier :tracker
+  synchronizer.configure do |config|
+    config.synchronize :project_id
+    config.synchronize :story_type
+    config.synchronize :current_state
+    config.synchronize :description
+    config.synchronize :name
+    config.synchronize :requested_by
+    config.synchronize :owned_by
+    config.synchronize :created_at
+    config.synchronize :updated_at
+    config.synchronize :accepted_at
+    config.synchronize :estimate
+    config.synchronize :labels
+    config.synchronize :deadline
+    config.pull :url
+    config.pull :notes
+  end
+
   before_save do
     self.updated_at = Time.now
   end

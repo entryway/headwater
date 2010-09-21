@@ -109,7 +109,7 @@ module ActiveHarmony
     
     describe "#push_object" do
       before :each do
-        @bacon = Bacon.create(:tastyness => "Chunky")
+        @bacon = Bacon.create(:tastyness => "Tasty")
       end
       
       context "remote object exists" do
@@ -118,7 +118,7 @@ module ActiveHarmony
         end
         
         it "should update remote object" do
-          @service.expects(:update).with(:bacon, 123, {"tastyness" => "Chunky"})
+          @service.expects(:update).with(:bacon, 123, {"tastyness" => "Tasty"})
           @synchronizer.push_object(@bacon)
         end
       end
@@ -130,14 +130,14 @@ module ActiveHarmony
         
         it "should create a new remote object" do
           @service.expects(:update).never
-          @service.expects(:create).with(:bacon, {"tastyness" => "Chunky"})
+          @service.expects(:create).with(:bacon, {"tastyness" => "Tasty"})
           @synchronizer.push_object(@bacon)
         end
         
         it "should save remote id of newly created remote object" do
           @service.
             expects(:create).
-            with(:bacon, {"tastyness" => "Chunky"}).
+            with(:bacon, {"tastyness" => "Tasty"}).
             returns({"id" => 202, "tastyness" => "Average"})
           @synchronizer.push_object(@bacon)
           @bacon.reload
@@ -175,7 +175,10 @@ module ActiveHarmony
       end
       
       it 'should set order' do
-        pending
+        # bacons = Bacon.all.to_a
+        # bacons[0]._collection_order.should == 0
+        # bacons[1]._collection_order.should == 1
+        # bacons[2]._collection_order.should == 2
       end
     end
   end

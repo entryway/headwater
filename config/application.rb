@@ -47,3 +47,5 @@ module Headwater
     config.autoload_paths << File.join(config.root, "lib")
   end
 end
+
+# ActiveHarmony.logger = Rails.logger

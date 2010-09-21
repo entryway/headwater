@@ -9,6 +9,17 @@ end
 module ActiveHarmony
   module Synchronizable
     describe Core do
+      describe "included" do
+        it 'should assign a new synchronizer' do
+          MyClass.synchronizer.should_not be_nil
+          MyClass.synchronizer.should be_a(ActiveHarmony::Synchronizer)
+        end
+        
+        it 'should set synchronizers factory to self' do
+          MyClass.synchronizer.factory.should == MyClass
+        end
+      end
+      
       describe "#push" do
         context "queued" do
           it "should create queue item" do

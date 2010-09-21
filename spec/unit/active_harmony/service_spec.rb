@@ -66,14 +66,6 @@ module ActiveHarmony
         @service.generate_rest_url(:update, :my_object, 123).path.should == \
           "#{@base_url}/my_objects/123"
       end
-      
-      it "should generate destroy url" do
-        pending
-      end
-      
-      it "should replace id with object id" do
-        pending
-      end
     end
     
     describe "#generate_url" do
@@ -186,12 +178,6 @@ EOF
         result = @service.create(:my_object, changes)
         request(:post, expected_url).with(:body => /<name>new name<\/name>/).should have_been_made
         result.should == {'id' => 1, 'name' => 'new name'}
-      end
-    end
-    
-    describe "#destroy" do
-      it "should destroy object" do
-        pending
       end
     end
     

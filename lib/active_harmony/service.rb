@@ -85,7 +85,11 @@ module ActiveHarmony
     # @param [String] URL
     # @return [String] Retrieved data from the URL
     def retrieve(url, method = :get, headers = {}, data = nil)
-      puts [url, method, headers, data].inspect
+      puts "[ActiveHarmony] Retrieving data:"
+      puts "[ActiveHarmony]    URL:      #{url}"
+      puts "[ActiveHarmony]    Method:   #{method}"
+      puts "[ActiveHarmony]    Headers:  #{headers.inspect}"
+      puts "[ActiveHarmony]    Data:     #{data.inspect}"
       if Rails.env.test?
         data = retrieve_with_http(url, method, headers, data)
       else

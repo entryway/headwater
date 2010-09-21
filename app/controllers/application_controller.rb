@@ -3,10 +3,10 @@ class ApplicationController < ActionController::Base
   layout "application"
   
   after_filter do
-    queue = Synchronizer::Queue.instance
+    queue = ActiveHarmony::Queue.instance
     if queue.should_run?
       fork do
-        result = Synchronizer::Queue.instance.run
+        result = queue.run
         Rails.logger.info("Running queue: #{result.count}")
       end
     end

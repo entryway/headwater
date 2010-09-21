@@ -5,8 +5,8 @@ module ActiveHarmony
       
       included do
         cattr_accessor :synchronizer
-        cattr_writer :synchronizable_fields
-        send(:class_variable_set, :@@synchronizable_fields, [])
+        self.synchronizer = Synchronizer.new
+        self.synchronizer.factory = self
       end
   
       module InstanceMethods

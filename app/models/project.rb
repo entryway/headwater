@@ -1,51 +1,54 @@
 class Project
   
-  # include Mongoid::Document
-  # include ActiveHarmony::Synchronizable::Core
-  # include ActiveHarmony::Synchronizable::Mongoid
-  # include PivotalTrackerSynchronization
-  #   
-  # field :name
-  # field :iteration_length
-  # field :week_start_day
-  # field :point_scale
-  # field :account
-  # field :velocity_scheme
-  # field :current_velocity
-  # field :initial_velocity
-  # field :number_of_done_iterations_to_show
-  # field :labels
-  # field :last_activity_at
-  # field :allow_attachments
-  # field :public
-  # field :use_https
-  # field :bugs_and_chores_are_estimatable
-  # field :commit_mode
-  # field :memberships
-  # field :integrations
-  # field :hours_per_week, :type => Integer
-  # 
-  # field :harvest_project_id
-  # field :harvest_task_id
-  # 
-  # synchronize_field :name
-  # synchronize_field :iteration_length
-  # synchronize_field :week_start_day
-  # synchronize_field :point_scale
-  # synchronize_field :account
-  # synchronize_field :velocity_scheme
-  # synchronize_field :current_velocity
-  # synchronize_field :initial_velocity
-  # synchronize_field :number_of_done_iterations_to_show
-  # synchronize_field :labels
-  # synchronize_field :last_activity_at
-  # synchronize_field :allow_attachments
-  # synchronize_field :public
-  # synchronize_field :use_https
-  # synchronize_field :bugs_and_chores_are_estimatable
-  # synchronize_field :commit_mode
-  # synchronize_field :memberships
-  # synchronize_field :integrations
+  include Mongoid::Document
+  include ActiveHarmony::Synchronizable::Core
+  include ActiveHarmony::Synchronizable::Mongoid
+    
+  field :name
+  field :iteration_length
+  field :week_start_day
+  field :point_scale
+  field :account
+  field :velocity_scheme
+  field :current_velocity
+  field :initial_velocity
+  field :number_of_done_iterations_to_show
+  field :labels
+  field :last_activity_at
+  field :allow_attachments
+  field :public
+  field :use_https
+  field :bugs_and_chores_are_estimatable
+  field :commit_mode
+  field :memberships
+  field :integrations
+  field :hours_per_week, :type => Integer
+  
+  field :harvest_project_id
+  field :harvest_task_id
+  
+  synchronizer.service = \
+    SERVICE_MANAGER.service_with_identifier :tracker
+  synchronizer.configure do |config|
+    config.synchronize :name
+    config.synchronize :iteration_length
+    config.synchronize :week_start_day
+    config.synchronize :point_scale
+    config.synchronize :account
+    config.synchronize :velocity_scheme
+    config.synchronize :current_velocity
+    config.synchronize :initial_velocity
+    config.synchronize :number_of_done_iterations_to_show
+    config.synchronize :labels
+    config.synchronize :last_activity_at
+    config.synchronize :allow_attachments
+    config.synchronize :public
+    config.synchronize :use_https
+    config.synchronize :bugs_and_chores_are_estimatable
+    config.synchronize :commit_mode
+    config.synchronize :memberships
+    config.synchronize :integrations
+  end
   
   def stories
     Story.where(:project_id => self._remote_id).asc(:_collection_order)
