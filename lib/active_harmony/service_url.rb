@@ -1,5 +1,5 @@
-module Service
-  class Url
+module ActiveHarmony
+  class ServiceUrl
     attr_accessor :path, :request_method
     
     def initialize(path, request_method = :get)

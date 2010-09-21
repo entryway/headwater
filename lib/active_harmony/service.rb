@@ -1,6 +1,9 @@
-module Service
-  class RestService < Base
+module ActiveHarmony
+  class Service
     attr_accessor :base_url, :header, :root, :auth
+    
+    ############################################################
+    # Initialization & Configuration
     
     ##
     # Initializes new Rest Service
@@ -20,12 +23,15 @@ module Service
       @header[name] = value
     end
     
+    ############################################################
+    # Generating URLs
+    
     ##
     # Generates url for REST service
     # @param [Symbol] Action: show, list, update or destroy
     # @param [Symbol] Object type
     # @param [Integer] Object ID
-    # @return [Service::Url] Generated URL
+    # @return [Service::ServiceUrl] Generated URL
     def generate_rest_url(action, object_type, object_id = nil)
       url = custom_url_for(object_type, action)
       
@@ -57,7 +63,7 @@ module Service
       end
       url = generate_url(path)
       
-      Url.new(url, method)
+      ServiceUrl.new(url, method)
     end
     
     ##
@@ -71,12 +77,19 @@ module Service
       path = "#{@base_url}/#{path}"
     end
     
+    ############################################################
+    # Retrieving data from networks
+    
     ##
     # Retrieves data from URL
     # @param [String] URL
     # @return [String] Retrieved data from the URL
     def retrieve(url, method = :get, headers = {}, data = nil)
-      puts [url, method, headers, data].inspect
+      puts "[ActiveHarmony] Retrieving data:"
+      puts "[ActiveHarmony]    URL:      #{url}"
+      puts "[ActiveHarmony]    Method:   #{method}"
+      puts "[ActiveHarmony]    Headers:  #{headers.inspect}"
+      puts "[ActiveHarmony]    Data:     #{data.inspect}"
       if Rails.env.test?
         data = retrieve_with_http(url, method, headers, data)
       else
@@ -111,6 +124,9 @@ module Service
       response
     end
     
+    ############################################################
+    # Parsing response
+    
     ##
     # Parses XML
     # @param [String] XML
@@ -143,6 +159,9 @@ module Service
       end
     end
     
+    ############################################################
+    # Working with REST services
+    
     ##
     # List collection of remote objects
     # @param [Symbol] Object type
@@ -157,7 +176,7 @@ module Service
     ##
     # Shows remote object
     # @param [Symbol] Object type
-    # @param [Integer] Object ID
+    # @param [String] Object ID
     # @return [Hash] Object
     def show(object_type, id)
       url = generate_rest_url(:show, object_type, id)
@@ -166,6 +185,11 @@ module Service
       find_object_in_result(parsed_result, object_type, :show)
     end
     
+    ##
+    # Updates remote object
+    # @param [Symbol] Object type
+    # @param [String] Object ID
+    # @param [Hash] Data to be sent
     def update(object_type, id, data)
       url = generate_rest_url(:update, object_type, id)
       object_name = object_name_for(object_type, :update)
@@ -174,6 +198,10 @@ module Service
       find_object_in_result(result, object_type, :update)
     end
     
+    ##
+    # Creates a new remote object
+    # @param [Symbol] Object type
+    # @param [Hash] Data to be sent
     def create(object_type, data)
       url = generate_rest_url(:create, object_type)
       object_name = object_name_for(object_type, :create)
@@ -182,6 +210,9 @@ module Service
       parsed_result = parse_xml(result)
       find_object_in_result(parsed_result, object_type, :create)
     end
+    
+    ############################################################
+    # Setting contexts
     
     ##
     # Set contexts for service
@@ -197,6 +228,9 @@ module Service
     def clear_contexts
       @contexts = {}
     end
+    
+    ############################################################
+    # Setting custom URLs
     
     ##
     # Adds custom path
@@ -214,22 +248,25 @@ module Service
     
     ##
     # Returns custom path
-    # @params [Symbol] Object type
+    # @param [Symbol] Object type
     # @param [Symbol] Action
-    # @retun [Service::Url] Custom path
+    # @return [Service::ServiceUrl] Custom path
     def custom_url_for(object_type, action)
       path = @paths.find do |path|
         path[:object_type] == object_type &&
         path[:action] == action
       end
       if path
-        Url.new(generate_url(path[:path]), path[:method])
+        ServiceUrl.new(generate_url(path[:path]), path[:method])
       end
     end
     
+    ############################################################
+    # Setting custom object names for objects
+    
     ##
     # Adds new name for some type of object
-    # @param [Symbol] Object name
+    # @param [Symbol] Object type
     # @param [Symbol] Action
     # @param [String] New object name
     def add_object_name(object_type, action, new_object_name)
@@ -239,7 +276,11 @@ module Service
         :new_object_name => new_object_name.to_s
       }
     end
-    
+   
+    ##
+    # Returns custom object name for action
+    # @param [Symbol] Object type
+    # @param [Symbol] Action
     def object_name_for(object_type, action)
       object_name = @object_names.find do |object_name|
         object_name[:object_type] == object_type

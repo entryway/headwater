@@ -1,25 +1,26 @@
 # encoding: utf-8
 
 require "spec_helper"
-require "service"
 require "webmock/rspec"
 
-module Service
-  describe RestService do
+module ActiveHarmony
+  describe Service do
     before :each do
-      @service = Service::RestService.new
+      @service = Service.new
       @base_url = "http://chunky.bacon"
       @service.base_url = @base_url
     end
     
-    ##
-    # Initialization and configuration
+    ############################################################
+    # Initialization
     describe "#initialize" do
       it "should create new instance of Service::Rest" do
-        @service.should be_a(Service::RestService)
+        @service.should be_a(Service)
       end
     end
   
+    ############################################################
+    # URL and header configuration
     describe "#base_url=" do
       it "should set base url for the service" do
         @service.base_url = @base_url
@@ -64,14 +65,6 @@ module Service
       it "should generate update url" do
         @service.generate_rest_url(:update, :my_object, 123).path.should == \
           "#{@base_url}/my_objects/123"
-      end
-      
-      it "should generate destroy url" do
-        pending
-      end
-      
-      it "should replace id with object id" do
-        pending
       end
     end
     
@@ -188,12 +181,6 @@ EOF
       end
     end
     
-    describe "#destroy" do
-      it "should destroy object" do
-        pending
-      end
-    end
-    
     describe "#set_contexts" do
       it "should generate url with contexts in it" do
         @service.set_contexts({
@@ -244,7 +231,7 @@ EOF
       
       it "should generate an url" do
         url = @service.generate_rest_url(:update, :my_object, 1)
-        url.should be_a(Service::Url)
+        url.should be_a(ServiceUrl)
         url.path.should == 'http://chunky.bacon/my_objects/update'
         url.method.should == :post
       end

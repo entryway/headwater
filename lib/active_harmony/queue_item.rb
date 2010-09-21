@@ -1,4 +1,4 @@
-module Synchronizer
+module ActiveHarmony
   class QueueItem
     include Mongoid::Document
 
@@ -10,6 +10,8 @@ module Synchronizer
     field :object_remote_id
     field :object_local_id
       
+    ##
+    # Processes queued item
     def process_item
       if kind == "push"
         self.process_push
@@ -20,6 +22,8 @@ module Synchronizer
       end
     end
     
+    ##
+    # Processes queued item of type push
     def process_push
       factory = "::#{object_type}".constantize
       local_object = factory.find(object_local_id)
@@ -30,6 +34,8 @@ module Synchronizer
       self.save
     end
     
+    ##
+    # Processes queued item of type pull
     def process_pull
       factory = "::#{object_type}".constantize
       syncer = factory.synchronizer

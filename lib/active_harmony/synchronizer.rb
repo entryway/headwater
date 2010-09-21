@@ -1,14 +1,15 @@
 # encoding: utf-8
 
-module Synchronizer
-  class ServiceSynchronizer
-    attr_accessor :factory, :service
+module ActiveHarmony
+  class Synchronizer
+    attr_accessor :factory, :service, :configuration
     
     ##
     # Initializes new Service Synchronizer to do some
-    # synchrinizing magic.
+    # synchronizing magic.
     def initialize
       @contexts = {}
+      @configuration = SynchronizerConfiguration.new
     end
     
     ##
@@ -27,6 +28,13 @@ module Synchronizer
     end
     
     ##
+    # Takes block to configure synchronization
+    # @yield Configuration block
+    def configure
+      yield(@configuration)
+    end
+    
+    ##
     # Pulls object from remote service
     # @param [Integer] Remote ID of object.
     # @return [Boolean] Result of pulling
@@ -34,7 +42,7 @@ module Synchronizer
       local_object = @factory.with_remote_id(id)
       if local_object
         # FIXME What if there's no local object and we still want to set some
-        # contexts???
+        # contexts?
         @service.set_contexts(local_object.contexts)
       else
         local_object = @factory.new
@@ -42,7 +50,9 @@ module Synchronizer
       local_object.before_pull(self) if local_object.respond_to?(:before_pull)
       object_hash = @service.show(object_name, id)
       @service.clear_contexts
-      @factory.synchronizable_fields.each do |key|
+      local_object._remote_id = object_hash.delete('id')
+      fields = configuration.synchronizable_for_pull
+      fields.each do |key|
         value = object_hash[key.to_s]
         local_object.send("#{key}=", value)
       end
@@ -61,7 +71,8 @@ module Synchronizer
       local_object.before_push(self) if local_object.respond_to?(:before_push)
       
       changes = {}
-      @factory.synchronizable_fields(:push).each do |atr|
+      fields = configuration.synchronizable_for_push
+      fields.each do |atr|
         value = local_object.send(atr)
         changes[atr.to_s] = value
       end
@@ -74,7 +85,8 @@ module Synchronizer
         result = @service.create(object_name, changes)
         if result
           local_object._remote_id = result['id']
-          @factory.synchronizable_fields(:pull).each do |atr|
+          fields = configuration.synchronizable_for_pull
+          fields.each do |atr|
             local_object.write_attribute(atr, result[atr.to_s])
           end
           local_object.save
@@ -105,7 +117,7 @@ module Synchronizer
         end
         local_object.before_pull(self) if local_object.respond_to?(:before_pull)
         local_object._collection_order = index
-        fields = @factory.synchronizable_fields(:pull)
+        fields = configuration.synchronizable_for_pull
         fields.each do |field|
           value = remote_object_hash[field.to_s]
           local_object.send("#{field}=", value)

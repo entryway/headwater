@@ -1,20 +1,14 @@
 require "spec_helper"
 
-module Synchronizer
-  describe Queue do
-    
-  end
-  
-  describe QueueItem do
-    class ::MyClass
-      include Mongoid::Document
-      include Synchronizable
-      synchronizes_through Synchronizer::ServiceSynchronizer
-      field :foo
-      synchronize_fields :foo
-    end
+class MyClass
+  include Mongoid::Document
+  include ActiveHarmony::Synchronizable::Core
+  field :foo
+end
 
-    let(:queue) { Synchronizer::Queue.instance }
+module ActiveHarmony
+  describe QueueItem do
+    let(:queue) { ActiveHarmony::Queue.instance }
     
     context "type push" do
       describe "#process_item" do
@@ -34,10 +28,10 @@ module Synchronizer
     context "type pull" do
       describe "#process_item" do
          it "should tell synchronizer to pull object" do
-            queue.queue_pull('MyClass', 123)
+            queue.queue_pull(::MyClass, 123)
             item = QueueItem.last
             item.object_type.should == "MyClass"
-            item.type.should == "pull"
+            item.kind.should == "pull"
             MyClass.synchronizer.expects(:pull_object).with('123')
             item.process_item
           end
