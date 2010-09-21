@@ -41,14 +41,25 @@ module ActiveHarmony
       }
     end
     
+    ##
+    # Fields that should be synchronized on push type
+    # @return [Array<Symbol>] Fields for push
     def synchronizable_for_push
       synchronizable_for_types([TYPE_PUSH, TYPE_ALL])
     end
     
+    ##
+    # Fields that should be synchronized on pull type
+    # @return [Array<Symbol>] Fields for pull
     def synchronizable_for_pull
       synchronizable_for_types([TYPE_PULL, TYPE_ALL])
     end
     
+    ##
+    # Fields that should be synchronized on types specified
+    # in argument
+    # @param [Array<Symbol>] Types
+    # @return [Array<Symbol>] Fields
     def synchronizable_for_types(types)
       @synchronizable_fields.select do |field_description|
         types.include?(field_description[:type])
