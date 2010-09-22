@@ -9,3 +9,7 @@ namespace :sync do
     ActiveHarmony::Queue.instance.run
   end
 end
+
+task :cron do
+  Rake::Task['sync:pull'].invoke
+end
