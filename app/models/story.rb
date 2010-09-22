@@ -56,6 +56,14 @@ class Story
   end
   
   def after_pull(synchronizer)
+    self.change_from_remote
+  end
+  
+  def after_push(synchronizer)
+    self.change_from_remote
+  end
+  
+  def change_from_remote
     self.owner = User.where(:name => self.owned_by).first
     self.project = Project.where(:_remote_id => self.project_id).first
     self.save
@@ -114,7 +122,7 @@ class Story
   end
   
   def contexts
-    {:projects => self.project_id}
+    {:projects => self.project._remote_id}
   end
   
   def labels=(labels)
