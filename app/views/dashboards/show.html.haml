@@ -54,3 +54,8 @@
                 = link_to "destroy ›", remove_time_entry_path(time_entry), :class => "edit"
                 
       = link_to "All time entries »", time_entries_path(:day => Date.today)
+      
+- content_for :footer do
+  .content
+    .clearfix
+      %a.tab{:href => new_project_path} Add a project

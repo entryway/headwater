@@ -33,7 +33,17 @@ class ProjectsController < ApplicationController
       wants.html { redirect_to @project }
       wants.js { render :text => "$.removeModal();" }
     end
-    
+  end
+  
+  def new
+    @project = Project.new
+    render :action => 'new', :layout => 'application'
+  end
+  
+  def create
+    @project = Project.new(params[:project])
+    @project.save
+    redirect_to project_path(@project)
   end
   
   protected

@@ -1,0 +1,8 @@
+.content
+  %h2 Create a project
+  
+  - semantic_form_for @project do |f|
+    - f.inputs do
+      = f.input :name
+      
+    = f.buttons
