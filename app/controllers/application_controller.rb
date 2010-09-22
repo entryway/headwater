@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     if queue.should_run?
       fork do
         result = queue.run
-        Rails.logger.info("Running queue: #{result.count}")
+        Rails.logger.info("[Synchronization] Running queue: #{result.count}")
       end
     end
   end
