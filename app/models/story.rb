@@ -65,7 +65,9 @@ class Story
   
   def change_from_remote
     self.owner = User.where(:name => self.owned_by).first
-    self.project = Project.where(:_remote_id => self.project_id).first
+    unless self.project_id.is_a?(BSON::ObjectID)
+      self.project = Project.where(:_remote_id => self.project_id).first
+    end
     self.save
   end
   

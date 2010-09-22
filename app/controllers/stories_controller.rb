@@ -7,7 +7,8 @@ class StoriesController < ProjectsController
     states = ['done', 'current', 'upcoming', 'new']
     
     @stories = @project.stories.where(:state.in => states, :is_archived => false).
-                     group_by(&:state)
+                     group_by(&:state).
+                     asc(:_collection_order)
 
     @done = @stories['done']
     @current = @stories['current']
