@@ -27,6 +27,8 @@ class Project
   field :harvest_project_id
   field :harvest_task_id
   
+  references_many :stories
+  
   synchronizer.service = \
     SERVICE_MANAGER.service_with_identifier :tracker
   synchronizer.configure do |config|
@@ -48,10 +50,6 @@ class Project
     config.synchronize :commit_mode
     config.synchronize :memberships
     config.synchronize :integrations
-  end
-  
-  def stories
-    Story.where(:project_id => self._remote_id).asc(:_collection_order)
   end
   
   def hours_this_week

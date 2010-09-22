@@ -7,7 +7,6 @@ class Story
   include ActiveHarmony::Synchronizable::Core
   include ActiveHarmony::Synchronizable::Mongoid  
   
-  field :project_id, :type => Integer # reference to Project#_remote_id
   field :story_type
   field :url
   field :current_state
@@ -29,12 +28,13 @@ class Story
   
   field :state
   
+  referenced_in :project, :inverse_of => :stories
   referenced_in :owner, :class_name => "User", :inverse_of => :stories
   
   synchronizer.service = \
     SERVICE_MANAGER.service_with_identifier :tracker
   synchronizer.configure do |config|
-    config.synchronize :project_id
+    config.pull :project_id
     config.synchronize :story_type
     config.synchronize :current_state
     config.synchronize :description
@@ -56,8 +56,9 @@ class Story
   end
   
   def after_pull(synchronizer)
-    user = User.where(:name => self.owned_by).first
-    update_attributes(:owner => user)
+    self.owner = User.where(:name => self.owned_by).first
+    self.project = Project.where(:_remote_id => self.project_id).first
+    self.save
   end
   
   def before_push(synchronizer)
@@ -70,10 +71,6 @@ class Story
         self.current_state = 'accepted'
       end
     end
-  end
-
-  def project
-    Project.where(:_remote_id => project_id).first
   end
   
   def archived_time_entries
