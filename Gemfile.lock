@@ -1,10 +1,4 @@
 GIT
-  remote: git://github.com/vojto/active_harmony.git
-  revision: 38df021
-  specs:
-    active_harmony (1.0.0)
-
-GIT
   remote: http://github.com/justinfrench/formtastic.git
   revision: e42d256
   branch: rails3
@@ -13,6 +7,11 @@ GIT
       actionpack (>= 2.3.0)
       activesupport (>= 2.3.0)
       i18n (>= 0.4.0)
+
+PATH
+  remote: /Users/vojto/Sites/projects/active_harmony
+  specs:
+    active_harmony (1.0.1)
 
 GEM
   remote: http://gemcutter.org/
