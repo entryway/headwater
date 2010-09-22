@@ -10,7 +10,7 @@ gem 'devise'
 gem 'formtastic', :git => "http://github.com/justinfrench/formtastic.git", :branch => "rails3"
 
 group :test do
-  gem 'rspec-core', '>= 2.0.0.beta.12'
+  gem 'rspec', '>= 2.0.0.beta.12'
   gem 'rspec-rails', '>= 2.0.0.beta.12'
   gem 'capybara'
   gem 'database_cleaner'
