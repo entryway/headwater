@@ -4,15 +4,15 @@ Being a web development company we have many problems with the process, and we t
 
 ## Problems & Solutions
 
-1. Project management
+### Project management
 
 We use tool called [Pivotal Tracker](http://pivotaltracker.com). It's free and it's much better than many paid solutions. We use it and we like it. It has some flaws, but there's no need to reinvent the wheel.
 
-2. Time tracking
+### Time tracking
 
 We use [Harvest](http://harvestapp.com), the time tracker. That's how we track our time and bill the clients. 
 
-3. Source code management
+### Source code management
 
 Git and [GitHub](http://github.com), there's probably no better solution.
 
