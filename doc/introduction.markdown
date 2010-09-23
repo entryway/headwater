@@ -22,11 +22,11 @@ We like all of these tools. But using all of these for simple everyday tasks can
 
 So we created application called Headwater. This is what it looks like:
 
-![Dashboard](images/dashboard.png)
+![Dashboard](https://github.com/entryway/headwater/raw/master/doc/images/dashboard.png)
 
 First, it takes all your data from Tracker and displays nice Dashboard of what's happening across all projects. You can go to project and see clear overview of what's the next thing to work on. Tracker is cool, but for simple "hey, what should I do next" it can be really hard to use. In Headwater, it's much more intuitive:
 
-![Project](images/project.png)
+![Project](https://github.com/entryway/headwater/raw/master/doc/images/project.png)
 
 Next, it tracks time. Again, we're not trying to replace Harvest, because we like lots of its features, but most of the time we just want to track the time for some task. In Headwater, you just click on the task and then click on the 'play' button. That's it. As soon as you stop the time tracking it appears in your Harvest account.
 
