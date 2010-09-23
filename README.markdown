@@ -4,7 +4,7 @@
 
 Headwater takes all your data from [Pivotal Tracker](http://pivotaltracker.com), lets you edit it and do really cool stuff like time tracking, viewing dashboard with data from your projects and your time tracking, and nothing more. But the mentioned works perfectly and it's super useful.
 
-![Headwater Dashboard](https://github.com/entryway/headwater/raw/master/doc/images/headwater_dashboard.png)
+![Headwater Dashboard](https://github.com/entryway/headwater/raw/master/doc/images/dashboard.png)
 
 When you make changes, Headwater synchronizes them back to Pivotal Tracker, so you can use the both tools.
 
