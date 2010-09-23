@@ -43,7 +43,7 @@ Don't forget to install the gems:
 
 ### Configuration
 
-**Don't** setup your database in `config/mongoid.yml`. It just works.
+Databases config is located in `config/mongoid.yml`, but it works without any setup. (Mongo creates DB automatically when it's used.)
 
 What you have to setup is your Pivotal Tracker token. Unless you want to use it without Pivotal Tracker.
 
@@ -59,7 +59,7 @@ Let me explain:
 
   * `HW_PIVOTAL_TRACKER_URL`: Don't change this
   * `HW_PIVOTAL_TRACKER_API_KEY`: Your Pivotal Tracker API key
-  * `HW_HARVEST_SUBDOMAIN`: Your Harvest subdomain. Just remove that line if you don't use Harvest.
+  * `HW_HARVEST_SUBDOMAIN`: Your Harvest subdomain. Set it to nil, if you're not using Harvest.
   
 Have you noticed something weird? There's no setup of Harvest credentials. And there's a reason for that. Headwater supports multiple users and each user can have their own account for Harvest. Makes sense now?
 
