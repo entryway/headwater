@@ -5,6 +5,9 @@
     = f.inputs do
       = f.input :email
       = f.input :password
+    
     = f.buttons do
       %li.commit
         = f.submit 'Log in'
+        &nbsp; &nbsp;
+        = link_to 'New account', new_user_registration_path
